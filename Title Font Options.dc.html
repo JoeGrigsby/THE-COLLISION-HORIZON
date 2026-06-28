@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Anton&family=Space+Grotesk:wght@500;600;700&family=Chakra+Petch:wght@600;700&family=Oswald:wght@500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Syne:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=Libre+Franklin:wght@700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;background:#06090a;}
+  *{box-sizing:border-box;}
+</style>
+</helmet>
+
+<div style="min-height:100vh; background:#06090a; color:#eaf3ee; font-family:'IBM Plex Mono',monospace; background-image:linear-gradient(#0a110d 1px,transparent 1px),linear-gradient(90deg,#0a110d 1px,transparent 1px); background-size:38px 38px; padding:56px 40px 90px;">
+
+  <div style="max-width:1180px; margin:0 auto;">
+    <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px;">
+      <span style="width:9px; height:9px; background:#5be49b; display:inline-block;"></span>
+      <span style="font-size:10px; letter-spacing:0.16em; color:#6f8478;">TITLE TYPE — 10 DIRECTIONS</span>
+    </div>
+    <p style="font-family:'Newsreader',serif; font-size:18px; line-height:1.6; color:#9fb1a6; max-width:560px; margin:0 0 8px;">The title set ten ways, each over the same command-line and accent so you can read it in context. Current site face is #00 (IBM Plex Mono).</p>
+    <p style="font-size:11px; letter-spacing:0.06em; color:#46564d; margin:0 0 44px;">Tell me a number and I'll apply it to the hero.</p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; background:#16201b; border:1px solid #16201b;">
+      <sc-for list="{{ options }}" as="o" hint-placeholder-count="10">
+        <div style="background:#070d0a; padding:34px 32px 38px;">
+          <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:6px;">
+            <span style="font-size:11px; letter-spacing:0.14em; color:#5be49b;">{{ o.num }} · {{ o.name }}</span>
+            <span style="font-size:9px; letter-spacing:0.1em; color:#46564d;">{{ o.tag }}</span>
+          </div>
+          <div style="font-size:12px; color:#6f8478; margin:14px 0 16px;">$ ./project --marketing<span style="display:inline-block; width:7px; height:13px; background:#5be49b; margin-left:5px; vertical-align:-1px;"></span></div>
+          <h1 style="margin:0; color:#eaf3ee; font-family:{{ o.family }}; font-weight:{{ o.weight }}; font-size:{{ o.size }}; line-height:{{ o.lh }}; letter-spacing:{{ o.ls }}; text-transform:{{ o.tt }};">THE<br>COLLISION<br>HORIZON</h1>
+          <p style="font-family:'Newsreader',serif; font-size:13px; line-height:1.55; color:#6f8478; margin:20px 0 0; max-width:380px;">{{ o.note }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals(){
+    const options = [
+      { num:"00", name:"IBM Plex Mono", tag:"CURRENT", family:"'IBM Plex Mono',monospace", weight:600, size:"52px", lh:"0.99", ls:"-0.01em", tt:"uppercase",
+        note:"The status quo. Technical, terminal-native, understated. Reads as a system output more than a banner." },
+      { num:"01", name:"Anton", tag:"CONDENSED POSTER", family:"'Anton',sans-serif", weight:400, size:"68px", lh:"0.92", ls:"0.005em", tt:"uppercase",
+        note:"Maximum impact. Tall, dense, editorial-poster weight — turns the title into a headline that dominates the hero." },
+      { num:"02", name:"Archivo Expanded-feel", tag:"TECH-EDITORIAL", family:"'Archivo',sans-serif", weight:800, size:"54px", lh:"0.98", ls:"-0.01em", tt:"uppercase",
+        note:"Grotesque with engineering rigour. Authoritative without shouting; pairs cleanly with the mono UI." },
+      { num:"03", name:"Space Grotesk", tag:"GEOMETRIC", family:"'Space Grotesk',sans-serif", weight:700, size:"56px", lh:"0.98", ls:"-0.015em", tt:"uppercase",
+        note:"The most natural mono companion — same lineage, more presence. Modern, slightly quirky, very on-brand for an AI brief." },
+      { num:"04", name:"Newsreader", tag:"EDITORIAL SERIF", family:"'Newsreader',serif", weight:600, size:"58px", lh:"0.96", ls:"-0.005em", tt:"uppercase",
+        note:"Borrows the body face. Gives the forecast gravitas and a literary, op-ed authority. Quietest, most serious." },
+      { num:"05", name:"Oswald", tag:"COMPRESSED SANS", family:"'Oswald',sans-serif", weight:600, size:"60px", lh:"0.98", ls:"0.01em", tt:"uppercase",
+        note:"Narrow industrial sans. Newsroom / dashboard energy; fits a lot of title in a tight column." },
+      { num:"06", name:"Chakra Petch", tag:"TECHNO-SQUARE", family:"'Chakra Petch',sans-serif", weight:700, size:"50px", lh:"1.0", ls:"0.0em", tt:"uppercase",
+        note:"Squared, semi-mono display. Leans into the terminal/sci-fi register harder than Plex without losing legibility." },
+      { num:"07", name:"Syne", tag:"DISPLAY / ART", family:"'Syne',sans-serif", weight:800, size:"54px", lh:"0.96", ls:"-0.01em", tt:"uppercase",
+        note:"Contemporary art-world display. Distinctive widths give it a curated, designed-object feel — most stylised pick." },
+      { num:"08", name:"Bebas Neue", tag:"TALL CAPS", family:"'Bebas Neue',sans-serif", weight:400, size:"74px", lh:"0.9", ls:"0.02em", tt:"uppercase",
+        note:"Very tall, very narrow all-caps. Cinematic title-card impact; lighter weight keeps it from feeling heavy." },
+      { num:"09", name:"Libre Franklin", tag:"CLASSIC GROTESQUE", family:"'Libre Franklin',sans-serif", weight:800, size:"52px", lh:"0.98", ls:"-0.015em", tt:"uppercase",
+        note:"American Gothic lineage — newsprint authority. Neutral, trustworthy, reads as a serious institutional report." },
+    ];
+    return { options };
+  }
+}
+</script>
+</body>
+</html>
