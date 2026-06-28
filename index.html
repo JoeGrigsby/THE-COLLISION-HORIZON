@@ -15,14 +15,33 @@
   html,body{margin:0;padding:0;background:#06090a;}
   *{box-sizing:border-box;}
   ::selection{background:#5be49b;color:#06090a;}
+  .ch-rail-arrow{ display:none; }
+  @media (max-width:760px){
+    /* Rail: C/H inline with year list */
+    .ch-rail-inner{ display:flex !important; flex-direction:row !important; align-items:center !important; gap:0 !important; min-width:0; flex:1; overflow:hidden; }
+    .ch-rail-head{ margin-bottom:0 !important; padding-right:14px !important; border-right:1px solid #16201b; flex-shrink:0; }
+    /* Scrollable year list */
+    .ch-yearlist{ overflow-x:auto !important; -webkit-overflow-scrolling:touch; scrollbar-width:none; padding-left:14px !important; }
+    .ch-yearlist::-webkit-scrollbar{ display:none; }
+    /* Right arrow overlay */
+    .ch-rail-arrow{ display:flex !important; }
+    /* Abstract section: remove min-height and fix overflow */
+    .ch-abstract-section{ min-height:0 !important; width:auto !important; height:auto !important; padding:24px 20px 36px !important; max-width:100% !important; overflow:hidden; }
+    .ch-abstract-topbar{ margin-bottom:16px !important; padding-bottom:12px !important; }
+    /* Era sections: reduce vertical padding */
+    .ch-era-section{ padding:32px 20px !important; max-width:100% !important; }
+    /* Two curves and other sections */
+    .ch-main > section{ padding-top:32px !important; padding-bottom:40px !important; }
+  }
   @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
   .essay-body::-webkit-scrollbar{width:0;}
   @media (max-width:760px){
-    .ch-main{ padding-left:0 !important; padding-top:60px !important; }
+    .ch-main{ padding-left:0 !important; padding-top:52px !important; }
     .ch-main > section, .ch-main > footer{ padding-left:20px !important; padding-right:20px !important; min-height:0 !important; }
     .ch-rail{ position:fixed !important; top:0 !important; left:0 !important; right:0 !important; height:auto !important; width:auto !important; flex-direction:row !important; align-items:center !important; justify-content:flex-start !important; gap:18px !important; border-right:none !important; border-bottom:1px solid #16201b !important; padding:9px 14px !important; overflow-x:auto !important; }
-    .ch-rail-head, .ch-rail-foot, .ch-bar{ display:none !important; }
+    .ch-rail-foot, .ch-bar{ display:none !important; }
+    .ch-rail-head{ margin-bottom:0 !important; }
     .ch-yearlist{ flex-direction:row !important; gap:18px !important; }
     .ch-yearlist button{ padding:3px 0 !important; }
     .ch-topbar{ flex-wrap:wrap !important; gap:5px 14px !important; font-size:9px !important; margin-bottom:30px !important; }
@@ -35,15 +54,15 @@
 </style>
 </helmet>
 
-<div style="position:relative; min-height:100vh; background:#06090a; color:#eaf3ee; font-family:'IBM Plex Mono',monospace; overflow-x:hidden; background-image:linear-gradient(#0a110d 1px,transparent 1px),linear-gradient(90deg,#0a110d 1px,transparent 1px); background-size:38px 38px;">
+<div style="position:relative; min-height:100vh; background:#06090a; color:#eaf3ee; font-family:'IBM Plex Mono',monospace; overflow-x:hidden; max-width:100vw; background-image:linear-gradient(#0a110d 1px,transparent 1px),linear-gradient(90deg,#0a110d 1px,transparent 1px); background-size:38px 38px;">
 
   <!-- ============ FIXED LEFT YEAR RAIL ============ -->
   <div class="ch-rail" style="position:fixed; left:0; top:0; height:100vh; width:138px; border-right:1px solid #16201b; background:rgba(6,9,10,0.82); backdrop-filter:blur(6px); z-index:40; padding:22px 0 22px 18px; display:flex; flex-direction:column; justify-content:space-between;">
-    <div>
-      <div class="ch-rail-head" style="display:flex; align-items:center; gap:7px; margin-bottom:30px;">
+    <div class="ch-rail-inner">
+      <a href="index.html" class="ch-rail-head" style="display:flex; align-items:center; gap:7px; margin-bottom:30px; text-decoration:none;">
         <span style="width:9px; height:9px; background:#5be49b; display:inline-block;"></span>
         <span style="font-size:10px; letter-spacing:0.14em; color:#6f8478;">C/H</span>
-      </div>
+      </a>
       <div class="ch-yearlist" style="display:flex; flex-direction:column; gap:1px;">
         <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="7">
           <button onClick="{{ n.go }}" style="display:flex; align-items:center; gap:10px; background:none; border:none; cursor:pointer; padding:6px 0; text-align:left;">
@@ -56,6 +75,7 @@
         </sc-for>
       </div>
     </div>
+    <div class="ch-rail-arrow" style="position:absolute; right:0; top:0; bottom:0; width:40px; background:linear-gradient(90deg,transparent,rgba(6,9,10,0.95)); display:flex; align-items:center; justify-content:flex-end; padding-right:10px; pointer-events:none; font-size:16px; color:#5be49b; flex-shrink:0;">›</div>
     <div class="ch-rail-foot" style="font-size:8px; letter-spacing:0.12em; color:#5be49b; line-height:1.7;">OPEN<br>FOR<br>REVIEW</div>
   </div>
 
@@ -66,8 +86,8 @@
     
 
     <!-- ============ ABSTRACT ============ -->
-    <section data-animate="" style="max-width: 1240px; margin: 0 auto; padding: 30px 56px 70px; min-height: 96vh; display: flex; flex-direction: column; justify-content: center; width: 880px; height: 716px">
-      <div class="ch-topbar" style="display:flex; align-items:center; justify-content:space-between; padding-bottom:18px; border-bottom:1px solid #16201b; margin-bottom:54px; font-size:11px; color:#3f4f47; letter-spacing:0.08em;">
+    <section data-animate="" class="ch-abstract-section" style="max-width:880px; margin:0 auto; padding:30px 56px 70px; display:flex; flex-direction:column; justify-content:center;">
+      <div class="ch-topbar ch-abstract-topbar" style="display:flex; align-items:center; justify-content:space-between; padding-bottom:18px; border-bottom:1px solid #16201b; margin-bottom:54px; font-size:11px; color:#3f4f47; letter-spacing:0.08em;">
         <span style="display:flex; align-items:center; gap:18px; margin-left:auto;"><a href="About.dc.html" style="color:#6f8478; text-decoration:none; letter-spacing:0.12em;" style-hover="color:#5be49b;">ABOUT &amp; CONTRIBUTORS →</a><span style="color:#2f3c35;">v0.9 · build 2026.07</span></span>
       </div>
       <div class="ch-hero-grid" style="display:block;">
@@ -89,7 +109,7 @@
     </section>
 
     <!-- ============ THESIS / TWO CURVES ============ -->
-    <section style="max-width: 760px; margin: 0 auto; padding: 80px 56px; width: 818px; height: 769px">
+    <section class="ch-era-section" style="max-width:760px; margin:0 auto; padding:80px 56px;">
       <div style="font-size:11px; letter-spacing:0.2em; color:#5be49b; margin-bottom:26px;">▸ ABSTRACT</div>
       <p style="font-family:'Newsreader',serif; font-size:22px; line-height:1.65; color:#cdd8d0; margin:0 0 26px;">This is a scenario forecast, not a prediction. It traces two trajectories — the measured acceleration of frontier AI capability, and the structural adaptation of the marketing industry — and asks what happens where they intersect.</p>
       <p style="font-family:'Newsreader',serif; font-size:18px; line-height:1.78; color:#9fb1a6; margin:0 0 22px;">The timeline that follows is deliberately specific. Specificity is what makes a forecast falsifiable, and a falsifiable forecast is something a working group can argue with. Treat every date as a hypothesis and every claim as a position to be defended or revised.</p>
@@ -131,7 +151,7 @@
     <!-- ============ YEAR SECTIONS ============ -->
 
     <!-- 2026 -->
-    <section data-section="" data-year="2026" style="max-width:760px; margin:0 auto; padding:64px 56px; border-top:1px solid #0e1612;">
+    <section data-section="" data-year="2026" class="ch-era-section" style="max-width:760px; margin:0 auto; padding:64px 56px; border-top:1px solid #0e1612;">
       <div style="display:flex; align-items:baseline; gap:18px; margin-bottom:8px;">
         <span style="font-size:13px; letter-spacing:0.16em; color:#5be49b;">2026</span>
         <span style="font-size:11px; letter-spacing:0.18em; color:#46564d;">// 0—12 MONTHS</span>
@@ -162,7 +182,7 @@
     </section>
 
     <!-- 2027 -->
-    <section data-section="" data-year="2027" style="max-width:760px; margin:0 auto; padding:64px 56px; border-top:1px solid #0e1612;">
+    <section data-section="" data-year="2027" class="ch-era-section" style="max-width:760px; margin:0 auto; padding:64px 56px; border-top:1px solid #0e1612;">
       <div style="display:flex; align-items:baseline; gap:18px; margin-bottom:8px;">
         <span style="font-size:13px; letter-spacing:0.16em; color:#5be49b;">2027</span>
         <span style="font-size:11px; letter-spacing:0.18em; color:#46564d;">// 12—24 MONTHS</span>
@@ -194,7 +214,7 @@
     </section>
 
     <!-- 2028 -->
-    <section data-section="" data-year="2028" style="max-width:760px; margin:0 auto; padding:64px 56px; border-top:1px solid #0e1612;">
+    <section data-section="" data-year="2028" class="ch-era-section" style="max-width:760px; margin:0 auto; padding:64px 56px; border-top:1px solid #0e1612;">
       <div style="display:flex; align-items:baseline; gap:18px; margin-bottom:8px;">
         <span style="font-size:13px; letter-spacing:0.16em; color:#5be49b;">2028</span>
         <span style="font-size:11px; letter-spacing:0.18em; color:#46564d;">// 18—30 MONTHS</span>
@@ -258,7 +278,7 @@
     </section>
 
     <!-- 2030 -->
-    <section data-section="" data-year="2030" style="max-width:760px; margin:0 auto; padding:64px 56px; border-top:1px solid #0e1612;">
+    <section data-section="" data-year="2030" class="ch-era-section" style="max-width:760px; margin:0 auto; padding:64px 56px; border-top:1px solid #0e1612;">
       <div style="display:flex; align-items:baseline; gap:18px; margin-bottom:8px;">
         <span style="font-size:13px; letter-spacing:0.16em; color:#5be49b;">2030</span>
         <span style="font-size:11px; letter-spacing:0.18em; color:#46564d;">// 3—4 YEARS</span>
@@ -289,7 +309,7 @@
     </section>
 
     <!-- 2031-32 -->
-    <section data-section="" data-year="2031" style="max-width:760px; margin:0 auto; padding:64px 56px; border-top:1px solid #0e1612;">
+    <section data-section="" data-year="2031" class="ch-era-section" style="max-width:760px; margin:0 auto; padding:64px 56px; border-top:1px solid #0e1612;">
       <div style="display:flex; align-items:baseline; gap:18px; margin-bottom:8px;">
         <span style="font-size:13px; letter-spacing:0.16em; color:#5be49b;">2031/32</span>
         <span style="font-size:11px; letter-spacing:0.18em; color:#46564d;">// 4—6 YEARS</span>
@@ -319,7 +339,7 @@
     </section>
 
     <!-- 2033 -->
-    <section data-section="" data-year="2033" style="max-width:760px; margin:0 auto; padding:64px 56px; border-top:1px solid #0e1612;">
+    <section data-section="" data-year="2033" class="ch-era-section" style="max-width:760px; margin:0 auto; padding:64px 56px; border-top:1px solid #0e1612;">
       <div style="display:flex; align-items:baseline; gap:18px; margin-bottom:8px;">
         <span style="font-size:13px; letter-spacing:0.16em; color:#5be49b;">2033</span>
         <span style="font-size:11px; letter-spacing:0.18em; color:#46564d;">// END STATE</span>
