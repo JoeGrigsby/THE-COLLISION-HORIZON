@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<style>
+@keyframes ch-blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes ch-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes ch-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+body{margin:0;background:#0a0a0b;color:#eeece6;font-family:'Source Serif 4',Georgia,serif;-webkit-font-smoothing:antialiased;}
+*{box-sizing:border-box;}
+a{color:#ff4b2e;text-decoration:none;}
+a:hover{color:#ffffff;}
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+
+<div style="position:relative;background:#0a0a0b;min-height:100vh;">
+
+<div style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:14px clamp(20px,4vw,48px);background:rgba(10,10,11,0.86);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,0.12);">
+  <a href="./Collision%20Horizon.dc.html" style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:18px;letter-spacing:0.05em;color:#eeece6;flex-shrink:0;">C/H</a>
+  <div style="flex:1;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);max-width:520px;">
+    <div style="display:flex;gap:40px;white-space:nowrap;animation:ch-marquee 24s linear infinite;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.08em;color:#96969a;width:max-content;">
+      <sc-for list="{{ periods }}" as="n" hint-placeholder-count="7">
+        <span>{{ n.year }} &middot; {{ n.title }}</span>
+      </sc-for>
+      <sc-for list="{{ periods }}" as="n2" hint-placeholder-count="7">
+        <span>{{ n2.year }} &middot; {{ n2.title }}</span>
+      </sc-for>
+    </div>
+  </div>
+  <div style="position:relative;flex-shrink:0;">
+    <button onClick="{{ toggleNav }}" style="background:none;border:1px solid rgba(255,255,255,0.22);color:#eeece6;width:34px;height:34px;cursor:pointer;font-size:16px;font-family:'IBM Plex Mono',monospace;">&rsaquo;</button>
+    <sc-if value="{{ navOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;top:42px;right:0;background:#131316;border:1px solid rgba(255,255,255,0.22);min-width:230px;display:flex;flex-direction:column;">
+        <a href="./About.dc.html" style="padding:12px 16px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.06em;color:#eeece6;border-bottom:1px solid rgba(255,255,255,0.12);">ABOUT &amp; CONTRIBUTORS &rarr;</a>
+        <a href="./POV%20Production%20Design.dc.html" style="padding:12px 16px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.06em;color:#eeece6;">WORKING-GROUP POV &rarr;</a>
+      </div>
+    </sc-if>
+  </div>
+</div>
+
+<section style="position:relative;padding:clamp(70px,13vw,150px) clamp(20px,4vw,48px) clamp(56px,8vw,96px);max-width:1200px;margin:0 auto;">
+  <div style="position:absolute;top:24px;right:clamp(20px,4vw,48px);width:112px;height:112px;border:2px solid #ff4b2e;border-radius:50%;transform:rotate(-10deg);display:flex;align-items:center;justify-content:center;">
+    <div style="text-align:center;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:12px;letter-spacing:0.08em;color:#ff4b2e;line-height:1.5;">OPEN<br/>FOR<br/>REVIEW</div>
+  </div>
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#96969a;letter-spacing:0.05em;margin-bottom:24px;">v0.9 &middot; build 2026.07</div>
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.15em;color:#ff4b2e;margin-bottom:18px;">RESEARCH BRIEF // SCENARIO FORECAST</div>
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#35d68a;margin-bottom:28px;">$ ./project --marketing --range 2026-33<span style="animation:ch-blink 1s step-start infinite;">&#9612;</span></div>
+  <h1 style="font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:clamp(38px,7vw,92px);letter-spacing:0.01em;line-height:1.03;margin:0 0 32px;text-transform:uppercase;max-width:14ch;word-spacing:0.4em;">THE COLLISION HORIZON</h1>
+  <p style="font-size:clamp(18px,2vw,22px);line-height:1.6;color:#c9c7c0;max-width:760px;margin:0 0 36px;">A year-by-year forecast of how artificial intelligence reshapes the marketing industry between July 2026 and the end of 2033. Compiled with a working group of practitioners &mdash; built to be read, contested and revised.</p>
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:56px;flex-wrap:wrap;">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;color:#96969a;">IN PARTNERSHIP WITH</span>
+    <image-slot id="ama-logo-hero" shape="rect" placeholder="AMA Chicago logo" style="width:130px;height:42px;"></image-slot>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.1em;color:#96969a;animation:ch-bounce 2.2s ease-in-out infinite;width:fit-content;">&darr; SCROLL TO READ THE FORECAST</div>
+</section>
+
+<section style="padding:72px clamp(20px,4vw,48px);max-width:880px;margin:0 auto;">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.15em;color:#ff4b2e;margin-bottom:28px;">&#9656; ABSTRACT</div>
+  <p style="font-size:19px;line-height:1.75;color:#d9d7d0;margin:0 0 24px;">This is a scenario forecast, not a prediction. It traces two trajectories &mdash; the measured acceleration of frontier AI capability, and the structural adaptation of the marketing industry &mdash; and asks what happens where they intersect.</p>
+  <p style="font-size:19px;line-height:1.75;color:#d9d7d0;margin:0 0 24px;">The timeline that follows is deliberately specific. Specificity is what makes a forecast falsifiable, and a falsifiable forecast is something a working group can argue with. Treat every date as a hypothesis and every claim as a position to be defended or revised.</p>
+  <p style="font-size:19px;line-height:1.75;color:#d9d7d0;margin:0 0 24px;">And it spans the whole ecosystem, not one corner of it: the <em>brands and marketers</em> who commission the work, the <em>agencies and holding companies</em> who make it, the <em>publishers and media owners</em> who carry it, the <em>platforms</em> that increasingly generate and place it, and the <em>consultancies</em> moving into marketing from the other side. Each is repriced by the same force; on a different timeline.</p>
+  <p style="font-size:19px;line-height:1.75;color:#eeece6;margin:0;">The thesis is simple and uncomfortable: capability is compounding on a curve that the industry's operating model cannot match. The distance between the two, the <em>collision horizon,</em> is where the disruption of the next eight years is concentrated.</p>
+</section>
+
+<section style="border-top:1px solid rgba(255,255,255,0.12);padding:72px clamp(20px,4vw,48px);max-width:1000px;margin:0 auto;">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.15em;color:#ff4b2e;margin-bottom:28px;">&#9656; THE TWO CURVES</div>
+  <p style="font-size:19px;line-height:1.75;color:#d9d7d0;margin:0 0 24px;">AI capability advances roughly geometrically. Each model generation compresses the cost and time of cognitive work by an order of magnitude &mdash; and once systems begin improving themselves, that compounding accelerates again.</p>
+  <p style="font-size:19px;line-height:1.75;color:#d9d7d0;margin:0 0 48px;">The industry adapts the way large organisations always have: in budget cycles, reorganisations, and multi-year transformation plans. Plot both on one axis, and they diverge. By the late 2020s, the gap is no longer a delay to manage; it is a structural condition to survive.</p>
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;color:#96969a;margin-bottom:20px;">CAPABILITY vs. ADAPTATION &mdash; INDEXED</div>
+  <div style="display:flex;gap:28px;margin-bottom:16px;">
+    <div style="display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#c9c7c0;"><span style="width:10px;height:10px;background:#ff4b2e;display:inline-block;"></span>AI capability</div>
+    <div style="display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#c9c7c0;"><span style="width:10px;height:10px;background:#35d68a;display:inline-block;"></span>Industry adaptation</div>
+  </div>
+  <svg viewBox="0 0 700 250" style="width:100%;height:auto;display:block;">
+    <path d="{{ adaptationPath }}" fill="none" stroke="#35d68a" stroke-width="2.5"></path>
+    <path d="{{ capabilityPath }}" fill="none" stroke="#ff4b2e" stroke-width="2.5"></path>
+  </svg>
+  <div style="display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#96969a;margin-top:8px;">
+    <span>2026</span><span>2029</span><span>2033</span>
+  </div>
+</section>
+
+<sc-for list="{{ periods }}" as="p" hint-placeholder-count="7">
+<section style="border-top:1px solid rgba(255,255,255,0.12);padding:64px clamp(20px,4vw,48px);max-width:1200px;margin:0 auto;display:grid;grid-template-columns:minmax(160px,220px) 1fr;gap:40px;" data-screen-label="{{ p.year }}">
+  <div style="position:sticky;top:80px;align-self:start;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#96969a;letter-spacing:0.06em;margin-bottom:8px;">{{ p.year }} // {{ p.label }}</div>
+    <h2 style="font-family:'IBM Plex Mono',monospace;font-size:clamp(24px,2.6vw,32px);text-transform:uppercase;margin:0 0 16px;letter-spacing:0.01em;">{{ p.title }}</h2>
+    <div style="display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;padding:4px 10px;border-width:1px;border-style:solid;color:{{ p.pressureColor }};border-color:{{ p.pressureColor }};">{{ p.pressure }}</div>
+  </div>
+  <div>
+    <p style="font-size:17px;line-height:1.75;color:#d9d7d0;margin:0 0 20px;">{{ p.industry }}</p>
+    <sc-if value="{{ p.hasAi }}" hint-placeholder-val="{{ true }}">
+      <p style="font-size:17px;line-height:1.75;color:#d9d7d0;margin:0 0 20px;">{{ p.ai }}</p>
+    </sc-if>
+    <sc-if value="{{ p.hasExtra }}" hint-placeholder-val="{{ false }}">
+      <p style="font-size:17px;line-height:1.75;color:#d9d7d0;margin:0 0 20px;">{{ p.extra }}</p>
+    </sc-if>
+    <sc-if value="{{ p.hasStats }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-wrap:wrap;gap:32px;margin:8px 0 32px;padding:24px 0;border-top:1px solid rgba(255,255,255,0.12);border-bottom:1px solid rgba(255,255,255,0.12);">
+        <sc-for list="{{ p.stats }}" as="st" hint-placeholder-count="3">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(30px,3.6vw,42px);font-weight:700;color:#ff4b2e;">{{ st.value }}</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;color:#96969a;margin-top:4px;">{{ st.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+    <div style="background:#131316;border-left:3px solid #ff4b2e;padding:20px 24px;margin:0 0 36px;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.1em;color:#ff4b2e;margin-bottom:8px;">&#9889; {{ p.collisionLabel }}</div>
+      <p style="font-size:16px;line-height:1.6;color:#eeece6;margin:0;">{{ p.collision }}</p>
+    </div>
+    <div style="margin-bottom:36px;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;color:#96969a;margin-bottom:14px;">&#9656; FURTHER READING &mdash; EVIDENCE &amp; POV &middot; {{ p.year }}</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <sc-for list="{{ p.readings }}" as="r" hint-placeholder-count="2">
+          <a href="{{ r.url }}" target="{{ r.target }}" style="display:block;padding:14px 16px;border:1px solid rgba(255,255,255,0.12);color:#eeece6;">
+            <sc-if value="{{ r.featured }}" hint-placeholder-val="{{ false }}">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#35d68a;margin-bottom:6px;">&#9670; WORKING-GROUP POV</div>
+            </sc-if>
+            <div style="font-size:15px;margin-bottom:4px;">{{ r.title }} &#8599;</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.04em;color:#96969a;">{{ r.source }}</div>
+          </a>
+        </sc-for>
+      </div>
+      <sc-if value="{{ p.note }}" hint-placeholder-val="{{ false }}">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#96969a;font-style:italic;margin-top:14px;">{{ p.note }}</div>
+      </sc-if>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5c5c60;margin-top:14px;">+ Add the working group's articles &amp; POV for this period</div>
+    </div>
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;color:#96969a;margin-bottom:6px;">&#9633; FIVE PREDICTIONS TO MEASURE &amp; VALIDATE &mdash; TESTABLE &middot; {{ p.year }}</div>
+      <div style="display:flex;flex-direction:column;">
+        <sc-for list="{{ p.predictions }}" as="pr" hint-placeholder-count="5">
+          <div style="display:flex;gap:16px;padding:14px 0;border-top:1px solid rgba(255,255,255,0.12);">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#ff4b2e;flex-shrink:0;width:20px;">{{ pr.n }}</div>
+            <div style="font-size:15px;line-height:1.55;color:#d9d7d0;">{{ pr.text }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+</sc-for>
+
+<section style="border-top:1px solid rgba(255,255,255,0.12);padding:80px clamp(20px,4vw,48px);max-width:1100px;margin:0 auto;">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.15em;color:#ff4b2e;margin-bottom:24px;">&#9656; EXPLORE THE TIMELINE</div>
+  <h2 style="font-family:'IBM Plex Mono',monospace;font-size:clamp(26px,3.4vw,38px);margin:0 0 16px;">Two tracks, one collision</h2>
+  <p style="font-size:17px;line-height:1.7;color:#d9d7d0;max-width:620px;margin:0 0 44px;">Step through the period and switch between what the industry plans to do and what AI forces on it. The gap between the two tracks is the risk.</p>
+
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;">
+    <sc-for list="{{ periods }}" as="tp" hint-placeholder-count="7">
+      <button onClick="{{ tp.select }}" style="{{ tp.tabStyle }}">{{ tp.year }}</button>
+    </sc-for>
+  </div>
+  <input type="range" min="0" max="{{ sliderMax }}" step="1" value="{{ activeIndex }}" onChange="{{ onSlider }}" style="width:100%;margin:6px 0 40px;accent-color:#ff4b2e;"/>
+
+  <div style="background:#131316;border:1px solid rgba(255,255,255,0.15);padding:clamp(22px,4vw,44px);">
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:18px;margin-bottom:24px;">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#96969a;">{{ activePeriod.year }} &middot; {{ activePeriod.label }}</div>
+        <h3 style="font-family:'IBM Plex Mono',monospace;font-size:clamp(20px,2.8vw,26px);margin:6px 0 0;text-transform:uppercase;">{{ activePeriod.title }}</h3>
+      </div>
+      <div style="display:flex;height:fit-content;">
+        <button onClick="{{ setTrackIndustry }}" style="{{ industryBtnStyle }}">Industry Track</button>
+        <button onClick="{{ setTrackAI }}" style="{{ aiBtnStyle }}">AI Pressure</button>
+      </div>
+    </div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;color:#ff4b2e;margin-bottom:12px;">{{ rcLabel }}</div>
+    <p style="font-size:17px;line-height:1.7;color:#eeece6;margin:0 0 28px;">{{ rcText }}</p>
+    <div style="border-left:3px solid #ff4b2e;padding:16px 20px;background:rgba(255,75,46,0.06);margin-bottom:28px;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;color:#ff4b2e;margin-bottom:6px;">&#9889; COLLISION POINT</div>
+      <p style="margin:0;font-size:15px;line-height:1.6;color:#d9d7d0;">{{ activePeriod.collision }}</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;">
+      <sc-for list="{{ activePeriod.predictions }}" as="ap" hint-placeholder-count="5">
+        <div style="display:flex;gap:10px;">
+          <div style="font-family:'IBM Plex Mono',monospace;color:#ff4b2e;font-size:13px;">{{ ap.n }}</div>
+          <div style="font-size:13px;line-height:1.5;color:#96969a;">{{ ap.text }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#5c5c60;margin-top:12px;">
+    <span>2026</span><span>2033</span>
+  </div>
+</section>
+
+<section style="border-top:1px solid rgba(255,255,255,0.12);padding:80px clamp(20px,4vw,48px);max-width:1100px;margin:0 auto;">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.15em;color:#ff4b2e;margin-bottom:24px;">&#9656; THE EVIDENCE BASE</div>
+  <h2 style="font-family:'IBM Plex Mono',monospace;font-size:clamp(26px,3.4vw,38px);margin:0 0 20px;">What the research actually says</h2>
+  <p style="font-size:17px;line-height:1.7;color:#d9d7d0;margin:0 0 20px;max-width:720px;">The trajectory above is a scenario &mdash; but it is anchored to the public research on AI and work. That research splits into four camps, and which camp a study belongs to largely determines how specific its timing is.</p>
+  <p style="font-size:17px;line-height:1.7;color:#d9d7d0;margin:0 0 40px;max-width:720px;">Per-period sources are linked under each year above. The estimates below are among the most-cited dated figures in the field.</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:rgba(255,255,255,0.12);margin-bottom:56px;">
+    <sc-for list="{{ camps }}" as="c" hint-placeholder-count="4">
+      <div style="background:#0a0a0b;padding:28px 24px;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.1em;color:#ff4b2e;margin-bottom:10px;">{{ c.name }}</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#96969a;margin-bottom:14px;">{{ c.sources }}</div>
+        <p style="font-size:14px;line-height:1.55;color:#d9d7d0;margin:0;">{{ c.desc }}</p>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.12em;color:#96969a;margin-bottom:24px;">KEY DATED ESTIMATES</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:28px;margin-bottom:40px;">
+    <sc-for list="{{ evidenceStats }}" as="es" hint-placeholder-count="5">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(26px,3vw,34px);font-weight:700;color:#eeece6;">{{ es.value }}</div>
+        <div style="font-size:13px;line-height:1.5;color:#96969a;margin-top:6px;">{{ es.label }}</div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="border:1px solid rgba(255,150,60,0.4);background:rgba(255,150,60,0.06);padding:22px 24px;">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.1em;color:#ffb35c;margin-bottom:8px;">&#9888; READ THE FIGURES CAREFULLY</div>
+    <p style="font-size:14px;line-height:1.6;color:#d9d7d0;margin:0;">Specificity is inversely correlated with rigour: the most precise dated predictions come from non-peer-reviewed consultancy and think-tank reports, while the peer-reviewed studies deliberately refuse to predict timing. And &quot;exposure&quot; is not &quot;automation&quot; is not &quot;job loss.&quot; Treat every number here as a signpost, not a guarantee.</p>
+  </div>
+</section>
+
+<section style="border-top:1px solid rgba(255,255,255,0.12);padding:80px clamp(20px,4vw,48px);max-width:1100px;margin:0 auto;">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.15em;color:#ff4b2e;margin-bottom:24px;">&#9656; WHAT TO DO ABOUT IT</div>
+  <h2 style="font-family:'IBM Plex Mono',monospace;font-size:clamp(26px,3.4vw,38px);margin:0 0 20px;">Four moves, while there is still pricing power</h2>
+  <p style="font-size:17px;line-height:1.7;color:#d9d7d0;margin:0 0 48px;max-width:720px;">None of this is destiny. The forecast describes the pressure; these are the responses available to anyone in the industry who acts before the gap closes.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:rgba(255,255,255,0.12);">
+    <sc-for list="{{ moves }}" as="m" hint-placeholder-count="4">
+      <div style="background:#0a0a0b;padding:32px 26px;">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#5c5c60;margin-bottom:16px;">{{ m.n }}</div>
+        <h3 style="font-family:'IBM Plex Mono',monospace;font-size:18px;margin:0 0 12px;">{{ m.title }}</h3>
+        <p style="font-size:14px;line-height:1.6;color:#d9d7d0;margin:0;">{{ m.text }}</p>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<footer style="border-top:1px solid rgba(255,255,255,0.12);padding:80px clamp(20px,4vw,48px) 44px;max-width:1100px;margin:0 auto;">
+  <div style="font-family:'IBM Plex Mono',monospace;font-size:20px;letter-spacing:0.05em;margin-bottom:20px;">THE COLLISION HORIZON</div>
+  <p style="font-size:15px;line-height:1.6;color:#96969a;max-width:560px;margin:0 0 32px;">A living document. Open for review, contest and revision by the working group. Every date is a hypothesis; bring evidence, disagree, and help sharpen the forecast.</p>
+  <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:32px;">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.1em;color:#96969a;">IN PARTNERSHIP WITH</span>
+    <image-slot id="ama-logo-footer" shape="rect" placeholder="AMA Chicago logo" style="width:120px;height:38px;"></image-slot>
+  </div>
+  <a href="./About.dc.html" style="display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.06em;border:1px solid rgba(255,255,255,0.3);padding:12px 20px;color:#eeece6;margin-bottom:44px;">ABOUT THE WORKING GROUP &rarr;</a>
+  <div style="display:flex;flex-wrap:wrap;gap:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.12);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.06em;color:#5c5c60;">
+    <span>SCENARIO FORECAST v0.9</span>
+    <span>UPDATED JULY 2026</span>
+    <span>RANGE 2026 &mdash; 2033</span>
+    <span style="color:#35d68a;">STATUS: OPEN FOR REVIEW</span>
+  </div>
+</footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const RAW_PERIODS = [
+  {
+    year: "2026", label: "0\u201412 MONTHS", title: "THE SETUP", pressure: "HIGH PRESSURE", pressureColor: "#ff9d4d",
+    industry: "The industry is in a period of consolidation. We are already seeing holding companies collapse legacy agency brands into integrated, more AI-enabled operating units; production work migrates onto shared content platforms; and identity and clean-room data layers are being stood up to replace the third-party signals that have disappeared. The logic is cost and coherence, and it is sound on its own terms.",
+    hasAi: true,
+    ai: "Underneath it, the ground is already moving. The first genuinely autonomous agents begin automating coding, research, and adaptation work; the same entry-level labour the consolidation quietly assumed it could still draw on. Cheaper models flood the market within months, and a wave of lightweight AI tools puts agency-grade capability one subscription away from any client.",
+    hasExtra: false, hasStats: false,
+    collisionLabel: "COLLISION POINT",
+    collision: "Consolidation is rational. But it is optimising an operating model whose junior tier is being automated out from under it.",
+    readings: [
+      { title: "Canaries in the Coal Mine? Six Facts About AI's Employment Effects", source: "STANFORD DIGITAL ECONOMY LAB \u00b7 2025 \u00b7 PAYROLL DATA", url: "https://digitaleconomy.stanford.edu/publication/canaries-in-the-coal-mine-six-facts-about-the-recent-employment-effects-of-artificial-intelligence/", target: "_blank", featured: false },
+      { title: "Future of Jobs Report 2025 \u2014 graphic design now declining", source: "WORLD ECONOMIC FORUM \u00b7 2025 \u00b7 EMPLOYER SURVEY", url: "https://www.weforum.org/publications/the-future-of-jobs-report-2025/", target: "_blank", featured: false },
+      { title: "Anthropic Economic Index \u2014 what AI is actually used for today", source: "ANTHROPIC \u00b7 2025\u201326 \u00b7 OBSERVED USAGE", url: "https://www.anthropic.com/economic-index", target: "_blank", featured: false }
+    ],
+    predictions: [
+      { n: "1", text: "Three or more major holding companies publicly launch or expand an integrated AI platform." },
+      { n: "2", text: "A major ad platform (Meta, Google or Amazon) ships built-in generative creative to all advertisers." },
+      { n: "3", text: "Junior creative and production job postings in major markets fall 10% or more year-on-year." },
+      { n: "4", text: "Generative tools pass 50% adoption among client-facing agency staff." },
+      { n: "5", text: "A first attributable case of a major brand replacing an agency scope with an in-platform tool." }
+    ]
+  },
+  {
+    year: "2027", label: "12\u201424 MONTHS", title: "THE THRESHOLD", pressure: "CRITICAL", pressureColor: "#ff4b2e",
+    industry: "Networks target a return to organic growth, putting the new integrated model to its first real test. Unified creative groups must prove a value proposition clients cannot simply assemble themselves; media businesses are forced to demonstrate AI-era value beyond buying aggregation; and the global client lead replaces the agency P&L as the primary commercial unit.",
+    hasAi: true,
+    ai: "Then the threshold is crossed. AI passes the superhuman-coder milestone, performing any coding task faster and cheaper than the best human engineers, and frontier labs run hundreds of thousands of agent copies at many times human speed. A general-capability system is announced publicly. Every efficiency argument the industry makes to a client is now also a capability the client can license directly.",
+    hasExtra: true,
+    extra: "Nowhere does this land faster than in production design. The rules-based craft of resizing, versioning, and localising assets, long a dependable column of agency fees, is the first to be absorbed as creative-automation systems connect to brand data, media performance, and publishing.",
+    hasStats: false,
+    collisionLabel: "COLLISION POINT",
+    collision: "The industry plans for a growth return precisely as capability crosses the line that makes its core service self-serve.",
+    readings: [
+      { title: "When Making the Work Stops Being the Work", source: "JOE GRIGSBY \u00b7 JULY 2026 \u00b7 PRODUCTION-DESIGN AUTOMATION", url: "./POV%20Production%20Design.dc.html", target: "_self", featured: true },
+      { title: "Measuring AI Ability to Complete Long Tasks", source: "METR \u00b7 2025 \u00b7 CAPABILITY EXTRAPOLATION", url: "https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/", target: "_blank", featured: false },
+      { title: "How Will AI Affect the US Labor Market? \u2014 impact from 2027", source: "GOLDMAN SACHS \u00b7 2023\u201326 \u00b7 ECONOMIC MODELLING", url: "https://www.goldmansachs.com/insights/articles/how-will-ai-affect-the-us-labor-market", target: "_blank", featured: false }
+    ],
+    predictions: [
+      { n: "1", text: "AI matches or beats top human engineers on a standard public coding benchmark." },
+      { n: "2", text: "At least one lab announces a general-capability (\"AGI-class\") system." },
+      { n: "3", text: "One or more holding companies report flat-to-declining production revenue attributed to automation." },
+      { n: "4", text: "Brand and marketer RFPs begin explicitly requiring AI-native, self-serve production." },
+      { n: "5", text: "Dedicated production-design headcount declines measurably at two or more large agencies." }
+    ]
+  },
+  {
+    year: "2028", label: "18\u201430 MONTHS", title: "THE ACCELERATION", pressure: "CRITICAL", pressureColor: "#ff4b2e",
+    industry: "Marketing platforms mature into full agentic systems; plan, create, publish, and optimise in one continuous loop. The first serious acquisition targets AI infrastructure rather than agency capability. Production must either pivot upward into creative direction or accept commoditisation.",
+    hasAi: true,
+    ai: "And the curve goes vertical. A superhuman AI researcher, qualitatively better than any human at advancing AI itself, pushes the rate of algorithmic progress toward a year of work every week. Alignment concerns spill into public hearings and international summits. The economy the industry is selling into is being restructured in real time.",
+    hasExtra: false, hasStats: false,
+    collisionLabel: "COLLISION POINT",
+    collision: "\"Acceleration\" assumes a stable environment to grow into. Instead it arrives into a market where the clients themselves are in crisis.",
+    readings: [
+      { title: "\"GPTs are GPTs\" \u2014 the task-exposure study", source: "OPENAI & WHARTON \u00b7 SCIENCE, 2024 \u00b7 PEER-REVIEWED", url: "https://www.science.org/doi/10.1126/science.adj0998", target: "_blank", featured: false },
+      { title: "The Simple Macroeconomics of AI \u2014 the skeptical counterweight", source: "DARON ACEMOGLU, MIT \u00b7 2024\u201325 \u00b7 MACRO MODELLING", url: "https://www.nber.org/papers/w32487", target: "_blank", featured: false }
+    ],
+    predictions: [
+      { n: "1", text: "A frontier lab publicly claims an AI system that materially accelerates its own R&D." },
+      { n: "2", text: "At least one agency acquisition is explicitly for AI infrastructure, not capability or clients." },
+      { n: "3", text: "Public AI in marketing oversight hearings or an international summit take place." },
+      { n: "4", text: "Commercial end-to-end agentic marketing platforms (plan \u2192 create \u2192 publish \u2192 optimise) ship." },
+      { n: "5", text: "A consultancy with a marketing arm wins a flagship creative or production account due to its use of AI solutions." }
+    ]
+  },
+  {
+    year: "2029", label: "2\u20143 YEARS", title: "THE RECKONING", pressure: "CRITICAL", pressureColor: "#ff4b2e",
+    industry: "Media businesses face an existential question: if AI optimises spend better than any human, what exactly is being sold? Pitch economics collapse as clients generate competitive strategic alternatives in hours. A first wave of senior strategists is hollowed out, and major brands build serious in-house AI capability \u2014 bypassing the agency layer for execution entirely.",
+    hasAi: false, ai: "",
+    hasExtra: false,
+    hasStats: true,
+    stats: [
+      { value: "65%", label: "OF EXECUTION AUTOMATABLE" },
+      { value: "4hrs", label: "TO A FULL STRATEGY DRAFT" },
+      { value: "1", label: "DEFENSIBLE MOAT IN LABOUR \u2014 EXPERT JUDGMENT" }
+    ],
+    collisionLabel: "COLLISION POINT",
+    collision: "The clients who most need agencies are the ones most capable of not needing them. Value collapses toward what can't be automated: judgment, accountability, relationships.",
+    readings: [
+      { title: "METR time-horizon \u2014 central estimate lands here (~2029)", source: "METR \u00b7 2025 \u00b7 CAPABILITY EXTRAPOLATION", url: "https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/", target: "_blank", featured: false },
+      { title: "Generative AI, the American Worker, and the Future of Work", source: "BROOKINGS \u00b7 2024 \u00b7 TASK EXPOSURE", url: "https://www.brookings.edu/articles/generative-ai-the-american-worker-and-the-future-of-work/", target: "_blank", featured: false }
+    ],
+    predictions: [
+      { n: "1", text: "Two or more major brands publicly disclose bringing core marketing execution in-house via AI." },
+      { n: "2", text: "Documented pitches where clients generate competitive strategy with AI in under a day." },
+      { n: "3", text: "Agency execution-role headcount is down 20% or more versus 2025." },
+      { n: "4", text: "New AI-content or synthetic-media regulation is enacted in at least one major market." },
+      { n: "5", text: "At least one mid-tier agency exits or is absorbed, explicitly citing AI disruption." }
+    ]
+  },
+  {
+    year: "2030", label: "3\u20144 YEARS", title: "THE INVERSION", pressure: "EXISTENTIAL", pressureColor: "#ff4b2e",
+    industry: "The holding-company model is formally dead, replaced by integrated operating companies or not at all. The revenue mix inverts: service fees shrink and platform, data and software revenue must replace them. Firms either acquire AI infrastructure \u2014 a transformative, balance-sheet-defining bet \u2014 or face steady valuation compression.",
+    hasAi: true,
+    ai: "The talent model inverts with it: fewer but far more senior practitioners, with AI handling all execution. Human value migrates decisively toward accountability, creativity and relationships \u2014 the things a model cannot underwrite.",
+    hasExtra: false, hasStats: false,
+    collisionLabel: "COLLISION POINT",
+    collision: "Survival depends on a transition that had to begin before 2028. Firms that didn't move from labour arbitrage to platform are being absorbed or wound down.",
+    readings: [
+      { title: "Agency AI-Powered Workforce Forecast, 2030 \u2014 32,000 jobs / 7.5%", source: "FORRESTER \u00b7 2023 \u00b7 WORKFORCE MODELLING", url: "https://www.forrester.com/press-newsroom/forrester-agency-ai-workforce-2030/", target: "_blank", featured: false },
+      { title: "Generative AI and the Future of Work in America \u2014 ~30% of hours by 2030", source: "McKINSEY GLOBAL INSTITUTE \u00b7 2023 \u00b7 TASK MODELLING", url: "https://www.mckinsey.com/mgi/our-research/generative-ai-and-the-future-of-work-in-america", target: "_blank", featured: false },
+      { title: "Future of Jobs Report 2025 \u2014 the 2030 net-churn outlook", source: "WORLD ECONOMIC FORUM \u00b7 2025 \u00b7 EMPLOYER SURVEY", url: "https://www.weforum.org/publications/the-future-of-jobs-report-2025/", target: "_blank", featured: false }
+    ],
+    predictions: [
+      { n: "1", text: "Platform, data and software revenue exceeds 25% of revenue at one or more surviving majors." },
+      { n: "2", text: "At least one major firm formally retires or restructures the \"holding company\" label." },
+      { n: "3", text: "At least one transformative agency acquisition of an AI-infrastructure company." },
+      { n: "4", text: "Sector execution headcount is down 30% or more versus the 2025 peak." },
+      { n: "5", text: "Consultancies capture a measurable, reported share of former agency budgets." }
+    ]
+  },
+  {
+    year: "2031/32", label: "4\u20146 YEARS", title: "THE NEW EQUILIBRIUM", pressure: "STABILISING", pressureColor: "#35d68a",
+    industry: "A new shape settles. Survivors are either smaller high-margin platform businesses or significantly smaller service businesses. New revenue models harden around outcome-based fees, data licensing, and AI-infrastructure access. Brand relationships go direct, as AI increasingly intermediates between brand and consumer, where agencies once stood.",
+    hasAi: true,
+    ai: "The sector workforce is plausibly 40\u201360% smaller than its 2025 peak, and the remaining talent is fundamentally different in profile. Legacy agency brands are either leveraged into something new or quietly dissolved.",
+    hasExtra: false, hasStats: false,
+    collisionLabel: "COLLISION POINT",
+    collision: "The question is no longer whether the industry survives \u2014 it's what the industry is. Only brand, relationships and institutional knowledge are non-replicable.",
+    readings: [
+      { title: "Global AI Jobs Barometer \u2014 the optimistic, augmentation case", source: "PwC \u00b7 2025\u201326 \u00b7 JOB-ADS ANALYSIS", url: "https://www.pwc.com/gx/en/services/ai/ai-jobs-barometer.html", target: "_blank", featured: false }
+    ],
+    note: "\u25c7 Beyond 2030, published dated research thins out fast \u2014 this is where the working group's own forecasting carries the most weight.",
+    predictions: [
+      { n: "1", text: "Outcome-based or licensing fees exceed retainer and hours revenue at one or more major firms." },
+      { n: "2", text: "At least one legacy agency brand is fully dissolved or merged out of existence." },
+      { n: "3", text: "Total sector workforce sits 40\u201360% below the 2025 peak." },
+      { n: "4", text: "AI demonstrably intermediates a reported share of brand\u2013consumer interactions." },
+      { n: "5", text: "A platform, consultancy or private-equity firm completes a major roll-up of agency assets." }
+    ]
+  },
+  {
+    year: "2033", label: "END STATE", title: "THE DESTINATION", pressure: "RESOLVED", pressureColor: "#35d68a",
+    industry: "By 2033, each surviving firm is one of three things: a high-margin data and platform business, a much-diminished services firm, or no longer independent. The clients who stayed did so for judgment, accountability, and proprietary data; never for execution, which is now super cheap and instant.",
+    hasAi: true,
+    ai: "Human creativity, cultural judgment and ethical accountability are the premium products. The winners own data, infrastructure or trust \u2014 not labour. The transformation plans of 2026 are a distant memory; what matters is what the industry became after them.",
+    hasExtra: false, hasStats: false,
+    collisionLabel: "THE TAKEAWAY",
+    collision: "The industry's fate in 2033 was written in decisions made between 2026 and 2029. The window to choose what kind of business to become is open now \u2014 and it closes fast.",
+    readings: [],
+    note: "\u25c7 No credible study forecasts this far with specificity. The destination is a synthesis \u2014 the place to attach the working group's strongest convictions and dissents.",
+    predictions: [
+      { n: "1", text: "Surviving independents sort cleanly into platform-business, diminished-services, or acquired." },
+      { n: "2", text: "Owned data and identity is the top-cited reason clients retain a firm (survey evidence)." },
+      { n: "3", text: "Standard-channel execution is priced at or near zero." },
+      { n: "4", text: "Premium fees concentrate in judgment, creativity and accountability (pricing data)." },
+      { n: "5", text: "The 2026 transformation plans are publicly judged, with measurable outcomes." }
+    ]
+  }
+];
+
+const CAP_POINTS = [[20,235],[113,222],[206,196],[299,156],[392,102],[485,52],[578,20],[678,8]];
+const ADAPT_POINTS = [[20,238],[113,229],[206,219],[299,207],[392,193],[485,177],[578,160],[678,142]];
+
+function smoothPath(pts) {
+  let d = "M" + pts[0][0] + "," + pts[0][1];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[i], p1 = pts[i + 1];
+    const cx = (p0[0] + p1[0]) / 2;
+    d += " C" + cx + "," + p0[1] + " " + cx + "," + p1[1] + " " + p1[0] + "," + p1[1];
+  }
+  return d;
+}
+
+const TAB_BASE = "font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.06em;padding:8px 14px;background:none;cursor:pointer;border:1px solid rgba(255,255,255,0.22);color:#96969a;";
+const TAB_ACTIVE = "font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.06em;padding:8px 14px;background:#ff4b2e;cursor:pointer;border:1px solid #ff4b2e;color:#0a0a0b;";
+
+const TRACK_BTN_BASE = "font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.06em;padding:9px 14px;background:none;cursor:pointer;border:1px solid rgba(255,255,255,0.22);color:#96969a;";
+const TRACK_BTN_ACTIVE = "font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.06em;padding:9px 14px;background:#eeece6;cursor:pointer;border:1px solid #eeece6;color:#0a0a0b;";
+
+class Component extends DCLogic {
+  state = { activeIndex: 3, trackMode: "industry", navOpen: false };
+
+  renderVals() {
+    const idx = this.state.activeIndex;
+    const trackMode = this.state.trackMode;
+    const active = RAW_PERIODS[idx];
+    const periods = RAW_PERIODS.map((p, i) => ({
+      ...p,
+      select: () => this.setState({ activeIndex: i }),
+      tabStyle: i === idx ? TAB_ACTIVE : TAB_BASE
+    }));
+    return {
+      periods,
+      activePeriod: active,
+      activeIndex: idx,
+      sliderMax: RAW_PERIODS.length - 1,
+      rcLabel: trackMode === "industry" ? "INDUSTRY TRACK" : "AI PRESSURE",
+      rcText: trackMode === "industry" ? active.industry : (active.ai || active.industry),
+      industryBtnStyle: trackMode === "industry" ? TRACK_BTN_ACTIVE : TRACK_BTN_BASE,
+      aiBtnStyle: trackMode === "ai" ? TRACK_BTN_ACTIVE : TRACK_BTN_BASE,
+      setTrackIndustry: () => this.setState({ trackMode: "industry" }),
+      setTrackAI: () => this.setState({ trackMode: "ai" }),
+      onSlider: (e) => this.setState({ activeIndex: parseInt(e.target.value, 10) }),
+      navOpen: this.state.navOpen,
+      toggleNav: () => this.setState((s) => ({ navOpen: !s.navOpen })),
+      capabilityPath: smoothPath(CAP_POINTS),
+      adaptationPath: smoothPath(ADAPT_POINTS),
+      camps: [
+        { name: "EMPLOYER SURVEYS", sources: "WEF \u00b7 Forrester \u00b7 PwC", desc: "Ask employers what they plan to do by a fixed year. The most concrete dates and role-level numbers \u2014 and the least peer review." },
+        { name: "ECONOMIC MODELLING", sources: "McKinsey \u00b7 Goldman Sachs \u00b7 Acemoglu", desc: "Model task exposure and adoption. Dated share-of-hours figures, but explicitly no per-occupation job-loss claims." },
+        { name: "CAPABILITY EXTRAPOLATION", sources: "METR", desc: "Extrapolate when AI can complete tasks of a given length. Dated capability thresholds, not labour-market outcomes." },
+        { name: "OBSERVED USAGE", sources: "Anthropic \u00b7 Stanford \u00b7 Brookings", desc: "Measure what is happening right now rather than predicting dates. The reality check on every forecast above." }
+      ],
+      evidenceStats: [
+        { value: "~30%", label: "of US work hours automatable by 2030 \u00b7 McKinsey" },
+        { value: "7.5%", label: "of US agency jobs lost to automation by 2030 \u2014 \u224832,000 roles \u00b7 Forrester" },
+        { value: "2029", label: "central estimate for month-long software tasks at 50% reliability \u2014 half-probability 2027 on the faster trend \u00b7 METR" },
+        { value: "\u221213%", label: "early-career employment in the most AI-exposed jobs, already observed \u00b7 Stanford" },
+        { value: "+78M", label: "net new jobs globally by 2030 \u2014 170M created, 92M displaced \u00b7 WEF" }
+      ],
+      moves: [
+        { n: "01", title: "Move value up the stack", text: "Relocate from execution to judgment, accountability and proprietary insight before 2028 \u2014 not after the market has already re-priced labour to zero." },
+        { n: "02", title: "Own data and identity", text: "The only durable moat is owned, consented data infrastructure. Treat it as the core asset of the firm, not as one service line among many." },
+        { n: "03", title: "Re-price for outcomes", text: "Abandon labour-hour economics. Shift to outcome-based fees, data licensing and platform access while the relationship still carries pricing power." },
+        { n: "04", title: "Rebuild the talent pyramid", text: "The junior tier that fed the senior tier is gone. Design the smaller, AI-leveraged organisation deliberately \u2014 before attrition designs it for you." }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
