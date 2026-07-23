@@ -15,13 +15,11 @@ body{margin:0;background:#ffffff;color:#111111;font-family:'Nunito Sans',Arial,s
 *{box-sizing:border-box;}
 a{color:#29A9E0;text-decoration:none;}
 a:hover{color:#102A43;}
-@keyframes ch-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @keyframes ch-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 @media (max-width:600px){
   .ch-header-row{flex-wrap:wrap;row-gap:10px;}
   .ch-logo-link{gap:8px !important;}
   .ch-logo-ama,.ch-logo-tch{height:16px !important;}
-  .ch-marquee{display:none !important;}
 }
 @media (max-width:760px){
   .ch-period-grid{grid-template-columns:1fr !important;gap:20px !important;}
@@ -37,22 +35,12 @@ a:hover{color:#102A43;}
     <span>SCENARIO FORECAST &middot; v0.9 &middot; RANGE 2026&ndash;2033</span>
     <a href="https://www.amachicago.org/" target="_blank" style="color:#ffffff;">&larr; BACK TO AMA CHICAGO</a>
   </div>
-  <div class="ch-header-row" style="display:flex;align-items:center;gap:18px;padding:12px clamp(20px,4vw,48px);background:#ffffff;border-bottom:1px solid #e4e7ea;">
+  <div class="ch-header-row" style="display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px clamp(20px,4vw,48px);background:#ffffff;border-bottom:1px solid #e4e7ea;">
     <a href="./Collision%20Horizon.dc.html" class="ch-logo-link" style="display:flex;align-items:center;gap:14px;flex-shrink:0;">
       <img src="assets/ama-chicago-logo.png" alt="AMA Chicago" class="ch-logo-ama" style="height:28px;width:auto;display:block;"/>
       <span style="width:1px;height:24px;background:#d8dcdf;display:inline-block;"></span>
       <img src="assets/tch-logo.png" alt="The Collision Horizon" class="ch-logo-tch" style="height:24px;width:auto;display:block;"/>
     </a>
-    <div class="ch-marquee" style="flex:1;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);max-width:420px;min-width:0;">
-      <div style="display:flex;gap:36px;white-space:nowrap;animation:ch-marquee 24s linear infinite;font-weight:700;font-size:12px;letter-spacing:0.04em;color:#4A4A4A;width:max-content;">
-        <sc-for list="{{ periods }}" as="n" hint-placeholder-count="7">
-          <span>{{ n.year }} &middot; {{ n.title }}</span>
-        </sc-for>
-        <sc-for list="{{ periods }}" as="n2" hint-placeholder-count="7">
-          <span>{{ n2.year }} &middot; {{ n2.title }}</span>
-        </sc-for>
-      </div>
-    </div>
     <div style="position:relative;flex-shrink:0;">
       <button onClick="{{ toggleNav }}" style="background:none;border:2px solid #29A9E0;color:#102A43;width:36px;height:36px;border-radius:999px;cursor:pointer;font-size:16px;font-weight:800;">&rsaquo;</button>
       <sc-if value="{{ navOpen }}" hint-placeholder-val="{{ false }}">
