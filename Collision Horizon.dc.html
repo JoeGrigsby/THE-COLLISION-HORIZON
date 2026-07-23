@@ -19,6 +19,8 @@ a:hover{color:#102A43;}
 .ch-draw-path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.8s cubic-bezier(.22,.7,.2,1);}
 .ch-draw-path.ch-drawn{stroke-dashoffset:0;}
 .ch-draw-path.ch-drawn.ch-draw-delay{transition-delay:0.25s;}
+.ch-area-fill{clip-path:inset(0 100% 0 0);transition:clip-path 1.9s cubic-bezier(.22,.7,.2,1);transition-delay:0.1s;}
+.ch-area-fill.ch-drawn{clip-path:inset(0 0% 0 0);}
 @media (max-width:600px){
   .ch-header-row{flex-wrap:wrap;row-gap:10px;}
   .ch-logo-link{gap:8px !important;}
@@ -91,6 +93,13 @@ a:hover{color:#102A43;}
         <div style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;color:#111111;"><span style="width:10px;height:10px;border-radius:3px;background:#29A9E0;display:inline-block;"></span>Industry adaptation</div>
       </div>
       <svg viewBox="0 0 700 250" style="width:100%;height:auto;display:block;">
+        <defs>
+          <pattern id="ch-gap-hatch" patternUnits="userSpaceOnUse" width="7" height="7">
+            <rect width="7" height="7" fill="#F3EEFC"></rect>
+            <line x1="0" y1="0" x2="0" y2="7" stroke="#C6AEEA" stroke-width="1.5"></line>
+          </pattern>
+        </defs>
+        <path d="{{ gapAreaPath }}" class="ch-area-fill {{ chartDrawnClass }}" fill="url(#ch-gap-hatch)"></path>
         <path d="{{ adaptationPath }}" pathLength="1" class="ch-draw-path {{ chartDrawnClass }}" fill="none" stroke="#29A9E0" stroke-width="3" stroke-linecap="round"></path>
         <path d="{{ capabilityPath }}" pathLength="1" class="ch-draw-path ch-draw-delay {{ chartDrawnClass }}" fill="none" stroke="#E21D2F" stroke-width="3" stroke-linecap="round"></path>
       </svg>
@@ -466,6 +475,27 @@ function smoothPath(pts) {
   return d;
 }
 
+function smoothBetween(pts) {
+  let d = "";
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[i], p1 = pts[i + 1];
+    const cx = (p0[0] + p1[0]) / 2;
+    d += " C" + cx + "," + p0[1] + " " + cx + "," + p1[1] + " " + p1[0] + "," + p1[1];
+  }
+  return d;
+}
+
+function areaPath(lowerPts, upperPts) {
+  const upperRev = [...upperPts].reverse();
+  return (
+    "M" + lowerPts[0][0] + "," + lowerPts[0][1] +
+    smoothBetween(lowerPts) +
+    " L" + upperRev[0][0] + "," + upperRev[0][1] +
+    smoothBetween(upperRev) +
+    " Z"
+  );
+}
+
 const TAB_BASE = "font-weight:700;font-size:13px;letter-spacing:0.02em;padding:9px 16px;background:none;cursor:pointer;border:2px solid rgba(255,255,255,0.3);border-radius:999px;color:#ffffff;";
 const TAB_ACTIVE = "font-weight:800;font-size:13px;letter-spacing:0.02em;padding:9px 16px;background:#E21D2F;cursor:pointer;border:2px solid #E21D2F;border-radius:999px;color:#ffffff;";
 
@@ -506,6 +536,7 @@ class Component extends DCLogic {
       toggleNav: () => this.setState((s) => ({ navOpen: !s.navOpen })),
       capabilityPath: smoothPath(CAP_POINTS),
       adaptationPath: smoothPath(ADAPT_POINTS),
+      gapAreaPath: areaPath(ADAPT_POINTS, CAP_POINTS),
       chartDrawnClass: this.state.chartInView ? "ch-drawn" : "",
       camps: [
         { name: "EMPLOYER SURVEYS", sources: "WEF \u00b7 Forrester \u00b7 PwC", desc: "Ask employers what they plan to do by a fixed year. The most concrete dates and role-level numbers \u2014 and the least peer review." },
