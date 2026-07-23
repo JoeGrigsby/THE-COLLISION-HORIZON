@@ -157,6 +157,7 @@ a:hover{color:#102A43;}
                 <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:8px;">
                   <span style="font-weight:700;font-size:11px;letter-spacing:0.03em;color:#8a9099;text-transform:uppercase;">{{ pr.instrument }}</span>
                   <span style="font-weight:800;font-size:11px;letter-spacing:0.02em;color:#29A9E0;background:#EAF6FC;padding:2px 9px;border-radius:999px;flex-shrink:0;">SCORE {{ pr.score }}</span>
+                  <a href="{{ pr.detailUrl }}" style="font-weight:800;font-size:11px;letter-spacing:0.02em;color:#E21D2F;flex-shrink:0;">DETAILS &rarr;</a>
                 </div>
               </sc-if>
             </div>
@@ -209,6 +210,7 @@ a:hover{color:#102A43;}
                 <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:6px;">
                   <span style="font-weight:700;font-size:10px;letter-spacing:0.03em;color:#8a9099;text-transform:uppercase;">{{ ap.instrument }}</span>
                   <span style="font-weight:800;font-size:10px;color:#29A9E0;background:#EAF6FC;padding:1px 7px;border-radius:999px;flex-shrink:0;">{{ ap.score }}</span>
+                  <a href="{{ ap.detailUrl }}" style="font-weight:800;font-size:10px;color:#E21D2F;flex-shrink:0;">DETAILS &rarr;</a>
                 </div>
               </sc-if>
             </div>
@@ -473,12 +475,16 @@ class Component extends DCLogic {
   renderVals() {
     const idx = this.state.activeIndex;
     const trackMode = this.state.trackMode;
-    const active = RAW_PERIODS[idx];
     const periods = RAW_PERIODS.map((p, i) => ({
       ...p,
+      predictions: p.predictions.map((pr) => ({
+        ...pr,
+        detailUrl: "./Predictions%20Hub.dc.html#" + p.year + "-" + pr.n
+      })),
       select: () => this.setState({ activeIndex: i }),
       tabStyle: i === idx ? TAB_ACTIVE : TAB_BASE
     }));
+    const active = periods[idx];
     return {
       periods,
       activePeriod: active,
