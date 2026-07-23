@@ -140,6 +140,12 @@ a:hover{color:#102A43;}
       <div style="font-weight:800;font-size:12px;letter-spacing:0.06em;color:#E21D2F;margin-bottom:8px;text-transform:uppercase;">&#9889; {{ p.collisionLabel }}</div>
       <p style="font-size:16px;line-height:1.6;color:#111111;margin:0;">{{ p.collision }}</p>
     </div>
+    <sc-if value="{{ p.hasFieldUpdate }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#F1F7FC;border-radius:16px;border-left:5px solid #29A9E0;box-shadow:0 6px 20px rgba(16,42,67,0.08);padding:22px 26px;margin:0 0 36px;">
+        <div style="font-weight:800;font-size:12px;letter-spacing:0.06em;color:#102A43;margin-bottom:8px;text-transform:uppercase;">&#8635; Field Update</div>
+        <p style="font-size:16px;line-height:1.6;color:#111111;margin:0;">{{ p.fieldUpdate }}</p>
+      </div>
+    </sc-if>
     <div style="margin-bottom:36px;">
       <div style="font-weight:800;font-size:11px;letter-spacing:0.06em;color:#4A4A4A;margin-bottom:14px;text-transform:uppercase;">Further Reading &mdash; Evidence &amp; POV &middot; {{ p.year }}</div>
       <div style="display:flex;flex-direction:column;gap:10px;">
@@ -288,6 +294,23 @@ a:hover{color:#102A43;}
   </div>
 </section>
 
+<section style="padding:88px clamp(20px,4vw,48px);background:#ffffff;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#E21D2F;text-transform:uppercase;margin-bottom:22px;">What This Forecast Doesn't Yet Account For</div>
+    <h2 style="font-weight:900;font-size:clamp(26px,3.4vw,38px);margin:0 0 20px;color:#102A43;">Open questions the working group is tracking</h2>
+    <p style="font-size:17px;line-height:1.7;color:#111111;margin:0 0 48px;max-width:720px;">A living document means naming its own gaps, not just its predictions. These are the four biggest things this forecast doesn't yet handle well &mdash; flagged for the next revision rather than quietly ignored.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;">
+      <sc-for list="{{ openQuestions }}" as="oq" hint-placeholder-count="4">
+        <div style="background:#F2F4F5;border-radius:16px;padding:32px 26px;">
+          <div style="width:38px;height:38px;border-radius:50%;background:#E8B34A;color:#102A43;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;">{{ oq.n }}</div>
+          <h3 style="font-weight:800;font-size:18px;margin:0 0 12px;color:#102A43;">{{ oq.title }}</h3>
+          <p style="font-size:14px;line-height:1.6;color:#4A4A4A;margin:0;">{{ oq.text }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
 <footer style="padding:80px clamp(20px,4vw,48px) 44px;background:#102A43;">
   <div style="max-width:1100px;margin:0 auto;">
     <div style="font-weight:900;font-size:22px;letter-spacing:0.01em;margin-bottom:18px;color:#ffffff;">THE COLLISION HORIZON</div>
@@ -319,6 +342,8 @@ const RAW_PERIODS = [
     hasExtra: false, hasStats: false,
     collisionLabel: "COLLISION POINT",
     collision: "Consolidation is rational. But it is optimising an operating model whose junior tier is being automated out from under it.",
+    hasFieldUpdate: true,
+    fieldUpdate: "This phase is checkable now, and it's mostly confirmed \u2014 faster than modeled. Five holdcos (WPP, Omnicom, Havas, Publicis, Dentsu) had integrated AI platforms in market by CES 2026, months ahead of this window, and Meta's generative-creative tools are already live for advertisers. But the bigger surprise is a timing one: the 2030 prediction that a major firm formally retires the \"holding company\" label already happened \u2014 WPP did it in February 2026, four years early. The two curves aren't just diverging; the adaptation curve occasionally leads.",
     readings: [
       { title: "Canaries in the Coal Mine? Six Facts About AI's Employment Effects", source: "STANFORD DIGITAL ECONOMY LAB \u00b7 2025 \u00b7 PAYROLL DATA", url: "https://digitaleconomy.stanford.edu/publication/canaries-in-the-coal-mine-six-facts-about-the-recent-employment-effects-of-artificial-intelligence/", target: "_blank", featured: false },
       { title: "Future of Jobs Report 2025 \u2014 graphic design now declining", source: "WORLD ECONOMIC FORUM \u00b7 2025 \u00b7 EMPLOYER SURVEY", url: "https://www.weforum.org/publications/the-future-of-jobs-report-2025/", target: "_blank", featured: false },
@@ -342,6 +367,8 @@ const RAW_PERIODS = [
     hasStats: false,
     collisionLabel: "COLLISION POINT",
     collision: "The industry plans for a growth return precisely as capability crosses the line that makes its core service self-serve.",
+    hasFieldUpdate: true,
+    fieldUpdate: "Watch the gap between raw capability and the formal milestone. METR's time-horizon doubling has accelerated to roughly 4 months, and Claude Opus 4.6 is already near a 14.5-hour 50%-time-horizon \u2014 the curve is going vertical on schedule or faster. But the specific \"superhuman coder\" milestone this forecast borrows from AI 2027 is tracked by independent trackers as slipping to late 2027\u2013mid 2028, because SWE-bench Verified (~79%) is far ahead of the harder, more realistic SWE-bench Pro (~23%). Benchmark saturation and \"superhuman\" are not the same thing.",
     readings: [
       { title: "When Making the Work Stops Being the Work", source: "JOE GRIGSBY \u00b7 JULY 2026 \u00b7 PRODUCTION-DESIGN AUTOMATION", url: "./POV%20Production%20Design.dc.html", target: "_self", featured: true },
       { title: "Measuring AI Ability to Complete Long Tasks", source: "METR \u00b7 2025 \u00b7 CAPABILITY EXTRAPOLATION", url: "https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/", target: "_blank", featured: false },
@@ -409,6 +436,8 @@ const RAW_PERIODS = [
     hasExtra: false, hasStats: false,
     collisionLabel: "COLLISION POINT",
     collision: "Survival depends on a transition that had to begin before 2028. Firms that didn't move from labour arbitrage to platform are being absorbed or wound down.",
+    hasFieldUpdate: true,
+    fieldUpdate: "Several pieces of this phase are already trending true in 2026, not 2030: the holding-company label has already been formally retired (WPP's Elevate28); Omnicom's $13B acquisition of IPG closed in late 2025, consolidating for scale under AI-cost pressure; and the revenue bifurcation this phase describes is visible now — WPP's 2025 revenue fell 8.1% while Publicis grew. This suggests the whole 2028–2030 block may compress by 12–24 months rather than land exactly where scheduled — worth stress-testing in the next revision.",
     readings: [
       { title: "Agency AI-Powered Workforce Forecast, 2030 \u2014 32,000 jobs / 7.5%", source: "FORRESTER \u00b7 2023 \u00b7 WORKFORCE MODELLING", url: "https://www.forrester.com/press-newsroom/forrester-agency-ai-workforce-2030/", target: "_blank", featured: false },
       { title: "Generative AI and the Future of Work in America \u2014 ~30% of hours by 2030", source: "McKINSEY GLOBAL INSTITUTE \u00b7 2023 \u00b7 TASK MODELLING", url: "https://www.mckinsey.com/mgi/our-research/generative-ai-and-the-future-of-work-in-america", target: "_blank", featured: false },
@@ -556,6 +585,12 @@ class Component extends DCLogic {
         { n: "02", title: "Own data and identity", text: "The only durable moat is owned, consented data infrastructure. Treat it as the core asset of the firm, not as one service line among many." },
         { n: "03", title: "Re-price for outcomes", text: "Abandon labour-hour economics. Shift to outcome-based fees, data licensing and platform access while the relationship still carries pricing power." },
         { n: "04", title: "Rebuild the talent pyramid", text: "The junior tier that fed the senior tier is gone. Design the smaller, AI-leveraged organisation deliberately \u2014 before attrition designs it for you." }
+      ],
+      openQuestions: [
+        { n: "01", title: "A third curve: agentic commerce", text: "The 2031/32 \u201cbrand relationships go direct\u201d framing undersells that agentic shopping and browsing tools could route around brand-controlled touchpoints altogether, not just intermediate them. That's a third curve \u2014 not just AI capability vs. industry adaptation \u2014 and this forecast doesn't model it yet." },
+        { n: "02", title: "Consultancies as a safe harbour is untested", text: "The 2030 forecast assumes consultancies capture agency budgets. But Accenture, Capgemini and IBM are cutting headcount hard right now, partly AI-attributed. Consultancies may be as exposed as agencies, not a safe harbour above the fray." },
+        { n: "03", title: "Regulation is already active, not a 2029 event", text: "The 2029 AI-content regulation prediction assumes this arrives late. The EU AI Act's content-labeling rules are already live in 2026 and already affecting Meta ad creative. That prediction may already be partially resolved and should be re-scored." },
+        { n: "04", title: "Labor pushback isn't in the timeline anywhere", text: "A union-style response to junior-role erosion, akin to SAG-AFTRA in entertainment, doesn't appear anywhere in this forecast. Given how fast that erosion is showing up in trade press, it's a plausible 2027\u20132028 flashpoint worth adding as its own prediction." }
       ]
     };
   }
