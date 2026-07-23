@@ -47,7 +47,8 @@ a:hover{color:#102A43;}
         <div style="position:absolute;top:44px;right:0;background:#ffffff;border-radius:14px;box-shadow:0 12px 32px rgba(16,42,67,0.18);min-width:230px;display:flex;flex-direction:column;overflow:hidden;">
           <a href="./About.dc.html" style="padding:14px 18px;font-weight:700;font-size:13px;letter-spacing:0.02em;color:#102A43;border-bottom:1px solid #eef0f2;">ABOUT &amp; CONTRIBUTORS &rarr;</a>
           <a href="./Thought%20Leadership.dc.html" style="padding:14px 18px;font-weight:700;font-size:13px;letter-spacing:0.02em;color:#102A43;border-bottom:1px solid #eef0f2;">THOUGHT LEADERSHIP &rarr;</a>
-          <a href="./Predictions%20Hub.dc.html" style="padding:14px 18px;font-weight:700;font-size:13px;letter-spacing:0.02em;color:#102A43;">PREDICTIONS HUB &rarr;</a>
+          <a href="./Predictions%20Hub.dc.html" style="padding:14px 18px;font-weight:700;font-size:13px;letter-spacing:0.02em;color:#102A43;border-bottom:1px solid #eef0f2;">PREDICTIONS HUB &rarr;</a>
+          <a href="./Key%20Sources.dc.html" style="padding:14px 18px;font-weight:700;font-size:13px;letter-spacing:0.02em;color:#102A43;">KEY SOURCES &rarr;</a>
         </div>
       </sc-if>
     </div>
@@ -75,7 +76,7 @@ a:hover{color:#102A43;}
   </div>
 </section>
 
-<section style="padding:80px clamp(20px,4vw,48px);background:#F2F4F5;">
+<section id="two-curves" style="padding:80px clamp(20px,4vw,48px);background:#F2F4F5;scroll-margin-top:16px;">
   <div style="max-width:1000px;margin:0 auto;">
     <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#E21D2F;text-transform:uppercase;margin-bottom:26px;">The Two Curves</div>
     <p style="font-size:19px;line-height:1.7;color:#111111;margin:0 0 22px;">AI capability advances roughly geometrically. Each model generation compresses the cost and time of cognitive work by an order of magnitude; and once systems begin improving themselves, that compounding accelerates again.</p>
@@ -98,7 +99,7 @@ a:hover{color:#102A43;}
 </section>
 
 <sc-for list="{{ periods }}" as="p" hint-placeholder-count="7">
-<section style="padding:64px clamp(20px,4vw,48px);background:{{ p.bgColor }};">
+<section id="{{ p.anchorId }}" style="padding:64px clamp(20px,4vw,48px);background:{{ p.bgColor }};scroll-margin-top:16px;">
 <div class="ch-period-grid" style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:minmax(160px,220px) 1fr;gap:44px;" data-screen-label="{{ p.year }}">
   <div class="ch-period-label" style="position:sticky;top:96px;align-self:start;">
     <div style="font-weight:700;font-size:13px;color:#4A4A4A;letter-spacing:0.02em;margin-bottom:10px;">{{ p.year }} // {{ p.label }}</div>
@@ -224,7 +225,7 @@ a:hover{color:#102A43;}
   </div>
 </section>
 
-<section style="padding:88px clamp(20px,4vw,48px);background:#ffffff;">
+<section id="evidence-base" style="padding:88px clamp(20px,4vw,48px);background:#ffffff;scroll-margin-top:16px;">
   <div style="max-width:1100px;margin:0 auto;">
     <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#E21D2F;text-transform:uppercase;margin-bottom:22px;">The Evidence Base</div>
     <h2 style="font-weight:900;font-size:clamp(26px,3.4vw,38px);margin:0 0 20px;color:#102A43;">What the research actually says</h2>
@@ -477,6 +478,7 @@ class Component extends DCLogic {
     const trackMode = this.state.trackMode;
     const periods = RAW_PERIODS.map((p, i) => ({
       ...p,
+      anchorId: "period-" + p.year.replace("/", "-"),
       predictions: p.predictions.map((pr) => ({
         ...pr,
         detailUrl: "./Predictions%20Hub.dc.html#" + p.year + "-" + pr.n
@@ -521,6 +523,15 @@ class Component extends DCLogic {
         { n: "04", title: "Rebuild the talent pyramid", text: "The junior tier that fed the senior tier is gone. Design the smaller, AI-leveraged organisation deliberately \u2014 before attrition designs it for you." }
       ]
     };
+  }
+
+  componentDidMount() {
+    const id = window.location.hash.slice(1);
+    if (!id) return;
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 150);
   }
 }
 </script>
