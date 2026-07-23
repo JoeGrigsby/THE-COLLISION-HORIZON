@@ -54,7 +54,7 @@ a:hover{color:#102A43;}
 
           <div style="display:flex;flex-direction:column;gap:12px;">
             <sc-for list="{{ g.predictions }}" as="pr" hint-placeholder-count="5">
-              <div style="background:#ffffff;border-radius:16px;box-shadow:0 4px 14px rgba(16,42,67,0.06);overflow:hidden;">
+              <div id="{{ pr.anchorId }}" style="background:#ffffff;border-radius:16px;box-shadow:0 4px 14px rgba(16,42,67,0.06);overflow:hidden;scroll-margin-top:24px;">
                 <div onClick="{{ pr.toggle }}" style="display:flex;gap:16px;align-items:flex-start;padding:20px 22px;cursor:pointer;">
                   <div style="font-weight:800;font-size:13px;color:#ffffff;background:#102A43;flex-shrink:0;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;">{{ pr.n }}</div>
                   <div style="flex:1;padding-top:2px;">
@@ -257,6 +257,7 @@ class Component extends DCLogic {
         const isOpen = !!expanded[key];
         return {
           ...pr,
+          anchorId: "pred-" + key,
           isOpen,
           chevron: isOpen ? "▴ LESS" : "▾ MORE",
           noSources: !pr.sources || pr.sources.length === 0,
@@ -271,6 +272,16 @@ class Component extends DCLogic {
       })
     }));
     return { groups };
+  }
+
+  componentDidMount() {
+    const key = window.location.hash.slice(1);
+    if (!key) return;
+    this.setState((s) => ({ expanded: { ...s.expanded, [key]: true } }));
+    setTimeout(() => {
+      const el = document.getElementById("pred-" + key);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 150);
   }
 }
 </script>
