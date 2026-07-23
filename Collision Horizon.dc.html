@@ -16,6 +16,9 @@ body{margin:0;background:#ffffff;color:#111111;font-family:'Nunito Sans',Arial,s
 a{color:#29A9E0;text-decoration:none;}
 a:hover{color:#102A43;}
 @keyframes ch-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+.ch-draw-path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.8s cubic-bezier(.22,.7,.2,1);}
+.ch-draw-path.ch-drawn{stroke-dashoffset:0;}
+.ch-draw-path.ch-drawn.ch-draw-delay{transition-delay:0.25s;}
 @media (max-width:600px){
   .ch-header-row{flex-wrap:wrap;row-gap:10px;}
   .ch-logo-link{gap:8px !important;}
@@ -81,15 +84,15 @@ a:hover{color:#102A43;}
     <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#E21D2F;text-transform:uppercase;margin-bottom:26px;">The Two Curves</div>
     <p style="font-size:19px;line-height:1.7;color:#111111;margin:0 0 22px;">AI capability advances roughly geometrically. Each model generation compresses the cost and time of cognitive work by an order of magnitude; and once systems begin improving themselves, that compounding accelerates again.</p>
     <p style="font-size:19px;line-height:1.7;color:#111111;margin:0 0 44px;">The industry adapts the way large organisations always have: in budget cycles, reorganisations, and multi-year transformation plans. Plot both on one axis, and they diverge. By the late 2020s, the gap is no longer a delay to manage; it is a structural condition to survive.</p>
-    <div style="background:#ffffff;border-radius:20px;box-shadow:0 8px 28px rgba(16,42,67,0.08);padding:clamp(24px,4vw,40px);">
+    <div data-chart-observe style="background:#ffffff;border-radius:20px;box-shadow:0 8px 28px rgba(16,42,67,0.08);padding:clamp(24px,4vw,40px);">
       <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#4A4A4A;text-transform:uppercase;margin-bottom:20px;">Capability vs. Adaptation &mdash; Indexed</div>
       <div style="display:flex;gap:28px;margin-bottom:16px;">
         <div style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;color:#111111;"><span style="width:10px;height:10px;border-radius:3px;background:#E21D2F;display:inline-block;"></span>AI capability</div>
         <div style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;color:#111111;"><span style="width:10px;height:10px;border-radius:3px;background:#29A9E0;display:inline-block;"></span>Industry adaptation</div>
       </div>
       <svg viewBox="0 0 700 250" style="width:100%;height:auto;display:block;">
-        <path d="{{ adaptationPath }}" fill="none" stroke="#29A9E0" stroke-width="3" stroke-linecap="round"></path>
-        <path d="{{ capabilityPath }}" fill="none" stroke="#E21D2F" stroke-width="3" stroke-linecap="round"></path>
+        <path d="{{ adaptationPath }}" pathLength="1" class="ch-draw-path {{ chartDrawnClass }}" fill="none" stroke="#29A9E0" stroke-width="3" stroke-linecap="round"></path>
+        <path d="{{ capabilityPath }}" pathLength="1" class="ch-draw-path ch-draw-delay {{ chartDrawnClass }}" fill="none" stroke="#E21D2F" stroke-width="3" stroke-linecap="round"></path>
       </svg>
       <div style="display:flex;justify-content:space-between;font-weight:700;font-size:12px;color:#8a9099;margin-top:8px;">
         <span>2026</span><span>2029</span><span>2033</span>
@@ -471,7 +474,7 @@ const IND_ACTIVE = "font-weight:800;font-size:12px;letter-spacing:0.02em;padding
 const AI_ACTIVE = "font-weight:800;font-size:12px;letter-spacing:0.02em;padding:10px 16px;background:#E21D2F;cursor:pointer;border:2px solid #E21D2F;border-radius:999px;color:#ffffff;";
 
 class Component extends DCLogic {
-  state = { activeIndex: 3, trackMode: "industry", navOpen: false };
+  state = { activeIndex: 3, trackMode: "industry", navOpen: false, chartInView: false };
 
   renderVals() {
     const idx = this.state.activeIndex;
@@ -503,6 +506,7 @@ class Component extends DCLogic {
       toggleNav: () => this.setState((s) => ({ navOpen: !s.navOpen })),
       capabilityPath: smoothPath(CAP_POINTS),
       adaptationPath: smoothPath(ADAPT_POINTS),
+      chartDrawnClass: this.state.chartInView ? "ch-drawn" : "",
       camps: [
         { name: "EMPLOYER SURVEYS", sources: "WEF \u00b7 Forrester \u00b7 PwC", desc: "Ask employers what they plan to do by a fixed year. The most concrete dates and role-level numbers \u2014 and the least peer review." },
         { name: "ECONOMIC MODELLING", sources: "McKinsey \u00b7 Goldman Sachs \u00b7 Acemoglu", desc: "Model task exposure and adoption. Dated share-of-hours figures, but explicitly no per-occupation job-loss claims." },
@@ -527,11 +531,28 @@ class Component extends DCLogic {
 
   componentDidMount() {
     const id = window.location.hash.slice(1);
-    if (!id) return;
-    setTimeout(() => {
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 150);
+    if (id) {
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 150);
+    }
+
+    const chartEl = document.querySelector("[data-chart-observe]");
+    if (chartEl && "IntersectionObserver" in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            this.setState({ chartInView: true });
+            io.disconnect();
+          }
+        },
+        { threshold: 0.35 }
+      );
+      io.observe(chartEl);
+    } else {
+      this.setState({ chartInView: true });
+    }
   }
 }
 </script>
