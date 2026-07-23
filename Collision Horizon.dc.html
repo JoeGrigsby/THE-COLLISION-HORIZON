@@ -15,7 +15,6 @@ body{margin:0;background:#ffffff;color:#111111;font-family:'Nunito Sans',Arial,s
 *{box-sizing:border-box;}
 a{color:#29A9E0;text-decoration:none;}
 a:hover{color:#102A43;}
-@keyframes ch-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @keyframes ch-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 </style>
 </helmet>
@@ -27,22 +26,12 @@ a:hover{color:#102A43;}
     <span>SCENARIO FORECAST &middot; v0.9 &middot; RANGE 2026&ndash;2033</span>
     <a href="https://www.amachicago.org/" target="_blank" style="color:#ffffff;">&larr; BACK TO AMA CHICAGO</a>
   </div>
-  <div style="display:flex;align-items:center;gap:18px;padding:12px clamp(20px,4vw,48px);background:#ffffff;border-bottom:1px solid #e4e7ea;">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px clamp(20px,4vw,48px);background:#ffffff;border-bottom:1px solid #e4e7ea;">
     <a href="./Collision%20Horizon.dc.html" style="display:flex;align-items:center;gap:14px;flex-shrink:0;">
       <img src="assets/ama-chicago-logo.png" alt="AMA Chicago" style="height:28px;width:auto;display:block;"/>
       <span style="width:1px;height:24px;background:#d8dcdf;display:inline-block;"></span>
       <img src="assets/tch-logo.png" alt="The Collision Horizon" style="height:24px;width:auto;display:block;"/>
     </a>
-    <div style="flex:1;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);max-width:420px;">
-      <div style="display:flex;gap:36px;white-space:nowrap;animation:ch-marquee 24s linear infinite;font-weight:700;font-size:12px;letter-spacing:0.04em;color:#4A4A4A;width:max-content;">
-        <sc-for list="{{ periods }}" as="n" hint-placeholder-count="7">
-          <span>{{ n.year }} &middot; {{ n.title }}</span>
-        </sc-for>
-        <sc-for list="{{ periods }}" as="n2" hint-placeholder-count="7">
-          <span>{{ n2.year }} &middot; {{ n2.title }}</span>
-        </sc-for>
-      </div>
-    </div>
     <div style="position:relative;flex-shrink:0;">
       <button onClick="{{ toggleNav }}" style="background:none;border:2px solid #29A9E0;color:#102A43;width:36px;height:36px;border-radius:999px;cursor:pointer;font-size:16px;font-weight:800;">&rsaquo;</button>
       <sc-if value="{{ navOpen }}" hint-placeholder-val="{{ false }}">
@@ -152,7 +141,15 @@ a:hover{color:#102A43;}
         <sc-for list="{{ p.predictions }}" as="pr" hint-placeholder-count="5">
           <div style="display:flex;gap:16px;align-items:flex-start;">
             <div style="font-weight:800;font-size:13px;color:#ffffff;background:#102A43;flex-shrink:0;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;">{{ pr.n }}</div>
-            <div style="font-size:15px;line-height:1.55;color:#111111;padding-top:2px;">{{ pr.text }}</div>
+            <div style="flex:1;padding-top:2px;">
+              <div style="font-size:15px;line-height:1.55;color:#111111;">{{ pr.text }}</div>
+              <sc-if value="{{ pr.instrument }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:8px;">
+                  <span style="font-weight:700;font-size:11px;letter-spacing:0.03em;color:#8a9099;text-transform:uppercase;">{{ pr.instrument }}</span>
+                  <span style="font-weight:800;font-size:11px;letter-spacing:0.02em;color:#29A9E0;background:#EAF6FC;padding:2px 9px;border-radius:999px;flex-shrink:0;">SCORE {{ pr.score }}</span>
+                </div>
+              </sc-if>
+            </div>
           </div>
         </sc-for>
       </div>
@@ -196,7 +193,15 @@ a:hover{color:#102A43;}
         <sc-for list="{{ activePeriod.predictions }}" as="ap" hint-placeholder-count="5">
           <div style="display:flex;gap:10px;">
             <div style="font-weight:800;color:#ffffff;background:#102A43;font-size:12px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">{{ ap.n }}</div>
-            <div style="font-size:13px;line-height:1.5;color:#4A4A4A;">{{ ap.text }}</div>
+            <div style="flex:1;">
+              <div style="font-size:13px;line-height:1.5;color:#4A4A4A;">{{ ap.text }}</div>
+              <sc-if value="{{ ap.instrument }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:6px;">
+                  <span style="font-weight:700;font-size:10px;letter-spacing:0.03em;color:#8a9099;text-transform:uppercase;">{{ ap.instrument }}</span>
+                  <span style="font-weight:800;font-size:10px;color:#29A9E0;background:#EAF6FC;padding:1px 7px;border-radius:999px;flex-shrink:0;">{{ ap.score }}</span>
+                </div>
+              </sc-if>
+            </div>
           </div>
         </sc-for>
       </div>
@@ -318,11 +323,11 @@ const RAW_PERIODS = [
       { title: "How Will AI Affect the US Labor Market? \u2014 impact from 2027", source: "GOLDMAN SACHS \u00b7 2023\u201326 \u00b7 ECONOMIC MODELLING", url: "https://www.goldmansachs.com/insights/articles/how-will-ai-affect-the-us-labor-market", target: "_blank", featured: false }
     ],
     predictions: [
-      { n: "1", text: "AI matches or beats top human engineers on a standard public coding benchmark." },
-      { n: "2", text: "At least one lab announces a general-capability (\"AGI-class\") system." },
-      { n: "3", text: "One or more holding companies report flat-to-declining production revenue attributed to automation." },
-      { n: "4", text: "Brand and marketer RFPs begin explicitly requiring AI-native, self-serve production." },
-      { n: "5", text: "Dedicated production-design headcount declines measurably at two or more large agencies." }
+      { n: "1", text: "AI matches or beats top human engineers on a standard public coding benchmark.", instrument: "METR long-task tracker / SWE-bench leaderboard", score: "4.8" },
+      { n: "2", text: "At least one lab announces a general-capability (\"AGI-class\") system.", instrument: "Frontier lab blogs/announcements — no single tracker, definitional ambiguity", score: "4.0" },
+      { n: "3", text: "One or more holding companies report flat-to-declining production revenue attributed to automation.", instrument: "Holdco 10-Ks & earnings calls (SEC EDGAR)", score: "4.3" },
+      { n: "4", text: "Brand and marketer RFPs begin explicitly requiring AI-native, self-serve production.", instrument: "RFP language tracked via ANA / procurement consultancies (R3, Fuel55)", score: "4.1" },
+      { n: "5", text: "Dedicated production-design headcount declines measurably at two or more large agencies.", instrument: "LinkedIn Economic Graph + holdco layoff disclosures", score: "4.4" }
     ]
   },
   {
@@ -338,11 +343,11 @@ const RAW_PERIODS = [
       { title: "The Simple Macroeconomics of AI \u2014 the skeptical counterweight", source: "DARON ACEMOGLU, MIT \u00b7 2024\u201325 \u00b7 MACRO MODELLING", url: "https://www.nber.org/papers/w32487", target: "_blank", featured: false }
     ],
     predictions: [
-      { n: "1", text: "A frontier lab publicly claims an AI system that materially accelerates its own R&D." },
-      { n: "2", text: "At least one agency acquisition is explicitly for AI infrastructure, not capability or clients." },
-      { n: "3", text: "Public AI in marketing oversight hearings or an international summit take place." },
-      { n: "4", text: "Commercial end-to-end agentic marketing platforms (plan \u2192 create \u2192 publish \u2192 optimise) ship." },
-      { n: "5", text: "A consultancy with a marketing arm wins a flagship creative or production account due to its use of AI solutions." }
+      { n: "1", text: "A frontier lab publicly claims an AI system that materially accelerates its own R&D.", instrument: "Lab announcements / METR self-improvement tracking", score: "4.2" },
+      { n: "2", text: "At least one agency acquisition is explicitly for AI infrastructure, not capability or clients.", instrument: "M&A trade press (Ad Age, Campaign, WARC) + deal filings", score: "4.3" },
+      { n: "3", text: "Public AI in marketing oversight hearings or an international summit take place.", instrument: "Congressional/EU hearing calendars, AI Safety Summit series", score: "4.0" },
+      { n: "4", text: "Commercial end-to-end agentic marketing platforms (plan \u2192 create \u2192 publish \u2192 optimise) ship.", instrument: "Product launch tracking (Adobe, Salesforce, holdco platforms)", score: "4.6" },
+      { n: "5", text: "A consultancy with a marketing arm wins a flagship creative or production account due to its use of AI solutions.", instrument: "Trade press account-win reporting \u2014 needs on-record attribution", score: "4.1" }
     ]
   },
   {
@@ -363,11 +368,11 @@ const RAW_PERIODS = [
       { title: "Generative AI, the American Worker, and the Future of Work", source: "BROOKINGS \u00b7 2024 \u00b7 TASK EXPOSURE", url: "https://www.brookings.edu/articles/generative-ai-the-american-worker-and-the-future-of-work/", target: "_blank", featured: false }
     ],
     predictions: [
-      { n: "1", text: "Two or more major brands publicly disclose bringing core marketing execution in-house via AI." },
-      { n: "2", text: "Documented pitches where clients generate competitive strategy with AI in under a day." },
-      { n: "3", text: "Agency execution-role headcount is down 20% or more versus 2025." },
-      { n: "4", text: "New AI-content or synthetic-media regulation is enacted in at least one major market." },
-      { n: "5", text: "At least one mid-tier agency exits or is absorbed, explicitly citing AI disruption." }
+      { n: "1", text: "Two or more major brands publicly disclose bringing core marketing execution in-house via AI.", instrument: "Trade press + brand investor materials", score: "4.4" },
+      { n: "2", text: "Documented pitches where clients generate competitive strategy with AI in under a day.", instrument: "Trade press / agency new-business case studies", score: "4.0" },
+      { n: "3", text: "Agency execution-role headcount is down 20% or more versus 2025.", instrument: "BLS OEWS, LinkedIn Economic Graph", score: "4.5" },
+      { n: "4", text: "New AI-content or synthetic-media regulation is enacted in at least one major market.", instrument: "EU AI Act implementation tracker, IAPP, US state law trackers", score: "4.7" },
+      { n: "5", text: "At least one mid-tier agency exits or is absorbed, explicitly citing AI disruption.", instrument: "M&A trade press", score: "4.2" }
     ]
   },
   {
@@ -384,11 +389,11 @@ const RAW_PERIODS = [
       { title: "Future of Jobs Report 2025 \u2014 the 2030 net-churn outlook", source: "WORLD ECONOMIC FORUM \u00b7 2025 \u00b7 EMPLOYER SURVEY", url: "https://www.weforum.org/publications/the-future-of-jobs-report-2025/", target: "_blank", featured: false }
     ],
     predictions: [
-      { n: "1", text: "Platform, data and software revenue exceeds 25% of revenue at one or more surviving majors." },
-      { n: "2", text: "At least one major firm formally retires or restructures the \"holding company\" label." },
-      { n: "3", text: "At least one transformative agency acquisition of an AI-infrastructure company." },
-      { n: "4", text: "Sector execution headcount is down 30% or more versus the 2025 peak." },
-      { n: "5", text: "Consultancies capture a measurable, reported share of former agency budgets." }
+      { n: "1", text: "Platform, data and software revenue exceeds 25% of revenue at one or more surviving majors.", instrument: "Holdco 10-Ks, investor decks", score: "4.3" },
+      { n: "2", text: "At least one major firm formally retires or restructures the \"holding company\" label.", instrument: "Corporate rebranding announcements", score: "4.1" },
+      { n: "3", text: "At least one transformative agency acquisition of an AI-infrastructure company.", instrument: "M&A trade press, deal size disclosure", score: "4.4" },
+      { n: "4", text: "Sector execution headcount is down 30% or more versus the 2025 peak.", instrument: "BLS OEWS, LinkedIn Economic Graph", score: "4.6" },
+      { n: "5", text: "Consultancies capture a measurable, reported share of former agency budgets.", instrument: "Forrester/Gartner analyst reports", score: "4.0" }
     ]
   },
   {
@@ -404,11 +409,11 @@ const RAW_PERIODS = [
     ],
     note: "\u25c7 Beyond 2030, published dated research thins out fast \u2014 this is where the working group's own forecasting carries the most weight.",
     predictions: [
-      { n: "1", text: "Outcome-based or licensing fees exceed retainer and hours revenue at one or more major firms." },
-      { n: "2", text: "At least one legacy agency brand is fully dissolved or merged out of existence." },
-      { n: "3", text: "Total sector workforce sits 40\u201360% below the 2025 peak." },
-      { n: "4", text: "AI demonstrably intermediates a reported share of brand\u2013consumer interactions." },
-      { n: "5", text: "A platform, consultancy or private-equity firm completes a major roll-up of agency assets." }
+      { n: "1", text: "Outcome-based or licensing fees exceed retainer and hours revenue at one or more major firms.", instrument: "Holdco financial disclosures", score: "4.2" },
+      { n: "2", text: "At least one legacy agency brand is fully dissolved or merged out of existence.", instrument: "Trade press, corporate announcements", score: "4.7" },
+      { n: "3", text: "Total sector workforce sits 40\u201360% below the 2025 peak.", instrument: "BLS OEWS, WEF Future of Jobs, LinkedIn", score: "4.3" },
+      { n: "4", text: "AI demonstrably intermediates a reported share of brand\u2013consumer interactions.", instrument: "PwC AI Jobs Barometer, Gartner research", score: "4.0" },
+      { n: "5", text: "A platform, consultancy or private-equity firm completes a major roll-up of agency assets.", instrument: "M&A trade press", score: "4.4" }
     ]
   },
   {
@@ -422,11 +427,11 @@ const RAW_PERIODS = [
     readings: [],
     note: "\u25c7 No credible study forecasts this far with specificity. The destination is a synthesis \u2014 the place to attach the working group's strongest convictions and dissents.",
     predictions: [
-      { n: "1", text: "Surviving independents sort cleanly into platform-business, diminished-services, or acquired." },
-      { n: "2", text: "Owned data and identity is the top-cited reason clients retain a firm (survey evidence)." },
-      { n: "3", text: "Standard-channel execution is priced at or near zero." },
-      { n: "4", text: "Premium fees concentrate in judgment, creativity and accountability (pricing data)." },
-      { n: "5", text: "The 2026 transformation plans are publicly judged, with measurable outcomes." }
+      { n: "1", text: "Surviving independents sort cleanly into platform-business, diminished-services, or acquired.", instrument: "Analyst landscape retrospectives (Forrester, trade press)", score: "4.1" },
+      { n: "2", text: "Owned data and identity is the top-cited reason clients retain a firm (survey evidence).", instrument: "WFA/ANA/Forrester client surveys", score: "4.0" },
+      { n: "3", text: "Standard-channel execution is priced at or near zero.", instrument: "Industry pricing surveys, RFP rate-card data", score: "4.5" },
+      { n: "4", text: "Premium fees concentrate in judgment, creativity and accountability (pricing data).", instrument: "Fee-structure and pricing surveys", score: "4.2" },
+      { n: "5", text: "The 2026 transformation plans are publicly judged, with measurable outcomes.", instrument: "Retrospective trade press, industry case studies", score: "4.3" }
     ]
   }
 ];
