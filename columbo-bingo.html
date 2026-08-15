@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Columbo Bingo</title>
+<style>
+  :root{
+    --khaki: #b8a06a;
+    --khaki-dark: #8a7548;
+    --ink: #2b2621;
+    --paper: #f2e9d8;
+    --paper-dim: #e6d9bd;
+    --smoke: #6b6f76;
+    --smoke-dark: #3d4148;
+    --red: #8a2e2e;
+    --gold: #c9a94a;
+    --marked: #3d4148;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+  html,body{
+    margin:0; padding:0; min-height:100%;
+    background: radial-gradient(ellipse at top, #4a4640 0%, #201d1a 60%, #131110 100%);
+    color: var(--paper);
+    font-family: 'Courier New', Courier, monospace;
+  }
+  body{
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center;
+  }
+  .wrap{
+    width:100%; max-width:520px; padding: 18px 12px 40px;
+  }
+  header{
+    text-align:center; margin-bottom: 10px;
+  }
+  .badge{
+    display:inline-block; padding:3px 10px; border:1px solid var(--khaki);
+    border-radius:20px; font-size:11px; letter-spacing:2px; text-transform:uppercase;
+    color: var(--khaki); margin-bottom:8px;
+  }
+  h1{
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 30px; letter-spacing: 1px; margin: 0 0 4px;
+    color: var(--paper);
+    text-shadow: 0 2px 0 rgba(0,0,0,0.5);
+  }
+  h1 em{ color: var(--gold); font-style: normal; }
+  .subtitle{
+    font-size: 13px; color: #c9c2b3; line-height:1.5; margin: 0 auto;
+    max-width: 400px;
+  }
+  .toolbar{
+    display:flex; gap:8px; justify-content:center; margin: 16px 0 14px;
+    flex-wrap: wrap;
+  }
+  button{
+    font-family: inherit;
+    background: var(--khaki-dark);
+    color: var(--paper);
+    border: 1px solid #6f5e37;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.4);
+  }
+  button:active{ transform: translateY(1px); box-shadow: none; }
+  button.secondary{
+    background: transparent;
+    border: 1px solid var(--smoke);
+    color: #cfd2d6;
+  }
+  #status{
+    text-align:center; min-height: 22px; font-size: 13px;
+    color: var(--gold); letter-spacing: 1px; margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .board{
+    display:grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+    background: var(--khaki-dark);
+    padding: 6px;
+    border-radius: 10px;
+    border: 2px solid #5c4b28;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.05);
+  }
+  .cell{
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 6px;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center;
+    padding: 4px;
+    font-size: 11.5px;
+    line-height: 1.15;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid rgba(0,0,0,0.15);
+    transition: transform 0.08s ease, background 0.15s ease, color 0.15s ease;
+  }
+  .cell:active{ transform: scale(0.95); }
+  .cell.free{
+    background: var(--gold);
+    color: #2b2621;
+    font-family: Georgia, serif;
+    font-style: italic;
+    font-weight: 700;
+  }
+  .cell .txt{
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .cell.marked{
+    background: var(--marked);
+    color: var(--paper-dim);
+  }
+  .cell.marked::before{
+    content: "";
+    position: absolute;
+    inset: 8%;
+    border: 3px solid var(--red);
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
+    opacity: 0.9;
+    z-index: 1;
+    transform: rotate(-8deg);
+  }
+  .cell.win{
+    background: var(--red) !important;
+    color: var(--paper) !important;
+    animation: pulse 0.9s ease infinite;
+  }
+  .cell.win::before{
+    border-color: var(--gold);
+  }
+  @keyframes pulse{
+    0%,100%{ box-shadow: 0 0 0 0 rgba(201,169,74,0.6); }
+    50%{ box-shadow: 0 0 0 6px rgba(201,169,74,0); }
+  }
+  footer{
+    text-align:center; margin-top: 22px; font-size: 11px; color: #8b867a;
+    line-height:1.6;
+  }
+  .overlay{
+    position: fixed; inset: 0; display:none; align-items:center; justify-content:center;
+    background: rgba(10,9,8,0.86); z-index: 50; padding: 24px;
+  }
+  .overlay.show{ display:flex; }
+  .overlay-card{
+    background: var(--paper); color: var(--ink); border-radius: 12px;
+    padding: 28px 22px; text-align:center; max-width: 340px;
+    border: 3px solid var(--gold);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  }
+  .overlay-card h2{
+    font-family: Georgia, serif; font-size: 26px; margin: 0 0 8px;
+    color: var(--red);
+  }
+  .overlay-card p{ font-size: 13px; line-height:1.6; margin: 0 0 18px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="badge">Just One More Thing&hellip;</span>
+    <h1>Columbo <em>Bingo</em></h1>
+    <p class="subtitle">Tap a square the moment it happens on screen. Five in a row &mdash; across, down, or diagonal &mdash; and holler "Bingo, Lieutenant!"</p>
+  </header>
+
+  <div class="toolbar">
+    <button id="newCardBtn">New Card</button>
+    <button id="resetBtn" class="secondary">Clear Marks</button>
+  </div>
+
+  <div id="status"></div>
+
+  <div class="board" id="board"></div>
+
+  <footer>
+    One more thing&hellip; your card and marks are saved automatically, so you can walk away for a cigar and come right back.
+  </footer>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="overlay-card">
+    <h2>BINGO!</h2>
+    <p>Just one more thing &mdash; you called it. Start a new card for the next episode.</p>
+    <button id="overlayNewCard">New Card</button>
+    <button id="overlayClose" class="secondary">Keep Playing</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var TERMS = [
+    "Electronic", "A 2nd Victim", "A Misdirect", "One More Thing", "Wife",
+    "Dog", "Murder/Partner", "Cigar", "Food", "Illegal", "Car", "ID Issue",
+    "The Weather", "Remove Evidence", "Time Is Important", "Out Of Shape",
+    "Underestimated", "Disorganized", "Reenactment", "Staged Incident",
+    "Inheritance", "Sound As Clue", "Distance", "Disguise", "Keys/Locks",
+    "Playing Dumb", "Threatening The Murderer"
+  ];
+  var FREE_LABEL = "Just One More Thing... FREE";
+  var STORAGE_KEY = "columbo-bingo-v1";
+
+  var boardEl = document.getElementById('board');
+  var statusEl = document.getElementById('status');
+  var overlay = document.getElementById('overlay');
+
+  var LINES = (function(){
+    var lines = [];
+    for (var r = 0; r < 5; r++){
+      var row = []; for (var c = 0; c < 5; c++) row.push(r*5+c);
+      lines.push(row);
+    }
+    for (var c2 = 0; c2 < 5; c2++){
+      var col = []; for (var r2 = 0; r2 < 5; r2++) col.push(r2*5+c2);
+      lines.push(col);
+    }
+    var d1 = [], d2 = [];
+    for (var i = 0; i < 5; i++){ d1.push(i*5+i); d2.push(i*5+(4-i)); }
+    lines.push(d1); lines.push(d2);
+    return lines;
+  })();
+
+  function shuffle(arr){
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function newCardData(){
+    var picks = shuffle(TERMS).slice(0, 24);
+    var cells = [];
+    var idx = 0;
+    for (var i = 0; i < 25; i++){
+      if (i === 12){
+        cells.push({ label: FREE_LABEL, free: true, marked: true });
+      } else {
+        cells.push({ label: picks[idx++], free: false, marked: false });
+      }
+    }
+    return { cells: cells, celebrated: false };
+  }
+
+  function load(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return null;
+      var data = JSON.parse(raw);
+      if (!data || !Array.isArray(data.cells) || data.cells.length !== 25) return null;
+      return data;
+    }catch(e){ return null; }
+  }
+
+  function save(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+  }
+
+  var state = load() || newCardData();
+
+  function winningLines(){
+    return LINES.filter(function(line){
+      return line.every(function(i){ return state.cells[i].marked; });
+    });
+  }
+
+  function render(){
+    boardEl.innerHTML = '';
+    var winners = winningLines();
+    var winSet = {};
+    winners.forEach(function(line){ line.forEach(function(i){ winSet[i] = true; }); });
+
+    state.cells.forEach(function(cell, i){
+      var el = document.createElement('div');
+      el.className = 'cell' + (cell.free ? ' free' : '') + (cell.marked ? ' marked' : '') + (winSet[i] ? ' win' : '');
+      var span = document.createElement('span');
+      span.className = 'txt';
+      span.textContent = cell.label;
+      el.appendChild(span);
+      el.addEventListener('click', function(){ toggle(i); });
+      boardEl.appendChild(el);
+    });
+
+    if (winners.length > 0){
+      statusEl.textContent = 'BINGO! ' + winners.length + (winners.length === 1 ? ' line' : ' lines') + ' complete';
+      if (!state.celebrated){
+        state.celebrated = true;
+        overlay.classList.add('show');
+        save();
+      }
+    } else {
+      statusEl.textContent = '';
+    }
+  }
+
+  function toggle(i){
+    if (state.cells[i].free) return;
+    state.cells[i].marked = !state.cells[i].marked;
+    if (winningLines().length === 0) state.celebrated = false;
+    save();
+    render();
+  }
+
+  function startNewCard(){
+    state = newCardData();
+    save();
+    overlay.classList.remove('show');
+    render();
+  }
+
+  function clearMarks(){
+    state.cells.forEach(function(cell){ if (!cell.free) cell.marked = false; });
+    state.celebrated = false;
+    save();
+    overlay.classList.remove('show');
+    render();
+  }
+
+  document.getElementById('newCardBtn').addEventListener('click', startNewCard);
+  document.getElementById('resetBtn').addEventListener('click', clearMarks);
+  document.getElementById('overlayNewCard').addEventListener('click', startNewCard);
+  document.getElementById('overlayClose').addEventListener('click', function(){
+    overlay.classList.remove('show');
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
