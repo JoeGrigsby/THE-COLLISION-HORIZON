@@ -4,205 +4,382 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Joe Health Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
 <style>
   :root {
-    --bg: #f4f5f7;
+    --bg: #eef1ec;
+    --paper: #f7f8f4;
     --panel: #ffffff;
-    --border: #e2e4e9;
-    --text: #1b1e24;
-    --text-dim: #6b7280;
-    --accent: #2f6fed;
-    --good: #1a9e6b;
-    --warn: #d9a017;
-    --bad: #d64545;
-    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --border: #d8ded6;
+    --border-strong: #c1cabd;
+    --text: #1b241f;
+    --text-dim: #62705f;
+    --text-faint: #8b9788;
+    --accent: #2b6e6b;
+    --accent-soft: #2b6e6b1a;
+    --good: #3f8f5c;
+    --good-soft: #3f8f5c1a;
+    --warn: #b17c1f;
+    --warn-soft: #b17c1f1a;
+    --bad: #bd4d3d;
+    --bad-soft: #bd4d3d1a;
+    --shadow: 0 1px 2px rgba(30,40,32,0.06), 0 4px 14px rgba(30,40,32,0.05);
   }
   @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #14161a;
-      --panel: #1e2127;
-      --border: #2c303a;
-      --text: #e8e9ec;
-      --text-dim: #9aa0ac;
-      --accent: #5b8dff;
-      --good: #34c98a;
-      --warn: #e6b53d;
-      --bad: #ef5a5a;
-      --shadow: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
+    :root:not([data-theme="light"]) {
+      --bg: #101614;
+      --paper: #151d1a;
+      --panel: #192221;
+      --border: #2a3532;
+      --border-strong: #3a4844;
+      --text: #e8ede8;
+      --text-dim: #93a49b;
+      --text-faint: #647169;
+      --accent: #62c2ba;
+      --accent-soft: #62c2ba22;
+      --good: #6bc78d;
+      --good-soft: #6bc78d22;
+      --warn: #e0b262;
+      --warn-soft: #e0b26222;
+      --bad: #e28271;
+      --bad-soft: #e2827122;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 6px 18px rgba(0,0,0,0.28);
     }
   }
+  :root[data-theme="dark"] {
+    --bg: #101614;
+    --paper: #151d1a;
+    --panel: #192221;
+    --border: #2a3532;
+    --border-strong: #3a4844;
+    --text: #e8ede8;
+    --text-dim: #93a49b;
+    --text-faint: #647169;
+    --accent: #62c2ba;
+    --accent-soft: #62c2ba22;
+    --good: #6bc78d;
+    --good-soft: #6bc78d22;
+    --warn: #e0b262;
+    --warn-soft: #e0b26222;
+    --bad: #e28271;
+    --bad-soft: #e2827122;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 6px 18px rgba(0,0,0,0.28);
+  }
+
   * { box-sizing: border-box; }
+  html { color-scheme: light dark; }
   body {
     margin: 0;
-    padding: 24px 16px 60px;
+    padding: 28px 16px 56px;
     background: var(--bg);
     color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
-  .wrap { max-width: 1080px; margin: 0 auto; }
-  header { margin-bottom: 20px; }
-  h1 { font-size: 1.5rem; margin: 0 0 4px; }
-  .sub { color: var(--text-dim); font-size: 0.9rem; }
+  .wrap { max-width: 1120px; margin: 0 auto; }
 
+  h1, h2 { font-family: "Newsreader", Georgia, serif; text-wrap: balance; }
+
+  /* ---------- Masthead ---------- */
+  .masthead {
+    position: relative;
+    background:
+      repeating-linear-gradient(to right, transparent, transparent 27px, var(--border) 27px, var(--border) 28px),
+      repeating-linear-gradient(to bottom, transparent, transparent 27px, var(--border) 27px, var(--border) 28px),
+      var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 24px;
+    margin-bottom: 22px;
+    overflow: hidden;
+  }
+  .masthead::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 55%, var(--bg) 130%);
+    pointer-events: none;
+  }
+  .masthead-row {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .masthead h1 {
+    font-size: clamp(1.5rem, 1.15rem + 1.4vw, 2rem);
+    font-weight: 600;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+  .masthead .sub {
+    color: var(--text-dim);
+    font-size: 0.92rem;
+    max-width: 46ch;
+  }
+  .chart-meta {
+    text-align: right;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.72rem;
+    color: var(--text-faint);
+    letter-spacing: 0.03em;
+    line-height: 1.6;
+  }
+  .chart-meta .k { text-transform: uppercase; }
+  .chart-meta .v { color: var(--text-dim); }
+
+  .export-row {
+    position: relative;
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .export-row button {
+    background: var(--panel);
+    border: 1px solid var(--border-strong);
+    color: var(--text-dim);
+    padding: 6px 12px;
+    border-radius: 7px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .export-row button:hover { border-color: var(--accent); color: var(--accent); }
+  .export-row button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* ---------- Summary tiles ---------- */
   .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
     gap: 12px;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
   }
   .card {
     background: var(--panel);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 14px 16px;
+    padding: 14px 16px 12px;
     box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .card .label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
   }
   .card .label {
     font-size: 0.72rem;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
     color: var(--text-dim);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    font-weight: 600;
   }
-  .card .value {
-    font-size: 1.6rem;
-    font-weight: 700;
-    margin-top: 4px;
+  .chip {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.02em;
+    padding: 2px 7px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+  .chip.good { background: var(--good-soft); color: var(--good); }
+  .chip.warn { background: var(--warn-soft); color: var(--warn); }
+  .chip.bad  { background: var(--bad-soft);  color: var(--bad); }
+  .chip.neutral { background: var(--border); color: var(--text-faint); }
+
+  .card .value-row {
     display: flex;
     align-items: baseline;
-    gap: 6px;
+    gap: 8px;
   }
-  .card .unit { font-size: 0.85rem; font-weight: 500; color: var(--text-dim); }
-  .card .meta { font-size: 0.78rem; margin-top: 6px; color: var(--text-dim); }
-  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-  .dot.good { background: var(--good); }
-  .dot.warn { background: var(--warn); }
-  .dot.bad { background: var(--bad); }
+  .card .value {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 1.7rem;
+    font-weight: 500;
+  }
+  .card .unit { font-size: 0.78rem; color: var(--text-faint); }
+  .card .delta {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.76rem;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+  .card .delta.good { color: var(--good); }
+  .card .delta.bad { color: var(--bad); }
+  .card .delta.flat { color: var(--text-faint); }
+  .card .spark { height: 34px; margin-top: 2px; }
+  .card .meta { font-size: 0.74rem; color: var(--text-faint); }
+  .card.empty .value { color: var(--text-faint); font-size: 0.95rem; font-family: "IBM Plex Sans", sans-serif; }
 
+  /* ---------- Metric detail panels ---------- */
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
     gap: 16px;
   }
   section.metric {
     background: var(--panel);
     border: 1px solid var(--border);
     border-radius: 14px;
-    padding: 16px 18px 18px;
+    padding: 18px 20px 20px;
     box-shadow: var(--shadow);
   }
   .metric-head {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+    align-items: baseline;
+    margin-bottom: 4px;
     gap: 8px;
     flex-wrap: wrap;
   }
-  .metric-head h2 { font-size: 1.05rem; margin: 0; }
-  .metric-head .target { font-size: 0.76rem; color: var(--text-dim); }
+  .metric-head h2 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  .metric .target {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.7rem;
+    color: var(--text-faint);
+    letter-spacing: 0.01em;
+    margin-bottom: 14px;
+    padding-left: 10px;
+    border-left: 2px solid var(--border-strong);
+  }
+  .metric .target .k { text-transform: uppercase; color: var(--text-dim); }
 
   form.entry {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
     align-items: end;
   }
   form.entry .field { display: flex; flex-direction: column; gap: 4px; }
-  form.entry label { font-size: 0.7rem; color: var(--text-dim); }
+  form.entry label {
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-faint);
+  }
   form.entry input {
     background: var(--bg);
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-strong);
     border-radius: 8px;
     padding: 7px 9px;
     color: var(--text);
-    font-size: 0.9rem;
-    width: 110px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.88rem;
+    width: 108px;
   }
-  form.entry input[type="date"] { width: 140px; }
+  form.entry input[type="date"] { width: 138px; font-family: "IBM Plex Sans", sans-serif; }
+  form.entry input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
   form.entry button {
     background: var(--accent);
-    color: #fff;
+    color: var(--panel);
     border: none;
     border-radius: 8px;
-    padding: 8px 14px;
+    padding: 8px 16px;
+    font-family: "IBM Plex Sans", sans-serif;
     font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
   }
-  form.entry button:hover { opacity: 0.9; }
+  form.entry button:hover { filter: brightness(1.08); }
+  form.entry button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-  canvas { max-height: 200px; }
+  .chart-wrap { height: 200px; }
+  canvas { max-height: 100%; }
 
   table.log {
     width: 100%;
     border-collapse: collapse;
     margin-top: 12px;
-    font-size: 0.8rem;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 0.78rem;
   }
   table.log th, table.log td {
     text-align: left;
-    padding: 5px 6px;
+    padding: 6px 6px;
     border-bottom: 1px solid var(--border);
     color: var(--text-dim);
+    font-variant-numeric: tabular-nums;
   }
-  table.log th { font-weight: 600; color: var(--text); }
+  table.log th {
+    font-weight: 600;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    font-size: 0.66rem;
+    letter-spacing: 0.03em;
+  }
   table.log tr:last-child td { color: var(--text); }
   table.log .del {
     cursor: pointer;
     color: var(--bad);
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     background: none;
     border: none;
     padding: 0;
+    font-family: "IBM Plex Sans", sans-serif;
   }
-  details.logwrap { margin-top: 4px; }
+  table.log .del:hover { text-decoration: underline; }
+  .table-scroll { overflow-x: auto; }
+
+  details.logwrap { margin-top: 2px; }
   details.logwrap summary {
     cursor: pointer;
-    font-size: 0.78rem;
+    font-size: 0.76rem;
     color: var(--accent);
     user-select: none;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
   }
-  .empty { color: var(--text-dim); font-size: 0.85rem; padding: 10px 0; }
+  details.logwrap summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .empty-state {
+    color: var(--text-faint);
+    font-size: 0.85rem;
+    padding: 8px 0 4px;
+  }
+
   footer {
     text-align: center;
-    color: var(--text-dim);
-    font-size: 0.75rem;
-    margin-top: 32px;
+    color: var(--text-faint);
+    font-size: 0.74rem;
+    margin-top: 30px;
   }
-  .export-row {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    margin-bottom: 16px;
+
+  @media (max-width: 480px) {
+    .masthead-row { flex-direction: column; align-items: flex-start; }
+    .chart-meta { text-align: left; }
   }
-  .export-row button {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 0.78rem;
-    cursor: pointer;
-  }
-  .export-row button:hover { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <h1>Joe Health Dashboard</h1>
-    <div class="sub">Five numbers, tracked over time: Weight, Blood Pressure, Steps, Uric Acid, Sleep. Data is saved locally in this browser.</div>
-  </header>
 
-  <div class="export-row">
-    <button id="exportBtn">Export data (JSON)</button>
-    <button id="importBtn">Import data</button>
-    <input type="file" id="importFile" accept="application/json" style="display:none">
+  <div class="masthead">
+    <div class="masthead-row">
+      <div>
+        <h1>Joe Health Dashboard</h1>
+        <div class="sub">Five numbers, tracked over time — weight, blood pressure, steps, uric acid, sleep — kept simple enough to check daily.</div>
+      </div>
+      <div class="chart-meta" id="chartMeta"></div>
+    </div>
+    <div class="export-row">
+      <button id="exportBtn" type="button">Export log</button>
+      <button id="importBtn" type="button">Import log</button>
+      <input type="file" id="importFile" accept="application/json" style="display:none">
+    </div>
   </div>
 
   <div class="cards" id="summaryCards"></div>
@@ -218,16 +395,17 @@ const METRICS = [
     key: "weight",
     title: "Weight",
     unit: "lb",
-    color: "#2f6fed",
+    color: "#2b6e6b",
     fields: [{ name: "value", label: "Weight (lb)", type: "number", step: "0.1" }],
-    target: "Trend toward < 180 lb (7-day average)",
+    target: "Trend toward &lt; 180 lb, 7-day average",
+    lowerIsBetter: true,
     summarize(entries) {
       if (!entries.length) return null;
       const last7 = entries.slice(-7);
       const avg = last7.reduce((s, e) => s + e.value, 0) / last7.length;
       const latest = entries[entries.length - 1].value;
       const status = avg < 180 ? "good" : avg < 190 ? "warn" : "bad";
-      return { display: latest.toFixed(1), meta: `7-day avg: ${avg.toFixed(1)} lb`, status };
+      return { display: latest.toFixed(1), meta: `7-day avg ${avg.toFixed(1)} lb`, status };
     },
     chartValue: e => e.value,
   },
@@ -235,12 +413,13 @@ const METRICS = [
     key: "bp",
     title: "Blood Pressure",
     unit: "mmHg",
-    color: "#d64545",
+    color: "#bd4d3d",
     fields: [
       { name: "systolic", label: "Systolic", type: "number", step: "1" },
       { name: "diastolic", label: "Diastolic", type: "number", step: "1" },
     ],
-    target: "Ultimately average < 120/80",
+    target: "Ultimately average &lt; 120/80",
+    lowerIsBetter: true,
     summarize(entries) {
       if (!entries.length) return null;
       const latest = entries[entries.length - 1];
@@ -250,21 +429,23 @@ const METRICS = [
     },
     chartValue: e => e.systolic,
     chartValue2: e => e.diastolic,
+    deltaValue: e => e.systolic,
   },
   {
     key: "steps",
     title: "Steps",
     unit: "steps",
-    color: "#1a9e6b",
+    color: "#3f8f5c",
     fields: [{ name: "value", label: "Steps", type: "number", step: "1" }],
-    target: "Start 5,000/day, build toward 7,000-8,000",
+    target: "Start 5,000/day, build toward 7,000–8,000",
+    lowerIsBetter: false,
     summarize(entries) {
       if (!entries.length) return null;
       const latest = entries[entries.length - 1].value;
       const last7 = entries.slice(-7);
       const avg = last7.reduce((s, e) => s + e.value, 0) / last7.length;
       const status = avg >= 7000 ? "good" : avg >= 5000 ? "warn" : "bad";
-      return { display: latest.toLocaleString(), meta: `7-day avg: ${Math.round(avg).toLocaleString()}`, status };
+      return { display: latest.toLocaleString(), meta: `7-day avg ${Math.round(avg).toLocaleString()}`, status };
     },
     chartValue: e => e.value,
   },
@@ -272,14 +453,15 @@ const METRICS = [
     key: "uric_acid",
     title: "Uric Acid",
     unit: "mg/dL",
-    color: "#d9a017",
+    color: "#b17c1f",
     fields: [{ name: "value", label: "Uric acid (mg/dL)", type: "number", step: "0.1" }],
-    target: "Generally < 6 mg/dL for gout management",
+    target: "Generally &lt; 6 mg/dL for gout management",
+    lowerIsBetter: true,
     summarize(entries) {
       if (!entries.length) return null;
       const latest = entries[entries.length - 1];
       const status = latest.value < 6 ? "good" : latest.value < 7 ? "warn" : "bad";
-      return { display: latest.value.toFixed(1), meta: `As of ${latest.date}`, status };
+      return { display: latest.value.toFixed(1), meta: `Lab result, ${latest.date}`, status };
     },
     chartValue: e => e.value,
   },
@@ -287,22 +469,29 @@ const METRICS = [
     key: "sleep",
     title: "Sleep",
     unit: "hrs",
-    color: "#8a5cf6",
+    color: "#6a5fc7",
     fields: [{ name: "value", label: "Hours slept", type: "number", step: "0.1" }],
-    target: "7-9 hours + consistent sleep-apnea treatment",
+    target: "7–9 hours, consistent apnea treatment",
+    lowerIsBetter: false,
     summarize(entries) {
       if (!entries.length) return null;
       const last7 = entries.slice(-7);
       const avg = last7.reduce((s, e) => s + e.value, 0) / last7.length;
       const latest = entries[entries.length - 1].value;
       const status = avg >= 7 ? "good" : avg >= 6 ? "warn" : "bad";
-      return { display: latest.toFixed(1), meta: `7-day avg: ${avg.toFixed(1)} hrs`, status };
+      return { display: latest.toFixed(1), meta: `7-day avg ${avg.toFixed(1)} hrs`, status };
     },
     chartValue: e => e.value,
   },
 ];
 
+const STATUS_LABEL = { good: "On track", warn: "Watch", bad: "Attention" };
+
 const STORAGE_KEY = "joe_health_dashboard_v1";
+
+function cssVar(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
 
 function loadData() {
   try {
@@ -345,20 +534,58 @@ function deleteEntry(metricKey, date) {
 }
 
 const charts = {};
+const sparks = {};
+
+function renderChartMeta() {
+  const el = document.getElementById("chartMeta");
+  const allDates = METRICS.flatMap(m => data[m.key].map(e => e.date));
+  const totalEntries = allDates.length;
+  const since = allDates.length ? allDates.sort()[0] : todayStr();
+  el.innerHTML = `
+    <div><span class="k">Log started</span> <span class="v">${since}</span></div>
+    <div><span class="k">Entries</span> <span class="v">${totalEntries}</span></div>
+  `;
+}
+
+function computeDelta(m, entries) {
+  const valueFn = m.deltaValue || m.chartValue;
+  if (entries.length < 2) return null;
+  const diff = valueFn(entries[entries.length - 1]) - valueFn(entries[entries.length - 2]);
+  if (Math.abs(diff) < 1e-9) return { diff: 0, cls: "flat", sign: "–" };
+  const improving = m.lowerIsBetter ? diff < 0 : diff > 0;
+  const arrow = diff > 0 ? "▲" : "▼";
+  return { diff, cls: improving ? "good" : "bad", sign: arrow };
+}
 
 function renderSummary() {
   const el = document.getElementById("summaryCards");
   el.innerHTML = "";
   METRICS.forEach(m => {
-    const s = m.summarize(data[m.key]);
+    const entries = data[m.key];
+    const s = m.summarize(entries);
     const card = document.createElement("div");
-    card.className = "card";
+    card.className = "card" + (s ? "" : " empty");
     if (!s) {
-      card.innerHTML = `<div class="label">${m.title}</div><div class="value" style="color:var(--text-dim);font-size:1rem;">No data yet</div>`;
-    } else {
       card.innerHTML = `
-        <div class="label"><span>${m.title}</span><span class="dot ${s.status}"></span></div>
-        <div class="value">${s.display}<span class="unit">${m.unit}</span></div>
+        <div class="label-row"><span class="label">${m.title}</span><span class="chip neutral">No data</span></div>
+        <div class="value-row"><span class="value">Log first entry</span></div>
+      `;
+    } else {
+      const delta = computeDelta(m, entries);
+      const deltaHtml = delta
+        ? `<span class="delta ${delta.cls}">${delta.sign} ${Math.abs(delta.diff).toFixed(delta.diff % 1 === 0 ? 0 : 1)}</span>`
+        : "";
+      card.innerHTML = `
+        <div class="label-row">
+          <span class="label">${m.title}</span>
+          <span class="chip ${s.status}">${STATUS_LABEL[s.status]}</span>
+        </div>
+        <div class="value-row">
+          <span class="value">${s.display}</span>
+          <span class="unit">${m.unit}</span>
+          ${deltaHtml}
+        </div>
+        <canvas class="spark" id="spark-${m.key}"></canvas>
         <div class="meta">${s.meta}</div>
       `;
     }
@@ -371,13 +598,15 @@ function buildForm(m) {
   form.className = "entry";
   const dateField = document.createElement("div");
   dateField.className = "field";
-  dateField.innerHTML = `<label>Date</label><input type="date" name="date" value="${todayStr()}" required>`;
+  const dateId = `date-${m.key}`;
+  dateField.innerHTML = `<label for="${dateId}">Date</label><input id="${dateId}" type="date" name="date" value="${todayStr()}" required>`;
   form.appendChild(dateField);
 
   m.fields.forEach(f => {
     const wrap = document.createElement("div");
     wrap.className = "field";
-    wrap.innerHTML = `<label>${f.label}</label><input type="${f.type}" step="${f.step || 'any'}" name="${f.name}" required>`;
+    const id = `${f.name}-${m.key}`;
+    wrap.innerHTML = `<label for="${id}">${f.label}</label><input id="${id}" type="${f.type}" step="${f.step || 'any'}" name="${f.name}" required>`;
     form.appendChild(wrap);
   });
 
@@ -409,6 +638,8 @@ function buildLogTable(m) {
   details.className = "logwrap";
   const entries = data[m.key];
   details.innerHTML = `<summary>View log (${entries.length})</summary>`;
+  const scroll = document.createElement("div");
+  scroll.className = "table-scroll";
   const table = document.createElement("table");
   table.className = "log";
   const headCols = ["Date", ...m.fields.map(f => f.label), ""];
@@ -421,7 +652,8 @@ function buildLogTable(m) {
     tbody.appendChild(tr);
   });
   table.appendChild(tbody);
-  details.appendChild(table);
+  scroll.appendChild(table);
+  details.appendChild(scroll);
   details.addEventListener("click", (ev) => {
     if (ev.target.classList.contains("del")) {
       deleteEntry(m.key, ev.target.dataset.date);
@@ -437,14 +669,13 @@ function renderMetricSections() {
     const section = document.createElement("section");
     section.className = "metric";
     section.innerHTML = `
-      <div class="metric-head">
-        <h2>${m.title}</h2>
-        <div class="target">${m.target}</div>
-      </div>
+      <div class="metric-head"><h2>${m.title}</h2></div>
+      <div class="target"><span class="k">Target</span> · ${m.target}</div>
     `;
     section.appendChild(buildForm(m));
 
     const canvasWrap = document.createElement("div");
+    canvasWrap.className = "chart-wrap";
     const canvas = document.createElement("canvas");
     canvas.id = `chart-${m.key}`;
     canvasWrap.appendChild(canvas);
@@ -452,8 +683,8 @@ function renderMetricSections() {
 
     if (!data[m.key].length) {
       const empty = document.createElement("div");
-      empty.className = "empty";
-      empty.textContent = "Log your first entry to see a trend.";
+      empty.className = "empty-state";
+      empty.textContent = "Log your first entry to see a trend line here.";
       section.appendChild(empty);
     }
 
@@ -462,34 +693,48 @@ function renderMetricSections() {
   });
 }
 
+function destroyChart(store, key) {
+  if (store[key]) { store[key].destroy(); delete store[key]; }
+}
+
 function renderCharts() {
   if (typeof Chart === "undefined") return;
+  const gridColor = cssVar("--border");
+  const textColor = cssVar("--text-faint");
+
   METRICS.forEach(m => {
     const canvas = document.getElementById(`chart-${m.key}`);
+    destroyChart(charts, m.key);
     if (!canvas) return;
     const entries = data[m.key];
-    if (charts[m.key]) { charts[m.key].destroy(); delete charts[m.key]; }
     if (!entries.length) return;
 
     const labels = entries.map(e => e.date);
+    const n = entries.length;
+    const ptRadius = (i) => (i === n - 1 ? 5 : 2.5);
+
     const datasets = [{
       label: m.title,
       data: entries.map(m.chartValue),
       borderColor: m.color,
-      backgroundColor: m.color + "33",
+      backgroundColor: m.color + "26",
       tension: 0.3,
-      pointRadius: 3,
+      pointRadius: entries.map((_, i) => ptRadius(i)),
+      pointBackgroundColor: m.color,
+      pointBorderColor: m.color,
+      borderWidth: 2,
       fill: true,
     }];
     if (m.chartValue2) {
       datasets.push({
-        label: m.title + " (2)",
+        label: m.title + " (diastolic)",
         data: entries.map(m.chartValue2),
         borderColor: m.color + "99",
         backgroundColor: "transparent",
         borderDash: [4, 3],
         tension: 0.3,
-        pointRadius: 3,
+        pointRadius: entries.map((_, i) => ptRadius(i) - 1),
+        borderWidth: 2,
       });
     }
 
@@ -499,10 +744,61 @@ function renderCharts() {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { display: !!m.chartValue2 } },
+        interaction: { intersect: false, mode: "index" },
+        plugins: {
+          legend: { display: !!m.chartValue2, labels: { color: textColor, boxWidth: 12, font: { family: "IBM Plex Sans", size: 11 } } },
+        },
         scales: {
-          x: { ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 6 } },
-          y: { beginAtZero: false },
+          x: {
+            ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 6, color: textColor, font: { family: "IBM Plex Mono", size: 10 } },
+            grid: { color: gridColor },
+          },
+          y: {
+            beginAtZero: false,
+            ticks: { color: textColor, font: { family: "IBM Plex Mono", size: 10 } },
+            grid: { color: gridColor },
+          },
+        },
+      },
+    });
+  });
+}
+
+function renderSparklines() {
+  if (typeof Chart === "undefined") return;
+  METRICS.forEach(m => {
+    const canvas = document.getElementById(`spark-${m.key}`);
+    destroyChart(sparks, m.key);
+    if (!canvas) return;
+    const entries = data[m.key];
+    if (entries.length < 2) return;
+    const s = m.summarize(entries);
+    const statusColor = cssVar(`--${s.status}`);
+    const n = entries.length;
+
+    sparks[m.key] = new Chart(canvas, {
+      type: "line",
+      data: {
+        labels: entries.map(e => e.date),
+        datasets: [{
+          data: entries.map(m.chartValue),
+          borderColor: statusColor,
+          backgroundColor: statusColor + "22",
+          borderWidth: 1.75,
+          tension: 0.35,
+          fill: true,
+          pointRadius: entries.map((_, i) => i === n - 1 ? 3 : 0),
+          pointBackgroundColor: statusColor,
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        plugins: { legend: { display: false }, tooltip: { enabled: false } },
+        scales: {
+          x: { display: false },
+          y: { display: false },
         },
       },
     });
@@ -510,21 +806,53 @@ function renderCharts() {
 }
 
 function renderAll() {
+  renderChartMeta();
   renderSummary();
   renderMetricSections();
   renderCharts();
+  renderSparklines();
 }
 
-document.getElementById("exportBtn").addEventListener("click", () => {
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+let downloadsPromise = null;
+function getDownloadsCapability() {
+  if (!downloadsPromise) {
+    downloadsPromise = (async () => {
+      try {
+        if (window.claude && typeof window.claude.use === "function") {
+          return await window.claude.use("downloads");
+        }
+      } catch (e) {}
+      return null;
+    })();
+  }
+  return downloadsPromise;
+}
+
+function fallbackDownload(filename, text) {
+  const blob = new Blob([text], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `health-dashboard-${todayStr()}.json`;
+  a.download = filename;
   document.body.appendChild(a);
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
+}
+
+document.getElementById("exportBtn").addEventListener("click", async () => {
+  const filename = `health-dashboard-${todayStr()}.json`;
+  const json = JSON.stringify(data, null, 2);
+  const downloads = await getDownloadsCapability();
+  if (downloads) {
+    try {
+      await downloads.save({ filename, data: json });
+    } catch (e) {
+      if (!e || e.code !== "declined") fallbackDownload(filename, json);
+    }
+  } else {
+    fallbackDownload(filename, json);
+  }
 });
 
 document.getElementById("importBtn").addEventListener("click", () => {
