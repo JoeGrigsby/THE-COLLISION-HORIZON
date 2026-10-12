@@ -51,7 +51,7 @@ a:hover{color:#102A43;}
 
 <div style="position:sticky;top:0;z-index:50;">
   <div style="background:#102A43;color:#ffffff;padding:8px clamp(20px,4vw,48px);display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;letter-spacing:0.02em;gap:12px;flex-wrap:wrap;">
-    <span>AI COLLISION HORIZON &middot; v1.1 DRAFT &middot; THEMES &amp; IMPLICATIONS &middot; 2026&ndash;2033</span>
+    <span>AI COLLISION HORIZON &middot; v1.2 DRAFT &middot; THEMES &amp; IMPLICATIONS &middot; 2026&ndash;2033</span>
     <a href="https://www.amachicago.org/" target="_blank" style="color:#ffffff;">&larr; BACK TO AMA CHICAGO</a>
   </div>
   <div class="ch-header-row" style="display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px clamp(20px,4vw,48px);background:#ffffff;border-bottom:1px solid #e4e7ea;">
@@ -64,7 +64,7 @@ a:hover{color:#102A43;}
       <button onClick="{{ toggleNav }}" style="background:none;border:2px solid #29A9E0;color:#102A43;width:36px;height:36px;border-radius:999px;cursor:pointer;font-size:16px;font-weight:800;">&rsaquo;</button>
       <sc-if value="{{ navOpen }}" hint-placeholder-val="{{ false }}">
         <div style="position:absolute;top:44px;right:0;background:#ffffff;border-radius:14px;box-shadow:0 12px 32px rgba(16,42,67,0.18);min-width:250px;display:flex;flex-direction:column;overflow:hidden;">
-          <a href="#themes" style="padding:14px 18px;font-weight:700;font-size:13px;letter-spacing:0.02em;color:#102A43;border-bottom:1px solid #eef0f2;">THE TEN THEMES &rarr;</a>
+          <a href="#themes" style="padding:14px 18px;font-weight:700;font-size:13px;letter-spacing:0.02em;color:#102A43;border-bottom:1px solid #eef0f2;">THE SIX THEMES &rarr;</a>
           <a href="#implications" style="padding:14px 18px;font-weight:700;font-size:13px;letter-spacing:0.02em;color:#102A43;border-bottom:1px solid #eef0f2;">IMPLICATIONS OVER TIME &rarr;</a>
           <a href="#prepare" style="padding:14px 18px;font-weight:700;font-size:13px;letter-spacing:0.02em;color:#102A43;border-bottom:1px solid #eef0f2;">HOW TO PREPARE &rarr;</a>
           <a href="./About.dc.html" style="padding:14px 18px;font-weight:700;font-size:13px;letter-spacing:0.02em;color:#102A43;border-bottom:1px solid #eef0f2;">ABOUT &amp; CONTRIBUTORS &rarr;</a>
@@ -78,7 +78,7 @@ a:hover{color:#102A43;}
     </div>
   </div>
   <div style="background:#EAF6FC;border-bottom:1px solid #cfe9f6;padding:9px clamp(20px,4vw,48px);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:12px;font-weight:700;color:#102A43;letter-spacing:0.02em;">
-    <span>DRAFT v1.1 &mdash; organised around the ten themes from the 30 Sept 2026 working session</span>
+    <span>DRAFT v1.2 &mdash; six themes and ten hypotheses from the 30 Sept 2026 working session</span>
     <a href="./index.html" style="color:#E21D2F;font-weight:800;">VIEW CURRENT v0.9 &rarr;</a>
   </div>
 </div>
@@ -86,10 +86,10 @@ a:hover{color:#102A43;}
 <section style="position:relative;padding:clamp(56px,9vw,110px) clamp(20px,4vw,48px) clamp(56px,8vw,96px);background:#F2F4F5;">
   <div style="max-width:900px;margin:0 auto;">
     <div style="display:inline-block;background:#E21D2F;color:#ffffff;font-weight:800;font-size:12px;letter-spacing:0.06em;padding:9px 20px;border-radius:999px;margin-bottom:28px;">OPEN FOR REVIEW</div>
-    <div style="font-weight:800;font-size:13px;letter-spacing:0.08em;color:#29A9E0;text-transform:uppercase;margin-bottom:14px;">AMA Chicago // AI Collision Horizon</div>
-    <h1 style="font-weight:900;font-size:clamp(36px,6.2vw,76px);line-height:1.06;color:#102A43;margin:0 0 24px;">The Collision Horizon</h1>
+    <div style="font-weight:800;font-size:13px;letter-spacing:0.08em;color:#29A9E0;text-transform:uppercase;margin-bottom:14px;">AMA Chicago</div>
+    <h1 style="font-weight:900;font-size:clamp(36px,6.2vw,76px);line-height:1.06;color:#102A43;margin:0 0 24px;">The AI Collision Horizon</h1>
     <p style="font-weight:900;font-size:clamp(22px,2.8vw,32px);line-height:1.25;color:#E21D2F;max-width:720px;margin:0 0 22px;">AI changes what is scarce in marketing.</p>
-    <p style="font-size:clamp(17px,1.8vw,20px);line-height:1.6;color:#4A4A4A;max-width:700px;margin:0 0 28px;">How AI will fundamentally reshape the marketing ecosystem, across talent, business models, creativity, technology and consumer behaviour. Ten themes, the implications of each as it plays out through 2033, and how marketers should prepare.</p>
+    <p style="font-size:clamp(17px,1.8vw,20px);line-height:1.6;color:#4A4A4A;max-width:700px;margin:0 0 28px;">How AI will fundamentally reshape the marketing ecosystem, across talent, business models, creativity, technology and consumer behavior. Six themes, ten hypotheses, the implications of each as it plays out through 2033, and how marketers should prepare.</p>
     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:40px;">
       <sc-for list="{{ glance }}" as="gd" hint-placeholder-count="6">
         <a href="#domain-{{ gd.key }}" onClick="{{ gd.showAll }}" style="font-weight:800;font-size:12px;letter-spacing:0.04em;padding:8px 14px;border-radius:999px;background:#ffffff;color:#102A43;border:2px solid #d8dcdf;">{{ gd.name }}</a>
@@ -102,7 +102,7 @@ a:hover{color:#102A43;}
 <section style="padding:80px clamp(20px,4vw,48px);background:#ffffff;">
   <div style="max-width:1000px;margin:0 auto;">
     <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#E21D2F;text-transform:uppercase;margin-bottom:22px;">How to Read This Forecast</div>
-    <h2 style="font-weight:900;font-size:clamp(26px,3.4vw,38px);margin:0 0 20px;color:#102A43;">Themes first. Implications follow.</h2>
+    <h2 style="font-weight:900;font-size:clamp(26px,3.4vw,38px);margin:0 0 20px;color:#102A43;">Themes and hypotheses first. Implications follow.</h2>
     <p style="font-size:18px;line-height:1.7;color:#111111;margin:0 0 40px;max-width:760px;">This is a scenario forecast, not a prediction of a single inevitable future. Instead of a year-by-year storyline, it starts from what practitioners observed and asks what follows if each observation keeps playing out. Every implication is a position to be tested, with a signal that would tell us whether it is happening.</p>
     <div class="ch-steps" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
       <sc-for list="{{ steps }}" as="stp" hint-placeholder-count="4">
@@ -169,8 +169,8 @@ a:hover{color:#102A43;}
 <section id="themes" style="padding:80px clamp(20px,4vw,48px);background:#F2F4F5;scroll-margin-top:130px;">
   <div style="max-width:1200px;margin:0 auto;">
     <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#E21D2F;text-transform:uppercase;margin-bottom:22px;">From the Working Session</div>
-    <h2 style="font-weight:900;font-size:clamp(26px,3.4vw,38px);margin:0 0 20px;color:#102A43;">Ten themes, ten hypotheses</h2>
-    <p style="font-size:17px;line-height:1.7;color:#111111;margin:0 0 44px;max-width:760px;">The AMA Chicago working session surfaced ten themes across five parts of the marketing ecosystem, plus one lens that cuts across all of them. Each carries an emerging hypothesis. Select a theme to see how it plays out.</p>
+    <h2 style="font-weight:900;font-size:clamp(26px,3.4vw,38px);margin:0 0 20px;color:#102A43;">Six themes, ten hypotheses</h2>
+    <p style="font-size:17px;line-height:1.7;color:#111111;margin:0 0 44px;max-width:760px;">The AMA Chicago working session surfaced ten hypotheses, organised here into six themes: five parts of the marketing ecosystem, plus one lens that cuts across all of them. Select a hypothesis to see how it plays out.</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;">
       <sc-for list="{{ glance }}" as="g" hint-placeholder-count="6">
         <div style="background:#ffffff;border-radius:18px;box-shadow:0 6px 20px rgba(16,42,67,0.06);padding:26px 24px;">
@@ -179,7 +179,6 @@ a:hover{color:#102A43;}
           <div style="display:flex;flex-direction:column;gap:14px;">
             <sc-for list="{{ g.themes }}" as="gt" hint-placeholder-count="2">
               <a href="#{{ gt.anchorId }}" onClick="{{ g.showAll }}" class="ch-glance-link" style="display:block;border-top:1px solid #eef0f2;padding-top:14px;color:#111111;">
-                <div style="font-weight:800;font-size:11px;letter-spacing:0.06em;color:#E21D2F;margin-bottom:4px;">THEME {{ gt.n }}</div>
                 <div class="ch-glance-title" style="font-weight:900;font-size:17px;color:#102A43;margin-bottom:6px;">{{ gt.title }} &rarr;</div>
                 <div style="font-size:14px;line-height:1.55;color:#4A4A4A;">{{ gt.hypothesis }}</div>
               </a>
@@ -195,7 +194,7 @@ a:hover{color:#102A43;}
   <div style="max-width:1200px;margin:0 auto;">
     <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#E21D2F;text-transform:uppercase;margin-bottom:22px;">The Forecast</div>
     <h2 style="font-weight:900;font-size:clamp(26px,3.4vw,38px);margin:0 0 20px;color:#102A43;">Implications over time</h2>
-    <p style="font-size:17px;line-height:1.7;color:#111111;margin:0 0 32px;max-width:760px;">If each hypothesis holds, what follows? Every theme is traced across three horizons. Each implication comes with a signal to watch, so the working group can tell whether it is playing out, and a line on how to prepare now.</p>
+    <p style="font-size:17px;line-height:1.7;color:#111111;margin:0 0 32px;max-width:760px;">If each hypothesis holds, what follows? Every hypothesis is traced across three horizons. Each implication comes with a signal to watch, so the working group can tell whether it is playing out, and a line on how to prepare now.</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:36px;">
       <sc-for list="{{ horizons }}" as="hz" hint-placeholder-count="3">
         <div style="border-top:5px solid {{ hz.color }};background:#F2F4F5;border-radius:12px;padding:16px 18px;">
@@ -224,7 +223,7 @@ a:hover{color:#102A43;}
     <sc-for list="{{ d.themes }}" as="t" hint-placeholder-count="2">
       <div id="{{ t.anchorId }}" class="ch-imp-row" style="display:grid;grid-template-columns:280px 1fr;gap:36px;padding:8px 0 44px;scroll-margin-top:130px;">
         <div class="ch-imp-left" style="position:sticky;top:140px;align-self:start;">
-          <div style="font-weight:800;font-size:11px;letter-spacing:0.06em;color:#E21D2F;margin-bottom:6px;">THEME {{ t.n }}</div>
+          <div style="font-weight:800;font-size:11px;letter-spacing:0.06em;color:#E21D2F;margin-bottom:6px;text-transform:uppercase;">{{ d.name }}</div>
           <h4 style="font-weight:900;font-size:22px;line-height:1.2;margin:0 0 12px;color:#102A43;">{{ t.title }}</h4>
           <p style="font-size:14px;line-height:1.55;color:#4A4A4A;margin:0 0 14px;">{{ t.summary }}</p>
           <div style="border-left:4px solid #E21D2F;background:#F2F4F5;border-radius:10px;padding:12px 14px;margin-bottom:14px;">
@@ -280,8 +279,8 @@ a:hover{color:#102A43;}
 <section id="explore" style="padding:88px clamp(20px,4vw,48px);background:#102A43;scroll-margin-top:130px;">
   <div style="max-width:1200px;margin:0 auto;">
     <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#29A9E0;text-transform:uppercase;margin-bottom:22px;">Explore the Horizon</div>
-    <h2 style="font-weight:900;font-size:clamp(26px,3.4vw,38px);margin:0 0 16px;color:#ffffff;">All ten themes, one moment in time</h2>
-    <p style="font-size:17px;line-height:1.7;color:#c7d0da;max-width:640px;margin:0 0 36px;">Step through the horizons to see what the marketing ecosystem looks like if every theme plays out at once.</p>
+    <h2 style="font-weight:900;font-size:clamp(26px,3.4vw,38px);margin:0 0 16px;color:#ffffff;">All ten hypotheses, one moment in time</h2>
+    <p style="font-size:17px;line-height:1.7;color:#c7d0da;max-width:640px;margin:0 0 36px;">Step through the horizons to see what the marketing ecosystem looks like if every hypothesis plays out at once.</p>
     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
       <sc-for list="{{ horizonTabs }}" as="ht" hint-placeholder-count="3">
         <button onClick="{{ ht.select }}" style="{{ ht.style }}">{{ ht.label }} &middot; {{ ht.years }}</button>
@@ -296,7 +295,7 @@ a:hover{color:#102A43;}
       <sc-for list="{{ explorerItems }}" as="ex" hint-placeholder-count="10">
         <a href="#{{ ex.anchorId }}" onClick="{{ ex.showAll }}" style="display:block;background:#ffffff;border-radius:14px;padding:18px 18px 16px;border-top:5px solid {{ activeHorizon.color }};color:#111111;">
           <div style="font-weight:800;font-size:10px;letter-spacing:0.06em;color:#8a9099;margin-bottom:4px;text-transform:uppercase;">{{ ex.domainName }}</div>
-          <div style="font-weight:900;font-size:15px;color:#102A43;margin-bottom:8px;"><span style="color:#E21D2F;">{{ ex.n }}</span> {{ ex.title }}</div>
+          <div style="font-weight:900;font-size:15px;color:#102A43;margin-bottom:8px;">{{ ex.title }}</div>
           <div style="font-size:14px;line-height:1.5;color:#111111;margin-bottom:10px;">{{ ex.text }}</div>
           <div style="font-size:11px;line-height:1.45;color:#8a9099;"><strong style="letter-spacing:0.05em;">WATCH:</strong> {{ ex.signal }}</div>
         </a>
@@ -309,7 +308,7 @@ a:hover{color:#102A43;}
   <div style="max-width:1100px;margin:0 auto;">
     <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#E21D2F;text-transform:uppercase;margin-bottom:22px;">How Marketers Should Prepare</div>
     <h2 style="font-weight:900;font-size:clamp(26px,3.4vw,38px);margin:0 0 20px;color:#102A43;">Six moves, while there is still time to choose</h2>
-    <p style="font-size:17px;line-height:1.7;color:#111111;margin:0 0 48px;max-width:720px;">None of this is destiny. Treat AI as an operating-model transformation, not a software rollout. Each move answers one or more of the themes.</p>
+    <p style="font-size:17px;line-height:1.7;color:#111111;margin:0 0 48px;max-width:720px;">None of this is destiny. Treat AI as an operating-model transformation, not a software rollout. Each move answers one or more of the six themes.</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;">
       <sc-for list="{{ moves }}" as="m" hint-placeholder-count="6">
         <div style="background:#ffffff;border-radius:16px;box-shadow:0 6px 20px rgba(16,42,67,0.06);padding:30px 26px;">
@@ -340,7 +339,7 @@ a:hover{color:#102A43;}
   <div style="max-width:1100px;margin:0 auto;">
     <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#E21D2F;text-transform:uppercase;margin-bottom:22px;">Evidence &amp; Signals</div>
     <h2 style="font-weight:900;font-size:clamp(26px,3.4vw,38px);margin:0 0 20px;color:#102A43;">Keeping the forecast honest</h2>
-    <p style="font-size:17px;line-height:1.7;color:#111111;margin:0 0 40px;max-width:720px;">Evidence for each theme is linked beside it above. These are the most-cited dated figures in the field, and the signals the working group will track to revisit the hypotheses.</p>
+    <p style="font-size:17px;line-height:1.7;color:#111111;margin:0 0 40px;max-width:720px;">Evidence for each hypothesis is linked beside it above. These are the most-cited dated figures in the field, and the signals the working group will track to revisit the hypotheses.</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:28px;margin-bottom:36px;">
       <sc-for list="{{ evidenceStats }}" as="es" hint-placeholder-count="5">
         <div>
@@ -357,7 +356,7 @@ a:hover{color:#102A43;}
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;">
       <sc-for list="{{ trackers }}" as="tr" hint-placeholder-count="10">
         <a href="#{{ tr.anchorId }}" onClick="{{ tr.showAll }}" style="display:flex;gap:14px;align-items:flex-start;background:#F2F4F5;border-radius:12px;padding:14px 16px;color:#111111;">
-          <div style="font-weight:800;font-size:11px;color:#ffffff;background:#102A43;flex-shrink:0;padding:4px 8px;border-radius:999px;">T{{ tr.theme }}</div>
+          <div style="font-weight:800;font-size:11px;color:#ffffff;background:#102A43;flex-shrink:0;padding:4px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:0.04em;">{{ tr.themeName }}</div>
           <div style="font-size:14px;line-height:1.5;">{{ tr.text }}</div>
         </a>
       </sc-for>
@@ -369,7 +368,7 @@ a:hover{color:#102A43;}
 <section id="method" style="padding:80px clamp(20px,4vw,48px);background:#F2F4F5;scroll-margin-top:130px;">
   <div style="max-width:760px;margin:0 auto;">
     <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#E21D2F;text-transform:uppercase;margin-bottom:22px;">Method &amp; Limitations</div>
-    <p style="font-size:16px;line-height:1.7;color:#111111;margin:0 0 18px;">The themes and hypotheses come from a working white paper synthesising the AMA Chicago AI Marketing Forum discussion of 30 September 2026, a working forecast exercise rather than a formal research study, in which participants contributed observations from their professional experience across the marketing ecosystem. The implications and signals are the working group's own extrapolation of those hypotheses, informed by published research.</p>
+    <p style="font-size:16px;line-height:1.7;color:#111111;margin:0 0 18px;">The hypotheses come from a working white paper synthesising the AMA Chicago AI Marketing Forum discussion of 30 September 2026, a working forecast exercise rather than a formal research study, in which participants contributed observations from their professional experience across the marketing ecosystem. The implications and signals are the working group's own extrapolation of those hypotheses, informed by published research.</p>
     <p style="font-size:16px;line-height:1.7;color:#111111;margin:0 0 40px;">Read everything here as scenarios, discussion-derived themes and hypotheses: not statistically representative findings, and not official predictions of the American Marketing Association. Where external research is cited, evaluate it on its own methodology.</p>
     <div style="background:#102A43;border-radius:20px;padding:clamp(28px,5vw,44px);text-align:center;">
       <div style="font-weight:800;font-size:11px;letter-spacing:0.08em;color:#29A9E0;margin-bottom:14px;">A LIVING QUESTION FOR THE MARKETING COMMUNITY</div>
@@ -391,7 +390,7 @@ a:hover{color:#102A43;}
       <a href="./index.html" style="display:inline-block;font-weight:800;font-size:13px;letter-spacing:0.02em;border-radius:999px;border:2px solid rgba(255,255,255,0.3);padding:12px 22px;color:#ffffff;">COMPARE WITH v0.9 &rarr;</a>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.15);font-weight:700;font-size:12px;letter-spacing:0.02em;color:#8fa1b3;">
-      <span>AI COLLISION HORIZON v1.1 DRAFT</span>
+      <span>AI COLLISION HORIZON v1.2 DRAFT</span>
       <span>UPDATED OCTOBER 2026</span>
       <span>RANGE 2026 &mdash; 2033</span>
       <span style="color:#29A9E0;">STATUS: OPEN FOR REVIEW</span>
@@ -411,10 +410,10 @@ const HORIZONS = [
 
 const DOMAINS = [
   { key: "talent", name: "Talent", desc: "Who does the work, how they learn, and what makes them valuable." },
-  { key: "business", name: "Business Models", desc: "Where cost goes, and what marketers will pay for." },
+  { key: "business", name: "Business Model", desc: "Where cost goes, and what marketers will pay for." },
   { key: "creativity", name: "Creativity", desc: "What good work is when competent work is abundant." },
   { key: "technology", name: "Technology", desc: "How AI is bought, deployed, governed and trusted." },
-  { key: "consumer", name: "Consumer Behaviour", desc: "What feels valuable when synthetic content is everywhere." },
+  { key: "consumer", name: "Consumer Behavior", desc: "What feels valuable when synthetic content is everywhere." },
   { key: "lens", name: "Cross-Cutting Lens", desc: "Why no single forecast fits everyone." }
 ];
 
@@ -638,14 +637,14 @@ class Component extends DCLogic {
       navOpen: this.state.navOpen,
       toggleNav: () => this.setState((s) => ({ navOpen: !s.navOpen })),
       steps: [
-        { n: "1", color: "#102A43", title: "Theme", text: "Something practitioners are already seeing in their organisations." },
-        { n: "2", color: "#E21D2F", title: "Hypothesis", text: "What that observation suggests about where the ecosystem is heading." },
+        { n: "1", color: "#102A43", title: "Theme", text: "One of six areas of the marketing ecosystem that AI is reshaping." },
+        { n: "2", color: "#E21D2F", title: "Hypothesis", text: "What practitioners are already seeing, and where it suggests the ecosystem is heading." },
         { n: "3", color: "#29A9E0", title: "Implications", text: "What follows if the hypothesis holds, across three horizons, each with a signal to watch." },
         { n: "4", color: "#102A43", title: "Prepare", text: "What marketers can do now, whichever way the evidence breaks." }
       ],
       glance: domains,
       horizons: HORIZONS,
-      domainChips: [{ key: "all", name: "All themes" }].concat(DOMAINS).map((d) => ({
+      domainChips: [{ key: "all", name: "All six themes" }].concat(DOMAINS).map((d) => ({
         name: d.name,
         select: () => this.setState({ domainFilter: d.key }),
         style: filter === d.key ? CHIP_ACTIVE : CHIP_BASE
@@ -667,12 +666,12 @@ class Component extends DCLogic {
         ["Iteration", "Decisiveness and quality control"]
       ].map((r, i) => ({ abundant: r[0], scarce: r[1], bg: i % 2 ? "#F7F8F9" : "#ffffff" })),
       moves: [
-        { n: "01", themes: "THEMES 01 · 06", title: "Build the operating system around the tools", text: "Pair every AI investment with training, workflow redesign, governance, role design and measures of adoption by task, not by seat." },
-        { n: "02", themes: "THEMES 03 · 05", title: "Move value to what stays scarce", text: "Shift from execution to judgment, craft, accountability and proprietary insight before the market re-prices average output." },
-        { n: "03", themes: "THEMES 06 · 07", title: "Own data, governance and trust", text: "Trusted, consented data integration is the most defensible moat. Govern AI by use case and risk level, and make transparency a design requirement." },
-        { n: "04", themes: "THEMES 02 · 09", title: "Re-price for outcomes", text: "Move beyond labour-hour economics toward outcomes, licensing, subscriptions and value-based pricing, and measure approved output, not hours." },
-        { n: "05", themes: "THEME 04", title: "Rebuild the apprenticeship ladder", text: "If AI automates the work people learned on, design new pathways deliberately: preserve productive friction and treat junior talent as an investment." },
-        { n: "06", themes: "THEMES 08 · 10", title: "Invest in what feels human", text: "Start with the consumer. Put creators, community and live experience where synthetic abundance makes them scarce, and plan for your own sector's pace." }
+        { n: "01", themes: "TECHNOLOGY", title: "Build the operating system around the tools", text: "Pair every AI investment with training, workflow redesign, governance, role design and measures of adoption by task, not by seat." },
+        { n: "02", themes: "CREATIVITY · TALENT", title: "Move value to what stays scarce", text: "Shift from execution to judgment, craft, accountability and proprietary insight before the market re-prices average output." },
+        { n: "03", themes: "TECHNOLOGY", title: "Own data, governance and trust", text: "Trusted, consented data integration is the most defensible moat. Govern AI by use case and risk level, and make transparency a design requirement." },
+        { n: "04", themes: "BUSINESS MODEL", title: "Re-price for outcomes", text: "Move beyond labour-hour economics toward outcomes, licensing, subscriptions and value-based pricing, and measure approved output, not hours." },
+        { n: "05", themes: "TALENT", title: "Rebuild the apprenticeship ladder", text: "If AI automates the work people learned on, design new pathways deliberately: preserve productive friction and treat junior talent as an investment." },
+        { n: "06", themes: "CONSUMER BEHAVIOR · CROSS-CUTTING LENS", title: "Invest in what feels human", text: "Start with the consumer. Put creators, community and live experience where synthetic abundance makes them scarce, and plan for your own sector's pace." }
       ],
       audiences: AUDIENCES.map((a, i) => ({
         ...a,
@@ -687,7 +686,7 @@ class Component extends DCLogic {
         { value: "−13%", label: "early-career employment in the most AI-exposed jobs, already observed · Stanford" },
         { value: "+78M", label: "net new jobs globally by 2030 — 170M created, 92M displaced · WEF" }
       ],
-      trackers: TRACKERS.map((t) => ({ theme: t[0], text: t[1], anchorId: "imp-" + t[0], showAll })),
+      trackers: TRACKERS.map((t) => ({ themeName: domainName[THEMES.find((x) => x.n === t[0]).domain], text: t[1], anchorId: "imp-" + t[0], showAll })),
       capabilityPath: smoothPath(CAP_POINTS),
       adaptationPath: smoothPath(ADAPT_POINTS),
       gapAreaPath: areaPath(ADAPT_POINTS, CAP_POINTS),
