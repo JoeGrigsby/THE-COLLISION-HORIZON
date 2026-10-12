@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800;6..12,900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ffffff;color:#111111;font-family:'Nunito Sans',Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+*{box-sizing:border-box;}
+a{color:#29A9E0;text-decoration:none;}
+a:hover{color:#102A43;}
+@keyframes ch-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+.ch-draw-path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.8s cubic-bezier(.22,.7,.2,1);}
+.ch-draw-path.ch-drawn{stroke-dashoffset:0;}
+.ch-draw-path.ch-drawn.ch-draw-delay{transition-delay:0.25s;}
+.ch-area-fill{clip-path:inset(0 100% 0 0);transition:clip-path 1.9s cubic-bezier(.22,.7,.2,1);transition-delay:0.1s;}
+.ch-area-fill.ch-drawn{clip-path:inset(0 0% 0 0);}
+.ch-q summary{cursor:pointer;list-style:none;}
+.ch-q summary::-webkit-details-marker{display:none;}
+.ch-q[open] .ch-plus{transform:rotate(45deg);}
+.ch-plus{display:inline-block;transition:transform .2s;}
+.ch-glance-link:hover .ch-glance-title{color:#E21D2F;}
+@media (max-width:980px){
+  .ch-imp-row{grid-template-columns:1fr !important;gap:20px !important;}
+  .ch-imp-left{position:static !important;}
+}
+@media (max-width:760px){
+  .ch-imp-cols{grid-template-columns:1fr !important;}
+  .ch-steps{grid-template-columns:1fr 1fr !important;}
+}
+@media (max-width:640px){
+  .ch-scarce-row{grid-template-columns:1fr !important;gap:4px !important;}
+  .ch-scarce-arrow{display:none !important;}
+}
+@media (max-width:600px){
+  .ch-header-row{flex-wrap:wrap;row-gap:10px;}
+  .ch-logo-link{gap:8px !important;}
+  .ch-logo-ama,.ch-logo-tch{height:16px !important;}
+  .ch-steps{grid-template-columns:1fr !important;}
+}
+</style>
+</helmet>
+
+<div style="position:relative;background:#ffffff;min-height:100vh;">
+
+<div style="position:sticky;top:0;z-index:50;">
+  <div style="background:#102A43;color:#ffffff;padding:8px clamp(20px,4vw,48px);display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;letter-spacing:0.02em;gap:12px;flex-wrap:wrap;">
+    <span>AI COLLISION HORIZON &middot; v1.2 DRAFT &middot; THEMES &amp; IMPLICATIONS &middot; 2026&ndash;2033</span>
+    <a href="https://www.amachicago.org/" target="_blank" style="color:#ffffff;">&larr; BACK TO AMA CHICAGO</a>
+  </div>
+  <div class="ch-header-row" style="display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px clamp(20px,4vw,48px);background:#ffffff;border-bottom:1px solid #e4e7ea;">
+    <a href="./v1-white-paper.html" class="ch-logo-link" style="display:flex;align-items:center;gap:14px;flex-shrink:0;">
+      <img src="assets/ama-chicago-logo.png" alt="AMA Chicago" class="ch-logo-ama" style="height:28px;width:auto;display:block;"/>
+      <span style="width:1px;height:24px;background:#d8dcdf;display:inline-block;"></span>
+      <img src="assets/tch-logo.png" alt="The Collision Horizon" class="ch-logo-tch" style="height:24px;width:auto;display:block;"/>
+    </a>
+    <div style="position:relative;flex-shrink:0;">
+      <button onClick="{{ toggleNav }}" style="background:none;border:2px solid #29A9E0;color:#102A43;width:36px;height:36px;border-radius:999px;cursor:pointer;font-size:16px;font-weight:800;">&rsaquo;</button>
+      <sc-if value="{{ navOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;top:44px;right:0;background:#ffffff;border-radius:14px;box-shadow:0 12px 32px rgba(16,42,67,0.18);min-width:250px;display:flex;flex-direction:column;overflow:hidden;">
+          <a href="#themes" style="padding:14px 18px;font-weight:700;font-size:13px;letter-spacing:0.02em;color:#102A43;border-bottom:1px solid #eef0f2;">THE SIX THEMES &rarr;</a>
+          <a href="#implications" style="padding:14px 18px;font-weight:700;font-size:13px;letter-spacing:0.02em;color:#102A43;border-bottom:1px solid #eef0f2;">IMPLICATIONS OVER TIME &rarr;</a>
+          <a href="#prepare" style="padding:14px 18px;font-weight:700;font-size:13px;letter-spacing:0.02em;color:#102A43;border-bottom:1px solid #eef0f2;">HOW TO PREPARE &rarr;</a>
+          <a href="./About.dc.html" style="padding:14px 18px;font-weight:700;font-size:13px;letter-spacing:0.02em;color:#102A43;border-bottom:1px solid #eef0f2;">ABOUT &amp; CONTRIBUTORS &rarr;</a>
+          <a href="./Thought%20Leadership.dc.html" style="padding:14px 18px;font-weight:700;font-size:13px;letter-spacing:0.02em;color:#102A43;border-bottom:1px solid #eef0f2;">THOUGHT LEADERSHIP &rarr;</a>
+          <a href="./Predictions%20Hub.dc.html" style="padding:14px 18px;font-weight:700;font-size:13px;letter-spacing:0.02em;color:#102A43;border-bottom:1px solid #eef0f2;">PREDICTIONS HUB &rarr;</a>
+          <a href="./Key%20Sources.dc.html" style="padding:14px 18px;font-weight:700;font-size:13px;letter-spacing:0.02em;color:#102A43;border-bottom:1px solid #eef0f2;">KEY SOURCES &rarr;</a>
+          <a href="./columbo-bingo.html" style="padding:14px 18px;font-weight:700;font-size:13px;letter-spacing:0.02em;color:#102A43;border-bottom:1px solid #eef0f2;">COLUMBO BINGO &rarr;</a>
+          <a href="./index.html" style="padding:14px 18px;font-weight:700;font-size:13px;letter-spacing:0.02em;color:#E21D2F;">COMPARE: CURRENT v0.9 &rarr;</a>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+  <div style="background:#EAF6FC;border-bottom:1px solid #cfe9f6;padding:9px clamp(20px,4vw,48px);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:12px;font-weight:700;color:#102A43;letter-spacing:0.02em;">
+    <span>DRAFT v1.2 &mdash; six themes and ten hypotheses from the 30 Sept 2026 working session</span>
+    <a href="./index.html" style="color:#E21D2F;font-weight:800;">VIEW CURRENT v0.9 &rarr;</a>
+  </div>
+</div>
+
+<section style="position:relative;padding:clamp(56px,9vw,110px) clamp(20px,4vw,48px) clamp(56px,8vw,96px);background:#F2F4F5;">
+  <div style="max-width:900px;margin:0 auto;">
+    <div style="display:inline-block;background:#E21D2F;color:#ffffff;font-weight:800;font-size:12px;letter-spacing:0.06em;padding:9px 20px;border-radius:999px;margin-bottom:28px;">OPEN FOR REVIEW</div>
+    <div style="font-weight:800;font-size:13px;letter-spacing:0.08em;color:#29A9E0;text-transform:uppercase;margin-bottom:14px;">AMA Chicago</div>
+    <h1 style="font-weight:900;font-size:clamp(36px,6.2vw,76px);line-height:1.06;color:#102A43;margin:0 0 24px;">The AI Collision Horizon</h1>
+    <p style="font-weight:900;font-size:clamp(22px,2.8vw,32px);line-height:1.25;color:#E21D2F;max-width:720px;margin:0 0 22px;">AI changes what is scarce in marketing.</p>
+    <p style="font-size:clamp(17px,1.8vw,20px);line-height:1.6;color:#4A4A4A;max-width:700px;margin:0 0 28px;">How AI will fundamentally reshape the marketing ecosystem, across talent, business models, creativity, technology and consumer behavior. Six themes, ten hypotheses, the implications of each as it plays out through 2033, and how marketers should prepare.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:40px;">
+      <sc-for list="{{ glance }}" as="gd" hint-placeholder-count="6">
+        <a href="#domain-{{ gd.key }}" onClick="{{ gd.showAll }}" style="font-weight:800;font-size:12px;letter-spacing:0.04em;padding:8px 14px;border-radius:999px;background:#ffffff;color:#102A43;border:2px solid #d8dcdf;">{{ gd.name }}</a>
+      </sc-for>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;font-weight:800;font-size:13px;color:#102A43;animation:ch-bounce 2.2s ease-in-out infinite;width:fit-content;">&darr; SCROLL TO READ THE FORECAST</div>
+  </div>
+</section>
+
+<section style="padding:80px clamp(20px,4vw,48px);background:#ffffff;">
+  <div style="max-width:1000px;margin:0 auto;">
+    <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#E21D2F;text-transform:uppercase;margin-bottom:22px;">How to Read This Forecast</div>
+    <h2 style="font-weight:900;font-size:clamp(26px,3.4vw,38px);margin:0 0 20px;color:#102A43;">Themes and hypotheses first. Implications follow.</h2>
+    <p style="font-size:18px;line-height:1.7;color:#111111;margin:0 0 40px;max-width:760px;">This is a scenario forecast, not a prediction of a single inevitable future. Instead of a year-by-year storyline, it starts from what practitioners observed and asks what follows if each observation keeps playing out. Every implication is a position to be tested, with a signal that would tell us whether it is happening.</p>
+    <div class="ch-steps" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+      <sc-for list="{{ steps }}" as="stp" hint-placeholder-count="4">
+        <div style="background:#F2F4F5;border-radius:16px;padding:24px 22px;">
+          <div style="width:34px;height:34px;border-radius:50%;background:{{ stp.color }};color:#ffffff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;">{{ stp.n }}</div>
+          <div style="font-weight:900;font-size:17px;color:#102A43;margin-bottom:8px;">{{ stp.title }}</div>
+          <div style="font-size:14px;line-height:1.55;color:#4A4A4A;">{{ stp.text }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="two-curves" style="padding:80px clamp(20px,4vw,48px);background:#F2F4F5;scroll-margin-top:130px;">
+  <div style="max-width:1000px;margin:0 auto;">
+    <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#E21D2F;text-transform:uppercase;margin-bottom:26px;">The Collision Horizon</div>
+    <p style="font-size:19px;line-height:1.7;color:#111111;margin:0 0 22px;">AI capability compounds roughly geometrically. The marketing ecosystem adapts the way large organisations always have: in budget cycles, reorganisations and multi-year transformation plans. Plot both on one axis and they diverge. The distance between them, the <strong style="color:#E21D2F;">collision horizon,</strong> is where every theme below plays out.</p>
+    <p style="font-size:19px;line-height:1.7;color:#111111;margin:0 0 44px;">The gap is not uniform. It opens at different speeds by task, role, sector, company size and risk tolerance, and handing teams AI seats moves the capability curve inside the building without moving the adaptation curve at all.</p>
+    <div data-chart-observe style="background:#ffffff;border-radius:20px;box-shadow:0 8px 28px rgba(16,42,67,0.08);padding:clamp(24px,4vw,40px);">
+      <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#4A4A4A;text-transform:uppercase;margin-bottom:20px;">Capability vs. Adaptation &mdash; Indexed</div>
+      <div style="display:flex;gap:28px;margin-bottom:16px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;color:#111111;"><span style="width:10px;height:10px;border-radius:3px;background:#E21D2F;display:inline-block;"></span>AI capability</div>
+        <div style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;color:#111111;"><span style="width:10px;height:10px;border-radius:3px;background:#29A9E0;display:inline-block;"></span>Ecosystem adaptation</div>
+      </div>
+      <svg viewBox="0 0 700 250" style="width:100%;height:auto;display:block;">
+        <defs>
+          <pattern id="ch-gap-hatch" patternUnits="userSpaceOnUse" width="7" height="7">
+            <rect width="7" height="7" fill="#F3EEFC"></rect>
+            <line x1="0" y1="0" x2="0" y2="7" stroke="#C6AEEA" stroke-width="1.5"></line>
+          </pattern>
+        </defs>
+        <path d="{{ gapAreaPath }}" class="ch-area-fill {{ chartDrawnClass }}" fill="url(#ch-gap-hatch)"></path>
+        <path d="{{ adaptationPath }}" pathLength="1" class="ch-draw-path {{ chartDrawnClass }}" fill="none" stroke="#29A9E0" stroke-width="3" stroke-linecap="round"></path>
+        <path d="{{ capabilityPath }}" pathLength="1" class="ch-draw-path ch-draw-delay {{ chartDrawnClass }}" fill="none" stroke="#E21D2F" stroke-width="3" stroke-linecap="round"></path>
+      </svg>
+      <div style="display:flex;justify-content:space-between;font-weight:700;font-size:12px;color:#8a9099;margin-top:8px;">
+        <span>2026</span><span>2029</span><span>2033</span>
+      </div>
+      <div style="font-size:12px;color:#8a9099;margin-top:14px;">Illustrative. Capability trend informed by <a href="https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/" target="_blank" style="text-decoration:underline;">METR's long-task measurements</a>.</div>
+    </div>
+  </div>
+</section>
+
+<section id="abundance-scarcity" style="padding:80px clamp(20px,4vw,48px);background:#ffffff;scroll-margin-top:130px;">
+  <div style="max-width:1000px;margin:0 auto;">
+    <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#E21D2F;text-transform:uppercase;margin-bottom:22px;">Abundance &amp; Scarcity</div>
+    <h2 style="font-weight:900;font-size:clamp(26px,3.4vw,38px);margin:0 0 20px;color:#102A43;">The question underneath every theme</h2>
+    <p style="font-size:17px;line-height:1.7;color:#111111;margin:0 0 36px;max-width:720px;">AI makes many things abundant: execution gets faster, content cheaper, personalisation scalable, answers instant. Abundance moves value to whatever remains scarce.</p>
+    <div style="border-radius:20px;overflow:hidden;box-shadow:0 8px 28px rgba(16,42,67,0.08);">
+      <div class="ch-scarce-row" style="display:grid;grid-template-columns:1fr 40px 1fr;gap:12px;background:#102A43;color:#ffffff;padding:16px 26px;font-weight:800;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;">
+        <span>If AI makes this abundant&hellip;</span><span class="ch-scarce-arrow"></span><span style="color:#29A9E0;">&hellip;what becomes scarce?</span>
+      </div>
+      <sc-for list="{{ scarcity }}" as="sc" hint-placeholder-count="8">
+        <div class="ch-scarce-row" style="display:grid;grid-template-columns:1fr 40px 1fr;gap:12px;align-items:center;padding:16px 26px;background:{{ sc.bg }};border-top:1px solid #eef0f2;">
+          <span style="font-size:16px;color:#4A4A4A;">{{ sc.abundant }}</span>
+          <span class="ch-scarce-arrow" style="font-weight:900;color:#E21D2F;text-align:center;">&rarr;</span>
+          <span style="font-size:16px;font-weight:800;color:#102A43;">{{ sc.scarce }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="themes" style="padding:80px clamp(20px,4vw,48px);background:#F2F4F5;scroll-margin-top:130px;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#E21D2F;text-transform:uppercase;margin-bottom:22px;">From the Working Session</div>
+    <h2 style="font-weight:900;font-size:clamp(26px,3.4vw,38px);margin:0 0 20px;color:#102A43;">Six themes, ten hypotheses</h2>
+    <p style="font-size:17px;line-height:1.7;color:#111111;margin:0 0 44px;max-width:760px;">The AMA Chicago working session surfaced ten hypotheses, organised here into six themes: five parts of the marketing ecosystem, plus one lens that cuts across all of them. Select a hypothesis to see how it plays out.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;">
+      <sc-for list="{{ glance }}" as="g" hint-placeholder-count="6">
+        <div style="background:#ffffff;border-radius:18px;box-shadow:0 6px 20px rgba(16,42,67,0.06);padding:26px 24px;">
+          <div style="font-weight:900;font-size:13px;letter-spacing:0.06em;color:#29A9E0;text-transform:uppercase;margin-bottom:4px;">{{ g.name }}</div>
+          <div style="font-size:13px;line-height:1.5;color:#8a9099;margin-bottom:16px;">{{ g.desc }}</div>
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <sc-for list="{{ g.themes }}" as="gt" hint-placeholder-count="2">
+              <a href="#{{ gt.anchorId }}" onClick="{{ g.showAll }}" class="ch-glance-link" style="display:block;border-top:1px solid #eef0f2;padding-top:14px;color:#111111;">
+                <div class="ch-glance-title" style="font-weight:900;font-size:17px;color:#102A43;margin-bottom:6px;">{{ gt.title }} &rarr;</div>
+                <div style="font-size:14px;line-height:1.55;color:#4A4A4A;">{{ gt.hypothesis }}</div>
+              </a>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="implications" style="padding:88px clamp(20px,4vw,48px) 40px;background:#ffffff;scroll-margin-top:130px;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#E21D2F;text-transform:uppercase;margin-bottom:22px;">The Forecast</div>
+    <h2 style="font-weight:900;font-size:clamp(26px,3.4vw,38px);margin:0 0 20px;color:#102A43;">Implications over time</h2>
+    <p style="font-size:17px;line-height:1.7;color:#111111;margin:0 0 32px;max-width:760px;">If each hypothesis holds, what follows? Every hypothesis is traced across three horizons. Each implication comes with a signal to watch, so the working group can tell whether it is playing out, and a line on how to prepare now.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:36px;">
+      <sc-for list="{{ horizons }}" as="hz" hint-placeholder-count="3">
+        <div style="border-top:5px solid {{ hz.color }};background:#F2F4F5;border-radius:12px;padding:16px 18px;">
+          <div style="font-weight:800;font-size:11px;letter-spacing:0.06em;color:{{ hz.color }};">{{ hz.label }} &middot; {{ hz.years }}</div>
+          <div style="font-weight:900;font-size:16px;color:#102A43;margin:4px 0 4px;">{{ hz.title }}</div>
+          <div style="font-size:13px;line-height:1.5;color:#4A4A4A;">{{ hz.desc }}</div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+      <span style="font-weight:800;font-size:11px;letter-spacing:0.06em;color:#8a9099;margin-right:4px;">FILTER</span>
+      <sc-for list="{{ domainChips }}" as="dc" hint-placeholder-count="7">
+        <button onClick="{{ dc.select }}" style="{{ dc.style }}">{{ dc.name }}</button>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<sc-for list="{{ visibleDomains }}" as="d" hint-placeholder-count="6">
+<section id="domain-{{ d.key }}" style="padding:24px clamp(20px,4vw,48px) 40px;background:#ffffff;scroll-margin-top:130px;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;border-bottom:3px solid #102A43;padding-bottom:12px;margin-bottom:28px;">
+      <h3 style="font-weight:900;font-size:clamp(20px,2.4vw,26px);margin:0;color:#102A43;text-transform:uppercase;letter-spacing:0.02em;">{{ d.name }}</h3>
+      <span style="font-size:14px;color:#8a9099;">{{ d.desc }}</span>
+    </div>
+    <sc-for list="{{ d.themes }}" as="t" hint-placeholder-count="2">
+      <div id="{{ t.anchorId }}" class="ch-imp-row" style="display:grid;grid-template-columns:280px 1fr;gap:36px;padding:8px 0 44px;scroll-margin-top:130px;">
+        <div class="ch-imp-left" style="position:sticky;top:140px;align-self:start;">
+          <div style="font-weight:800;font-size:11px;letter-spacing:0.06em;color:#E21D2F;margin-bottom:6px;text-transform:uppercase;">{{ d.name }}</div>
+          <h4 style="font-weight:900;font-size:22px;line-height:1.2;margin:0 0 12px;color:#102A43;">{{ t.title }}</h4>
+          <p style="font-size:14px;line-height:1.55;color:#4A4A4A;margin:0 0 14px;">{{ t.summary }}</p>
+          <div style="border-left:4px solid #E21D2F;background:#F2F4F5;border-radius:10px;padding:12px 14px;margin-bottom:14px;">
+            <div style="font-weight:800;font-size:10px;letter-spacing:0.06em;color:#E21D2F;margin-bottom:4px;">HYPOTHESIS</div>
+            <div style="font-size:14px;line-height:1.5;color:#111111;">{{ t.hypothesis }}</div>
+          </div>
+          <details class="ch-q">
+            <summary style="font-weight:800;font-size:12px;letter-spacing:0.03em;color:#102A43;"><span class="ch-plus">+</span> QUESTIONS TO CARRY FORWARD</summary>
+            <ul style="margin:12px 0 0;padding-left:18px;">
+              <sc-for list="{{ t.questions }}" as="q" hint-placeholder-count="4">
+                <li style="font-size:13px;line-height:1.55;color:#4A4A4A;margin-bottom:6px;">{{ q }}</li>
+              </sc-for>
+            </ul>
+          </details>
+        </div>
+        <div>
+          <div class="ch-imp-cols" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px;">
+            <sc-for list="{{ t.horizons }}" as="th" hint-placeholder-count="3">
+              <div style="background:#ffffff;border-radius:14px;box-shadow:0 6px 20px rgba(16,42,67,0.08);border-top:5px solid {{ th.color }};padding:18px 18px 16px;display:flex;flex-direction:column;">
+                <div style="font-weight:800;font-size:11px;letter-spacing:0.06em;color:{{ th.color }};margin-bottom:10px;">{{ th.label }}</div>
+                <div style="font-size:15px;line-height:1.55;color:#111111;flex:1;margin-bottom:14px;">{{ th.text }}</div>
+                <div style="border-top:1px solid #eef0f2;padding-top:10px;">
+                  <div style="font-weight:800;font-size:10px;letter-spacing:0.06em;color:#8a9099;margin-bottom:3px;">SIGNAL TO WATCH</div>
+                  <div style="font-size:12px;line-height:1.45;color:#4A4A4A;">{{ th.signal }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="background:#102A43;border-radius:14px;padding:16px 20px;display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px;">
+            <div style="font-weight:800;font-size:11px;letter-spacing:0.06em;color:#102A43;background:#29A9E0;padding:4px 10px;border-radius:999px;flex-shrink:0;">PREPARE NOW</div>
+            <div style="font-size:15px;line-height:1.5;color:#ffffff;flex:1;min-width:200px;">{{ t.prepare }}</div>
+          </div>
+          <sc-if value="{{ t.hasReadings }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+              <span style="font-weight:800;font-size:10px;letter-spacing:0.06em;color:#8a9099;margin-right:2px;">EVIDENCE</span>
+              <sc-for list="{{ t.readings }}" as="r" hint-placeholder-count="2">
+                <sc-if value="{{ r.url }}" hint-placeholder-val="{{ true }}">
+                  <a href="{{ r.url }}" target="{{ r.target }}" style="font-size:12px;font-weight:700;color:#102A43;background:#F2F4F5;border-radius:999px;padding:5px 12px;">{{ r.title }} &#8599; <span style="font-weight:600;color:#8a9099;">{{ r.source }}</span></a>
+                </sc-if>
+                <sc-if value="{{ r.noUrl }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-size:12px;font-weight:700;color:#102A43;background:#F2F4F5;border-radius:999px;padding:5px 12px;">{{ r.title }} <span style="font-weight:600;color:#8a9099;">{{ r.source }}</span></span>
+                </sc-if>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+</sc-for>
+
+<section id="explore" style="padding:88px clamp(20px,4vw,48px);background:#102A43;scroll-margin-top:130px;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#29A9E0;text-transform:uppercase;margin-bottom:22px;">Explore the Horizon</div>
+    <h2 style="font-weight:900;font-size:clamp(26px,3.4vw,38px);margin:0 0 16px;color:#ffffff;">All ten hypotheses, one moment in time</h2>
+    <p style="font-size:17px;line-height:1.7;color:#c7d0da;max-width:640px;margin:0 0 36px;">Step through the horizons to see what the marketing ecosystem looks like if every hypothesis plays out at once.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
+      <sc-for list="{{ horizonTabs }}" as="ht" hint-placeholder-count="3">
+        <button onClick="{{ ht.select }}" style="{{ ht.style }}">{{ ht.label }} &middot; {{ ht.years }}</button>
+      </sc-for>
+    </div>
+    <input type="range" min="0" max="2" step="1" value="{{ horizonIndex }}" onChange="{{ onHorizonSlider }}" style="width:100%;margin:6px 0 32px;accent-color:#E21D2F;"/>
+    <div style="margin-bottom:24px;">
+      <div style="font-weight:900;font-size:clamp(20px,2.6vw,26px);color:#ffffff;">{{ activeHorizon.title }}</div>
+      <div style="font-size:15px;line-height:1.6;color:#c7d0da;margin-top:6px;max-width:760px;">{{ activeHorizon.desc }}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
+      <sc-for list="{{ explorerItems }}" as="ex" hint-placeholder-count="10">
+        <a href="#{{ ex.anchorId }}" onClick="{{ ex.showAll }}" style="display:block;background:#ffffff;border-radius:14px;padding:18px 18px 16px;border-top:5px solid {{ activeHorizon.color }};color:#111111;">
+          <div style="font-weight:800;font-size:10px;letter-spacing:0.06em;color:#8a9099;margin-bottom:4px;text-transform:uppercase;">{{ ex.domainName }}</div>
+          <div style="font-weight:900;font-size:15px;color:#102A43;margin-bottom:8px;">{{ ex.title }}</div>
+          <div style="font-size:14px;line-height:1.5;color:#111111;margin-bottom:10px;">{{ ex.text }}</div>
+          <div style="font-size:11px;line-height:1.45;color:#8a9099;"><strong style="letter-spacing:0.05em;">WATCH:</strong> {{ ex.signal }}</div>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="prepare" style="padding:88px clamp(20px,4vw,48px);background:#F2F4F5;scroll-margin-top:130px;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#E21D2F;text-transform:uppercase;margin-bottom:22px;">How Marketers Should Prepare</div>
+    <h2 style="font-weight:900;font-size:clamp(26px,3.4vw,38px);margin:0 0 20px;color:#102A43;">Six moves, while there is still time to choose</h2>
+    <p style="font-size:17px;line-height:1.7;color:#111111;margin:0 0 48px;max-width:720px;">None of this is destiny. Treat AI as an operating-model transformation, not a software rollout. Each move answers one or more of the six themes.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;">
+      <sc-for list="{{ moves }}" as="m" hint-placeholder-count="6">
+        <div style="background:#ffffff;border-radius:16px;box-shadow:0 6px 20px rgba(16,42,67,0.06);padding:30px 26px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:10px;">
+            <div style="width:38px;height:38px;border-radius:50%;background:#102A43;color:#ffffff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">{{ m.n }}</div>
+            <div style="font-weight:800;font-size:10px;letter-spacing:0.06em;color:#29A9E0;text-align:right;">{{ m.themes }}</div>
+          </div>
+          <h3 style="font-weight:800;font-size:18px;margin:0 0 12px;color:#102A43;">{{ m.title }}</h3>
+          <p style="font-size:14px;line-height:1.6;color:#4A4A4A;margin:0;">{{ m.text }}</p>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#4A4A4A;text-transform:uppercase;margin:64px 0 18px;">What this means for you now</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;">
+      <sc-for list="{{ audiences }}" as="au" hint-placeholder-count="7">
+        <button onClick="{{ au.select }}" style="{{ au.tabStyle }}">{{ au.name }}</button>
+      </sc-for>
+    </div>
+    <div style="background:#ffffff;border-radius:16px;box-shadow:0 6px 20px rgba(16,42,67,0.06);padding:28px 30px;border-left:5px solid #29A9E0;">
+      <div style="font-weight:800;font-size:12px;letter-spacing:0.06em;color:#29A9E0;margin-bottom:10px;text-transform:uppercase;">For {{ activeAudience.name }}</div>
+      <p style="font-size:17px;line-height:1.65;color:#111111;margin:0;">{{ activeAudience.text }}</p>
+    </div>
+  </div>
+</section>
+
+<section id="evidence-base" style="padding:88px clamp(20px,4vw,48px);background:#ffffff;scroll-margin-top:130px;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#E21D2F;text-transform:uppercase;margin-bottom:22px;">Evidence &amp; Signals</div>
+    <h2 style="font-weight:900;font-size:clamp(26px,3.4vw,38px);margin:0 0 20px;color:#102A43;">Keeping the forecast honest</h2>
+    <p style="font-size:17px;line-height:1.7;color:#111111;margin:0 0 40px;max-width:720px;">Evidence for each hypothesis is linked beside it above. These are the most-cited dated figures in the field, and the signals the working group will track to revisit the hypotheses.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:28px;margin-bottom:36px;">
+      <sc-for list="{{ evidenceStats }}" as="es" hint-placeholder-count="5">
+        <div>
+          <div style="font-weight:900;font-size:clamp(26px,3vw,34px);color:#102A43;">{{ es.value }}</div>
+          <div style="font-size:13px;line-height:1.5;color:#4A4A4A;margin-top:6px;">{{ es.label }}</div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="border-radius:16px;background:#FDECEC;padding:24px 26px;margin-bottom:56px;">
+      <div style="font-weight:800;font-size:12px;letter-spacing:0.06em;color:#E21D2F;margin-bottom:8px;text-transform:uppercase;">&#9888; Read the Figures Carefully</div>
+      <p style="font-size:14px;line-height:1.6;color:#111111;margin:0;">Specificity is inversely correlated with rigour: the most precise dated predictions come from non-peer-reviewed consultancy and think-tank reports, while the peer-reviewed studies deliberately refuse to predict timing. And &quot;exposure&quot; is not &quot;automation&quot; is not &quot;job loss.&quot; Treat every number here as a signpost, not a guarantee.</p>
+    </div>
+    <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#4A4A4A;text-transform:uppercase;margin-bottom:20px;">What we track</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;">
+      <sc-for list="{{ trackers }}" as="tr" hint-placeholder-count="10">
+        <a href="#{{ tr.anchorId }}" onClick="{{ tr.showAll }}" style="display:flex;gap:14px;align-items:flex-start;background:#F2F4F5;border-radius:12px;padding:14px 16px;color:#111111;">
+          <div style="font-weight:800;font-size:11px;color:#ffffff;background:#102A43;flex-shrink:0;padding:4px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:0.04em;">{{ tr.themeName }}</div>
+          <div style="font-size:14px;line-height:1.5;">{{ tr.text }}</div>
+        </a>
+      </sc-for>
+    </div>
+    <p style="font-size:13px;color:#8a9099;margin:28px 0 0;">The detailed, dated predictions from the v0.9 year-by-year forecast remain in the <a href="./Predictions%20Hub.dc.html" style="text-decoration:underline;">Predictions Hub</a>.</p>
+  </div>
+</section>
+
+<section id="method" style="padding:80px clamp(20px,4vw,48px);background:#F2F4F5;scroll-margin-top:130px;">
+  <div style="max-width:760px;margin:0 auto;">
+    <div style="font-weight:800;font-size:12px;letter-spacing:0.08em;color:#E21D2F;text-transform:uppercase;margin-bottom:22px;">Method &amp; Limitations</div>
+    <p style="font-size:16px;line-height:1.7;color:#111111;margin:0 0 18px;">The hypotheses come from a working white paper synthesising the AMA Chicago AI Marketing Forum discussion of 30 September 2026, a working forecast exercise rather than a formal research study, in which participants contributed observations from their professional experience across the marketing ecosystem. The implications and signals are the working group's own extrapolation of those hypotheses, informed by published research.</p>
+    <p style="font-size:16px;line-height:1.7;color:#111111;margin:0 0 40px;">Read everything here as scenarios, discussion-derived themes and hypotheses: not statistically representative findings, and not official predictions of the American Marketing Association. Where external research is cited, evaluate it on its own methodology.</p>
+    <div style="background:#102A43;border-radius:20px;padding:clamp(28px,5vw,44px);text-align:center;">
+      <div style="font-weight:800;font-size:11px;letter-spacing:0.08em;color:#29A9E0;margin-bottom:14px;">A LIVING QUESTION FOR THE MARKETING COMMUNITY</div>
+      <div style="font-weight:900;font-size:clamp(20px,2.8vw,28px);line-height:1.3;color:#ffffff;">If AI makes more of marketing abundant, what becomes scarce, and how should marketers respond?</div>
+    </div>
+  </div>
+</section>
+
+<footer style="padding:80px clamp(20px,4vw,48px) 44px;background:#102A43;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div style="font-weight:900;font-size:22px;letter-spacing:0.01em;margin-bottom:18px;color:#ffffff;">THE COLLISION HORIZON</div>
+    <p style="font-size:15px;line-height:1.6;color:#c7d0da;max-width:560px;margin:0 0 32px;">A living document. Open for review, contest and revision by the working group. Every implication is a hypothesis; bring evidence, disagree, and help sharpen the forecast.</p>
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:32px;">
+      <span style="font-weight:800;font-size:11px;letter-spacing:0.06em;color:#8fa1b3;text-transform:uppercase;">Published By</span>
+      <img src="assets/ama-chicago-logo.png" alt="AMA Chicago" style="height:30px;width:auto;filter:brightness(0) invert(1);"/>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:44px;">
+      <a href="./About.dc.html" style="display:inline-block;font-weight:800;font-size:13px;letter-spacing:0.02em;border-radius:999px;border:2px solid #29A9E0;padding:12px 22px;color:#ffffff;">ABOUT THE WORKING GROUP &rarr;</a>
+      <a href="./index.html" style="display:inline-block;font-weight:800;font-size:13px;letter-spacing:0.02em;border-radius:999px;border:2px solid rgba(255,255,255,0.3);padding:12px 22px;color:#ffffff;">COMPARE WITH v0.9 &rarr;</a>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:24px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.15);font-weight:700;font-size:12px;letter-spacing:0.02em;color:#8fa1b3;">
+      <span>AI COLLISION HORIZON v1.2 DRAFT</span>
+      <span>UPDATED OCTOBER 2026</span>
+      <span>RANGE 2026 &mdash; 2033</span>
+      <span style="color:#29A9E0;">STATUS: OPEN FOR REVIEW</span>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const HORIZONS = [
+  { label: "NOW—24 MONTHS", years: "2026–2028", color: "#29A9E0", title: "Adoption meets reality", desc: "Observable adoption, operating-model changes and immediate constraints. The themes show up first as friction: tools without enablement, more output, fewer junior roles." },
+  { label: "2—5 YEARS", years: "2028–2031", color: "#E21D2F", title: "Structural change", desc: "Roles, workflows, commercial models and governance restructure. Clearer evidence of consumer behaviour shifts. The pressure the themes describe becomes the shape of the industry." },
+  { label: "5—7 YEARS", years: "TOWARD 2033", color: "#102A43", title: "Scenarios, not predictions", desc: "Industry restructuring, new talent pipelines and mature AI-native marketing models. Held as hypotheses to revisit, not a single destination." }
+];
+
+const DOMAINS = [
+  { key: "talent", name: "Talent", desc: "Who does the work, how they learn, and what makes them valuable." },
+  { key: "business", name: "Business Model", desc: "Where cost goes, and what marketers will pay for." },
+  { key: "creativity", name: "Creativity", desc: "What good work is when competent work is abundant." },
+  { key: "technology", name: "Technology", desc: "How AI is bought, deployed, governed and trusted." },
+  { key: "consumer", name: "Consumer Behavior", desc: "What feels valuable when synthetic content is everywhere." },
+  { key: "lens", name: "Cross-Cutting Lens", desc: "Why no single forecast fits everyone." }
+];
+
+const THEMES = [
+  { n: "04", domain: "talent", title: "Future Talent And Productive Friction",
+    summary: "Junior professionals historically learned through repetitive, lower-level work. Automating it may weaken the future pipeline of senior expertise.",
+    hypothesis: "Organisations that automate entry-level work without redesigning learning pathways will create a future expertise gap. Apprenticeship becomes a strategic capability.",
+    imp: [
+      ["Entry-level creative, production and analyst roles shrink as the work juniors learned on is automated. The cost saving shows up on this year’s P&L; the pipeline problem does not.", "Junior creative and production job postings; early-career employment in AI-exposed roles."],
+      ["An expertise gap opens: fewer people learned the craft by doing it. Leaders respond with deliberate apprenticeships, fellowships, university partnerships and preserved ‘productive friction’; laggards find they cannot grow their own seniors.", "Formal AI-era apprenticeship and fellowship programmes; time and cost to fill senior roles."],
+      ["Execution-heavy functions are smaller and more senior. Talent development is a planned investment, not a by-product of leverage, and the firms that rebuilt the ladder own the next generation of senior talent.", "Role composition by seniority; execution headcount versus the 2025 peak."]
+    ],
+    prepare: "Treat junior talent as an investment in future capability. Redesign learning pathways before you automate the work people learned on.",
+    questions: ["What replaces the traditional apprenticeship ladder?", "How much productive friction should organisations deliberately preserve so people learn the underlying craft?", "Should junior talent become a planned investment or a cost centre?", "What is the right role for universities, fellowships, mentorship and portfolio programmes?"],
+    readings: [
+      { title: "Canaries in the Coal Mine?", source: "Stanford Digital Economy Lab", url: "https://digitaleconomy.stanford.edu/publication/canaries-in-the-coal-mine-six-facts-about-the-recent-employment-effects-of-artificial-intelligence/" },
+      { title: "Agency AI-Powered Workforce Forecast, 2030", source: "Forrester", url: "https://www.forrester.com/press-newsroom/forrester-agency-ai-workforce-2030/" }
+    ] },
+  { n: "05", domain: "talent", title: "The Human Skill Premium",
+    summary: "AI fluency alone will not be a durable differentiator because AI use is likely to become ubiquitous. Curiosity, grit, adaptability and an interrogative mindset matter more.",
+    hypothesis: "The most durable human advantage will be the combination of domain craft and human capabilities: judgment, curiosity, persuasion, collaboration and comfort with ambiguity.",
+    imp: [
+      ["AI fluency becomes a hiring checkbox, not a differentiator. Hiring starts to shift from tool proficiency toward curiosity, critical thinking, communication and the ability to challenge outputs.", "Skills named in marketing job postings: tool skills versus human skills."],
+      ["The value-added marketer is domain craft plus human capability. High-performing teams matter more than the search for ‘super-unicorn’ individuals, and assessment moves beyond prompt skill.", "Team-based hiring and assessment practices; promotion criteria at large marketers."],
+      ["Judgment, persuasion, collaboration and comfort with ambiguity are the premium human products, and are priced as such.", "Pay premium for judgment-led roles versus execution roles."]
+    ],
+    prepare: "Learn the tools, but do not confuse tool fluency with expertise. Invest in craft, curiosity and the ability to interrogate outputs.",
+    questions: ["What does a value-added marketer look like when everyone can use AI?", "Will hiring shift from tool proficiency toward curiosity, judgment and communication?", "How should marketers demonstrate expertise that is not reducible to prompt skill?", "Will high-performing teams matter more than searches for impossible ‘super-unicorn’ individuals?"],
+    readings: [
+      { title: "Future of Jobs Report 2025", source: "World Economic Forum", url: "https://www.weforum.org/publications/the-future-of-jobs-report-2025/" },
+      { title: "Global AI Jobs Barometer", source: "PwC", url: "https://www.pwc.com/gx/en/services/ai/ai-jobs-barometer.html" },
+      { title: "The Whetstone", source: "Zoe Scaman" }
+    ] },
+  { n: "02", domain: "business", title: "The Efficiency Paradox",
+    summary: "Efficiency is absorbed almost immediately by more iterations, variants, languages, channels and optimisation cycles, and every new output creates review obligations.",
+    hypothesis: "AI will initially increase throughput faster than it reduces total marketing cost. The most important productivity metric may shift from labour hours to useful, approved output and business impact.",
+    imp: [
+      ["Time saved is reinvested in more variants, languages and channels. Output rises faster than cost falls, and review and approval become the bottleneck.", "Content produced versus content approved, deployed and proven effective."],
+      ["Production design is largely automated, but cost moves into review, governance and integration. Productivity is measured in approved output and business impact, not hours saved.", "Review and approval headcount; adoption of output-based productivity metrics."],
+      ["Organisations that learned to stop at the right number of variants capture real savings. Those that did not have more content, not more impact.", "Marketing cost as a share of revenue, set against content volume."]
+    ],
+    prepare: "Decide what ‘enough’ looks like before you scale output. Measure approved output and business impact, not hours saved.",
+    questions: ["If a team can create 100 variants instead of 10, should it?", "How should organisations measure productivity: hours saved, throughput, quality, revenue impact or speed to market?", "Does AI reduce total cost or move cost from production into review, governance and integration?", "Will greater output ultimately require more specialised reviewers and approvers?"],
+    readings: [
+      { title: "When Making the Work Stops Being the Work", source: "Working-group POV", url: "./POV%20Production%20Design.dc.html", target: "_self" },
+      { title: "Generative AI and the Future of Work in America", source: "McKinsey Global Institute", url: "https://www.mckinsey.com/mgi/our-research/generative-ai-and-the-future-of-work-in-america" },
+      { title: "The Simple Macroeconomics of AI", source: "Daron Acemoglu, MIT", url: "https://www.nber.org/papers/w32487" }
+    ] },
+  { n: "09", domain: "business", title: "New Economics For The Marketing Ecosystem",
+    summary: "Automation challenges business models built on selling time and execution, for agencies and for technology companies whose functionality general-purpose AI can reproduce.",
+    hypothesis: "Value will migrate away from undifferentiated execution toward outcomes, trusted systems, proprietary capability, accountability and experience.",
+    imp: [
+      ["Time-based pricing comes under pressure as clients ask what they are paying for when execution is cheap. Holding companies consolidate into AI-platform operating models; RFPs start asking for AI-native production.", "Holding-company platform launches; RFP language requiring AI-native, self-serve production."],
+      ["The revenue mix inverts toward subscriptions, products, agents, consumption and outcome-based fees. Agencies, consultancies, platforms and in-house teams compete for the same budgets, and SaaS providers must prove value against general-purpose agents.", "Share of platform, data and outcome-based revenue at major firms; brand in-housing disclosures."],
+      ["Standard execution is priced near zero. Value sits in outcomes, trusted systems, proprietary data, accountability and experience, and the ecosystem sorts into platform businesses, specialist expertise, and firms that are absorbed.", "Rate-card and fee-structure data; agency M&A and roll-ups."]
+    ],
+    prepare: "Productise your expertise, integration and accountability. Be transparent about AI-driven efficiency before clients ask.",
+    questions: ["What exactly should marketers pay for when execution becomes cheap?", "Can expertise, integration, proprietary data and accountability be productised?", "Will SaaS providers build moats through trust and workflow, or be disintermediated by general-purpose agents?", "How transparent should service providers be about AI-generated efficiency?"],
+    readings: [
+      { title: "How Will AI Affect the US Labor Market?", source: "Goldman Sachs", url: "https://www.goldmansachs.com/insights/articles/how-will-ai-affect-the-us-labor-market" }
+    ] },
+  { n: "03", domain: "creativity", title: "Judgment, Craft And The End Of Mediocre",
+    summary: "Producing work is not the same as knowing what good work looks like. If models make competent execution widely available, sameness may increase.",
+    hypothesis: "AI will commoditise portions of average execution faster than it commoditises exceptional judgment. Differentiation may become more valuable precisely because acceptable output becomes easier to generate.",
+    imp: [
+      ["Sameness rises. Agencies return similar AI-assisted RFP answers, and competent but generic work floods every channel.", "Convergence in AI-assisted pitches and creative; creative-effectiveness scores."],
+      ["A credible strategy draft takes hours, so competent strategy stops being a differentiator. The cost of dull work rises, and distinctive thinking commands a premium.", "Pitch economics; fee premium for demonstrably distinctive work."],
+      ["AI has raised both the floor and the value of the ceiling. Premium fees concentrate in judgment, creativity and accountability, and craft means knowing why work is good, not only how to produce it.", "Fee structures concentrating in creative leadership and judgment."]
+    ],
+    prepare: "Define and teach taste. Use AI to widen exploration, and spend human time on choosing.",
+    questions: ["What constitutes craft when execution is increasingly machine-assisted?", "Can AI originate culturally resonant, strategically distinctive ideas, or primarily accelerate exploration and revision?", "How do marketers teach taste, judgment and strategic insight?", "Does AI raise the floor while increasing the economic value of the ceiling?"],
+    readings: [
+      { title: "The Extraordinary Cost of Dull", source: "Peter Field, Adam Morgan & System1" }
+    ] },
+  { n: "01", domain: "technology", title: "Access Is Not Enablement",
+    summary: "Tool deployment and organisational capability are not the same thing. Participants described a gap between board-level mandates and day-to-day execution.",
+    hypothesis: "The next phase of enterprise AI adoption will be less about distributing seats and more about building the operating system around the tools: training, workflow, governance, role design and ongoing support.",
+    imp: [
+      ["Seat counts stop being the headline. Usage concentrates in a minority of staff, and budgets begin moving from licences to training, workflow redesign and change management.", "Enablement spend versus licence spend; active use measured by task, not seats."],
+      ["AI enablement becomes an operating function with owners, service levels and playbooks. Fit-for-purpose tool portfolios replace one-size procurement, and jobs are redesigned around what a person plus AI can do.", "Dedicated AI-enablement roles and job-redesign programmes at large marketers."],
+      ["Everyone has access to the same models. Advantage sits in the operating system built around them, so firms converge on access and diverge on capability.", "Performance gaps between firms with equal tool access."]
+    ],
+    prepare: "Fund the operating system, not just the seats: training, workflow, governance, role design and support. Measure adoption by task.",
+    questions: ["Will investment shift from licences toward training, enablement and change management?", "Will organisations move from procurement convenience toward fit-for-purpose frontier models and specialised tools?", "How should jobs be redesigned when AI changes the amount and type of work a person can perform?", "What measures distinguish tool access from meaningful adoption?"],
+    readings: [
+      { title: "2026 State of AI for Business", source: "SmarterX" },
+      { title: "Anthropic Economic Index", source: "Anthropic", url: "https://www.anthropic.com/economic-index" }
+    ] },
+  { n: "06", domain: "technology", title: "Data, Governance And Trust As Infrastructure",
+    summary: "AI performance is contextual. Data cleanliness, integration, security, retention, confidentiality, rights and vendor approval are practical constraints, and potential moats.",
+    hypothesis: "Trusted data integration, not raw model access, will become one of the most defensible sources of enterprise marketing advantage.",
+    imp: [
+      ["Data quality, permissions, rights and vendor approval set the pace of adoption more than model capability does. Security and legal review is where pilots stall.", "Time to approve new AI tools; share of pilots blocked by data or legal constraints."],
+      ["Owned, consented data and trusted integration become the moat. Investment shifts to data strategy over proprietary model building, and established enterprise providers win on security and integration.", "Data-infrastructure share of martech budgets; clean-room and identity investment."],
+      ["Trust is infrastructure. Clients and consumers choose partners and brands whose AI-enabled workflows are verifiably governed, and owned data is a leading reason clients stay.", "Client surveys citing data and governance as a reason to retain a partner."]
+    ],
+    prepare: "Treat data, rights and governance as core assets, and name who owns trustworthy AI-enabled workflows.",
+    questions: ["Will organisations invest more heavily in data strategy than in proprietary model building?", "Do security and integration capabilities become moats for established enterprise providers?", "How should organisations balance frontier-model capability with procurement, privacy and compliance requirements?", "Who owns the responsibility for trustworthy AI-enabled marketing workflows?"],
+    readings: [] },
+  { n: "07", domain: "technology", title: "A Spectrum Of AI Use",
+    summary: "Whether marketing ‘uses AI’ is not binary. Research, resizing and localisation raise different issues from synthetic talent or final consumer-facing content.",
+    hypothesis: "Mature organisations will govern AI by use case and risk level rather than through a single universal rule.",
+    imp: [
+      ["Upstream uses such as research, briefing, concept exploration, resizing and localisation scale fast. Synthetic talent, voice and consumer-facing creative stay contested and are decided case by case.", "AI-use policies that separate upstream assistance from downstream synthetic execution."],
+      ["Risk-tiered governance becomes standard. Disclosure norms, synthetic-media rules and rights frameworks for voice and likeness take shape in major markets.", "Synthetic-media regulation; talent and rights agreements; tiered policies at major advertisers."],
+      ["The boundary keeps moving but stays drawn. Consumer acceptance depends on context, usefulness, brand and channel more than on whether AI was used.", "Consumer tolerance for synthetic content by category and channel."]
+    ],
+    prepare: "Map your value chain from upstream to downstream and set risk-tiered rules for each use, including when to disclose.",
+    questions: ["Where should organisations draw boundaries between upstream assistance and downstream synthetic execution?", "When should AI-generated content be disclosed or labelled?", "How should rights for synthetic voice, likeness and talent be structured?", "How much does consumer acceptance depend on context, usefulness, brand and channel?"],
+    readings: [] },
+  { n: "08", domain: "consumer", title: "Authenticity, Creators And Experiential",
+    summary: "If AI drives a content and channel explosion, consumers meet more noise and more synthetic material, raising the value of experiences that feel scarce.",
+    hypothesis: "AI may create a countertrend toward high-touch, human and physical marketing. The more synthetic the environment becomes, the more valuable credible human experience may feel.",
+    imp: [
+      ["Consumers meet more noise and more synthetic material. Attention gets more expensive and trust more fragile.", "Consumer trust and disclosure expectations for synthetic content."],
+      ["Budgets migrate toward creators, community, live events and physical experiences. Brands build durable creator relationships instead of transactional influencer buys, while AI assistants intermediate more routine brand interactions.", "Experiential, creator and community share of marketing budgets."],
+      ["A two-speed market: AI-intermediated personalisation for routine interactions, credible human presence for the moments that matter. The more synthetic the environment, the more real human experience is worth.", "Premium on live and human-made experiences; share of brand interactions handled by AI agents."]
+    ],
+    prepare: "Start with the consumer. Invest in what feels scarce: trust, community and real human presence.",
+    questions: ["Will marketing investment migrate toward experiential and creator ecosystems?", "Does synthetic abundance increase demand for real-world brand experiences?", "How will brands establish durable creator relationships rather than transactional influencer buys?", "What forms of marketing can cut through when digital content is nearly infinite?"],
+    readings: [] },
+  { n: "10", domain: "lens", title: "An Uneven Transition",
+    summary: "Regulated sectors move differently from low-risk categories; enterprises differ from small businesses; some roles contract while adjacent roles expand.",
+    hypothesis: "The useful unit of forecasting is increasingly the task, workflow and risk context, not the job title or industry headline.",
+    imp: [
+      ["Effects diverge by task, not title. Low-risk, high-volume categories move first; healthcare, finance and flagship brand work move slowly.", "AI adoption by sector and company size."],
+      ["Some roles contract while adjacent roles in review, governance and experience expand. Large enterprises and small businesses face very different security and integration realities.", "Employment shifts within role families, not only across them."],
+      ["There is no single 2033. Different sectors, company sizes and risk contexts land in different places, and each of the implications above applies unevenly.", "Outcomes diverging by sector rather than converging."]
+    ],
+    prepare: "Forecast your own tasks, workflows and risk context, not the industry headline.",
+    questions: ["Which tasks, not merely job titles, are most elastic to AI?", "Where does regulation materially change the adoption curve?", "Which sectors gain from AI first, and which require longer human-in-the-loop periods?", "How should the forecast distinguish upstream craft from downstream production within the same role family?"],
+    readings: [
+      { title: "“GPTs are GPTs”", source: "OpenAI & Wharton, Science", url: "https://www.science.org/doi/10.1126/science.adj0998" },
+      { title: "Generative AI, the American Worker, and the Future of Work", source: "Brookings", url: "https://www.brookings.edu/articles/generative-ai-the-american-worker-and-the-future-of-work/" }
+    ] }
+];
+
+const AUDIENCES = [
+  { name: "Marketing Leaders", text: "Treat AI as an operating-model transformation, not a software rollout. Pair technology investment with workflow redesign, governance, training and explicit measures of effectiveness." },
+  { name: "Practitioners", text: "Learn the tools, but do not confuse tool fluency with expertise. Build domain craft, judgment, curiosity, communication and the ability to interrogate outputs." },
+  { name: "Brands", text: "Define where AI can be used across the value chain, from upstream strategy to downstream consumer-facing execution. Make trust and transparency design requirements." },
+  { name: "Service Partners", text: "Clarify the value that remains when execution is automated. Invest in differentiated expertise, trusted integration, accountability, data, craft and capabilities that clients cannot easily reproduce." },
+  { name: "Technology Providers", text: "Enterprise value may depend as much on security, integration, governance and workflow fit as on model performance." },
+  { name: "Educators", text: "Do not remove the struggle required to learn. Design curricula in which AI challenges thinking rather than replacing it, and create new bridges between education and professional apprenticeship." },
+  { name: "The Marketing Community", text: "Keep the forecast open. AI's effects are moving too quickly and unevenly for a one-time prediction to be useful. The value is in revisiting the hypotheses, collecting evidence and updating the horizon." }
+];
+
+const TRACKERS = [
+  ["01", "AI adoption by task and workflow, not simply access to tools."],
+  ["04", "Marketing headcount and role composition by seniority and function."],
+  ["09", "Share of marketing work performed in-house, by partners and by automated systems."],
+  ["06", "Investment in training, change management, governance and data infrastructure."],
+  ["02", "Volume of content produced versus volume approved, deployed and proven effective."],
+  ["07", "Human review requirements for localisation, synthetic media and regulated content."],
+  ["08", "Changes in experiential, creator and community investment."],
+  ["09", "Commercial-model shifts: hours, subscriptions, consumption, licensing, outcomes and value-based pricing."],
+  ["07", "Consumer trust, disclosure expectations and tolerance for synthetic content."],
+  ["04", "Entry-level hiring, apprenticeship models and the development of future senior talent."]
+];
+
+const CAP_POINTS = [[20,235],[113,222],[206,196],[299,156],[392,102],[485,52],[578,20],[678,8]];
+const ADAPT_POINTS = [[20,238],[113,229],[206,219],[299,207],[392,193],[485,177],[578,160],[678,142]];
+
+function smoothPath(pts) {
+  let d = "M" + pts[0][0] + "," + pts[0][1];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[i], p1 = pts[i + 1];
+    const cx = (p0[0] + p1[0]) / 2;
+    d += " C" + cx + "," + p0[1] + " " + cx + "," + p1[1] + " " + p1[0] + "," + p1[1];
+  }
+  return d;
+}
+
+function smoothBetween(pts) {
+  let d = "";
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[i], p1 = pts[i + 1];
+    const cx = (p0[0] + p1[0]) / 2;
+    d += " C" + cx + "," + p0[1] + " " + cx + "," + p1[1] + " " + p1[0] + "," + p1[1];
+  }
+  return d;
+}
+
+function areaPath(lowerPts, upperPts) {
+  const upperRev = [...upperPts].reverse();
+  return (
+    "M" + lowerPts[0][0] + "," + lowerPts[0][1] +
+    smoothBetween(lowerPts) +
+    " L" + upperRev[0][0] + "," + upperRev[0][1] +
+    smoothBetween(upperRev) +
+    " Z"
+  );
+}
+
+const TAB_BASE = "font-weight:700;font-size:13px;letter-spacing:0.02em;padding:9px 16px;background:none;cursor:pointer;border:2px solid rgba(255,255,255,0.3);border-radius:999px;color:#ffffff;";
+const TAB_ACTIVE = "font-weight:800;font-size:13px;letter-spacing:0.02em;padding:9px 16px;background:#E21D2F;cursor:pointer;border:2px solid #E21D2F;border-radius:999px;color:#ffffff;";
+const CHIP_BASE = "font-weight:700;font-size:13px;letter-spacing:0.02em;padding:8px 14px;background:#ffffff;cursor:pointer;border:2px solid #d8dcdf;border-radius:999px;color:#102A43;";
+const CHIP_ACTIVE = "font-weight:800;font-size:13px;letter-spacing:0.02em;padding:8px 14px;background:#102A43;cursor:pointer;border:2px solid #102A43;border-radius:999px;color:#ffffff;";
+const AUD_BASE = "font-weight:700;font-size:13px;letter-spacing:0.02em;padding:9px 16px;background:#ffffff;cursor:pointer;border:2px solid #d8dcdf;border-radius:999px;color:#102A43;";
+const AUD_ACTIVE = "font-weight:800;font-size:13px;letter-spacing:0.02em;padding:9px 16px;background:#29A9E0;cursor:pointer;border:2px solid #29A9E0;border-radius:999px;color:#ffffff;";
+
+class Component extends DCLogic {
+  state = { navOpen: false, chartInView: false, domainFilter: "all", horizonIndex: 0, audienceIndex: 0 };
+
+  renderVals() {
+    const showAll = () => this.setState({ domainFilter: "all" });
+    const domainName = {};
+    DOMAINS.forEach((d) => { domainName[d.key] = d.name; });
+    const themes = THEMES.map((t) => ({
+      ...t,
+      anchorId: "imp-" + t.n,
+      horizons: HORIZONS.map((h, i) => ({ label: h.label + " · " + h.years, color: h.color, text: t.imp[i][0], signal: t.imp[i][1] })),
+      readings: t.readings.map((r) => ({ ...r, target: r.target || "_blank", noUrl: !r.url })),
+      hasReadings: t.readings.length > 0
+    }));
+    const domains = DOMAINS.map((d) => ({ ...d, showAll, themes: themes.filter((t) => t.domain === d.key) }));
+    const filter = this.state.domainFilter;
+    const hi = this.state.horizonIndex;
+    const activeHorizon = HORIZONS[hi];
+    return {
+      navOpen: this.state.navOpen,
+      toggleNav: () => this.setState((s) => ({ navOpen: !s.navOpen })),
+      steps: [
+        { n: "1", color: "#102A43", title: "Theme", text: "One of six areas of the marketing ecosystem that AI is reshaping." },
+        { n: "2", color: "#E21D2F", title: "Hypothesis", text: "What practitioners are already seeing, and where it suggests the ecosystem is heading." },
+        { n: "3", color: "#29A9E0", title: "Implications", text: "What follows if the hypothesis holds, across three horizons, each with a signal to watch." },
+        { n: "4", color: "#102A43", title: "Prepare", text: "What marketers can do now, whichever way the evidence breaks." }
+      ],
+      glance: domains,
+      horizons: HORIZONS,
+      domainChips: [{ key: "all", name: "All six themes" }].concat(DOMAINS).map((d) => ({
+        name: d.name,
+        select: () => this.setState({ domainFilter: d.key }),
+        style: filter === d.key ? CHIP_ACTIVE : CHIP_BASE
+      })),
+      visibleDomains: filter === "all" ? domains : domains.filter((d) => d.key === filter),
+      horizonIndex: hi,
+      activeHorizon,
+      horizonTabs: HORIZONS.map((h, i) => ({ ...h, select: () => this.setState({ horizonIndex: i }), style: i === hi ? TAB_ACTIVE : TAB_BASE })),
+      onHorizonSlider: (e) => this.setState({ horizonIndex: parseInt(e.target.value, 10) }),
+      explorerItems: themes.map((t) => ({ n: t.n, title: t.title, anchorId: t.anchorId, showAll, domainName: domainName[t.domain], text: t.imp[hi][0], signal: t.imp[hi][1] })),
+      scarcity: [
+        ["Execution", "Judgment"],
+        ["Content", "Attention"],
+        ["Answers", "Curiosity and critical thinking"],
+        ["Synthetic experiences", "Authenticity and human connection"],
+        ["Production capacity", "Craft and differentiation"],
+        ["Models and software capability", "Trusted integration and proprietary context"],
+        ["Personalisation", "Consumer trust and permission"],
+        ["Iteration", "Decisiveness and quality control"]
+      ].map((r, i) => ({ abundant: r[0], scarce: r[1], bg: i % 2 ? "#F7F8F9" : "#ffffff" })),
+      moves: [
+        { n: "01", themes: "TECHNOLOGY", title: "Build the operating system around the tools", text: "Pair every AI investment with training, workflow redesign, governance, role design and measures of adoption by task, not by seat." },
+        { n: "02", themes: "CREATIVITY · TALENT", title: "Move value to what stays scarce", text: "Shift from execution to judgment, craft, accountability and proprietary insight before the market re-prices average output." },
+        { n: "03", themes: "TECHNOLOGY", title: "Own data, governance and trust", text: "Trusted, consented data integration is the most defensible moat. Govern AI by use case and risk level, and make transparency a design requirement." },
+        { n: "04", themes: "BUSINESS MODEL", title: "Re-price for outcomes", text: "Move beyond labour-hour economics toward outcomes, licensing, subscriptions and value-based pricing, and measure approved output, not hours." },
+        { n: "05", themes: "TALENT", title: "Rebuild the apprenticeship ladder", text: "If AI automates the work people learned on, design new pathways deliberately: preserve productive friction and treat junior talent as an investment." },
+        { n: "06", themes: "CONSUMER BEHAVIOR · CROSS-CUTTING LENS", title: "Invest in what feels human", text: "Start with the consumer. Put creators, community and live experience where synthetic abundance makes them scarce, and plan for your own sector's pace." }
+      ],
+      audiences: AUDIENCES.map((a, i) => ({
+        ...a,
+        select: () => this.setState({ audienceIndex: i }),
+        tabStyle: i === this.state.audienceIndex ? AUD_ACTIVE : AUD_BASE
+      })),
+      activeAudience: AUDIENCES[this.state.audienceIndex],
+      evidenceStats: [
+        { value: "~30%", label: "of US work hours automatable by 2030 · McKinsey" },
+        { value: "7.5%", label: "of US agency jobs lost to automation by 2030 — ≈32,000 roles · Forrester" },
+        { value: "2029", label: "central estimate for month-long software tasks at 50% reliability · METR" },
+        { value: "−13%", label: "early-career employment in the most AI-exposed jobs, already observed · Stanford" },
+        { value: "+78M", label: "net new jobs globally by 2030 — 170M created, 92M displaced · WEF" }
+      ],
+      trackers: TRACKERS.map((t) => ({ themeName: domainName[THEMES.find((x) => x.n === t[0]).domain], text: t[1], anchorId: "imp-" + t[0], showAll })),
+      capabilityPath: smoothPath(CAP_POINTS),
+      adaptationPath: smoothPath(ADAPT_POINTS),
+      gapAreaPath: areaPath(ADAPT_POINTS, CAP_POINTS),
+      chartDrawnClass: this.state.chartInView ? "ch-drawn" : ""
+    };
+  }
+
+  componentDidMount() {
+    const id = window.location.hash.slice(1);
+    if (id) {
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 150);
+    }
+
+    const chartEl = document.querySelector("[data-chart-observe]");
+    if (chartEl && "IntersectionObserver" in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            this.setState({ chartInView: true });
+            io.disconnect();
+          }
+        },
+        { threshold: 0.35 }
+      );
+      io.observe(chartEl);
+    } else {
+      this.setState({ chartInView: true });
+    }
+  }
+}
+</script>
+</body>
+</html>
