@@ -80,6 +80,13 @@ a:hover{color:#102A43;}
                       </sc-if>
                     </div>
 
+                    <sc-if value="{{ pr.hasNote }}" hint-placeholder-val="{{ false }}">
+                      <div style="margin-bottom:20px;padding:14px 16px;background:#FFF8E8;border-radius:12px;border-left:4px solid #E8B34A;">
+                        <div style="font-weight:800;font-size:10px;letter-spacing:0.06em;color:#8a6d1f;text-transform:uppercase;margin-bottom:6px;">Field Note</div>
+                        <p style="font-size:13px;line-height:1.55;color:#4A4A4A;margin:0;">{{ pr.note }}</p>
+                      </div>
+                    </sc-if>
+
                     <div style="margin-bottom:20px;">
                       <div style="font-weight:800;font-size:10px;letter-spacing:0.06em;color:#4A4A4A;text-transform:uppercase;margin-bottom:10px;">Contributor Scores</div>
                       <sc-for list="{{ pr.contributorScores }}" as="cs" hint-placeholder-count="3">
@@ -142,11 +149,14 @@ const RAW_GROUPS = [
     year: "2026", label: "0—12 MONTHS", title: "THE SETUP", pressure: "HIGH PRESSURE", pressureColor: "#29A9E0",
     predictions: [
       { n: "1", text: "Three or more major holding companies announce major releases related to integrated AI platforms.", instrument: "Trade press tracking (Media Leader, Storyboard18, The Drum) of named platform launches", score: "4.9",
-        sources: [ { name: "The Media Leader", url: "https://the-media-leader.com" }, { name: "The Drum", url: "https://www.thedrum.com" } ] },
+        sources: [ { name: "The Media Leader", url: "https://uk.themedialeader.com/agency-groups-ai-platforms-explained/" }, { name: "The Drum", url: "https://www.thedrum.com" } ],
+        validationUrl: "https://uk.themedialeader.com/agency-groups-ai-platforms-explained/" },
       { n: "2", text: "A major ad platform (Meta, Google or Amazon) ships built-in generative creative to all advertisers.", instrument: "Platform's own advertiser-count disclosures (earnings calls, product blog)", score: "4.7",
-        sources: [] },
+        sources: [ { name: "Cannes Lions 2026 coverage", url: "https://www.medianews4u.com/meta-unveils-new-ai-powered-creative-and-creator-tools-at-cannes-lions-2026-to-redefine-advertising-performance/" } ],
+        validationUrl: "https://www.medianews4u.com/meta-unveils-new-ai-powered-creative-and-creator-tools-at-cannes-lions-2026-to-redefine-advertising-performance/" },
       { n: "3", text: "Junior creative and production job postings in major markets fall 10% or more year-on-year.", instrument: "Indeed Hiring Lab job postings tracker", score: "4.2",
-        sources: [ { name: "Indeed Hiring Lab", url: "https://www.hiringlab.org" } ] },
+        sources: [ { name: "Indeed Hiring Lab", url: "https://www.hiringlab.org" } ],
+        note: "A joint Oxford Internet Institute / Indeed Hiring Lab analysis of 3.4M postings found routine-execution roles (scheduling, A/B testing, templated email) down 53% over two years — well past this threshold. But Indeed's broader entry-level index is down only ~6%, and Indeed and the NY Fed both argue remote-work and macro conditions explain much of that gap. This prediction would be more falsifiable split into \"routine-execution postings\" vs. \"junior headcount overall.\"" },
       { n: "4", text: "Generative tools pass 50% adoption among client-facing agency staff.", instrument: "Forrester/4As \"State of AI Inside US Marketing Agencies\" survey", score: "4.4",
         sources: [ { name: "Forrester", url: "https://www.forrester.com" }, { name: "4A's", url: "https://www.aaaa.org" } ] },
       { n: "5", text: "A first attributable case of a major brand replacing an agency scope with an in-platform tool.", instrument: "Standing watch-list: Ad Age, Adweek, Digiday, Campaign, The Drum + holdco earnings calls", score: "4.1",
@@ -157,7 +167,8 @@ const RAW_GROUPS = [
     year: "2027", label: "12—24 MONTHS", title: "THE THRESHOLD", pressure: "CRITICAL", pressureColor: "#E21D2F",
     predictions: [
       { n: "1", text: "AI matches or beats top human engineers on a standard public coding benchmark.", instrument: "METR long-task tracker / SWE-bench leaderboard", score: "4.8",
-        sources: [ { name: "METR", url: "https://metr.org" }, { name: "SWE-bench", url: "https://www.swebench.com" } ] },
+        sources: [ { name: "METR", url: "https://metr.org/time-horizons/" }, { name: "SWE-bench", url: "https://www.swebench.com" } ],
+        note: "Raw capability is ahead of schedule — METR's doubling time has accelerated to roughly 4 months and Claude Opus 4.6 is near a 14.5-hour 50%-time-horizon. But the formal \"superhuman coder\" milestone (AI 2027's definition, which this forecast borrows) is tracked as slipping to late 2027–mid 2028: SWE-bench Verified sits near 79%, but the harder, more realistic SWE-bench Pro is only ~23%. Benchmark saturation and \"superhuman\" are not the same thing." },
       { n: "2", text: "At least one lab announces a general-capability (\"AGI-class\") system.", instrument: "Frontier lab blogs/announcements — no single tracker, definitional ambiguity", score: "4.0",
         sources: [] },
       { n: "3", text: "One or more holding companies report flat-to-declining production revenue attributed to automation.", instrument: "Holdco 10-Ks & earnings calls (SEC EDGAR)", score: "4.3",
@@ -193,7 +204,9 @@ const RAW_GROUPS = [
       { n: "3", text: "Agency execution-role headcount is down 20% or more versus 2025.", instrument: "BLS OEWS, LinkedIn Economic Graph", score: "4.5",
         sources: [ { name: "BLS OEWS", url: "https://www.bls.gov/oes/" }, { name: "LinkedIn Economic Graph", url: "https://economicgraph.linkedin.com" } ] },
       { n: "4", text: "New AI-content or synthetic-media regulation is enacted in at least one major market.", instrument: "EU AI Act implementation tracker, IAPP, US state law trackers", score: "4.7",
-        sources: [ { name: "EU AI Act", url: "https://artificialintelligenceact.eu" }, { name: "IAPP", url: "https://iapp.org" } ] },
+        sources: [ { name: "EU AI Act", url: "https://artificialintelligenceact.eu" }, { name: "IAPP", url: "https://iapp.org" } ],
+        note: "This is landing years ahead of the 2029 window, not as a 2029 event. The EU AI Act's Article 50 content-labeling requirements become fully applicable August 2, 2026, and Meta has already begun requiring \"AI-generated\" labels on ad creative that uses generative tools. Score this one as already in motion.",
+        validationUrl: "https://www.auditsocials.com/blog/eu-ai-act-article-50-advertising-compliance-2026-synthetic-content-labeling-marketer-obligations-enforcement" },
       { n: "5", text: "At least one mid-tier agency exits or is absorbed, explicitly citing AI disruption.", instrument: "M&A trade press", score: "4.2",
         sources: [ { name: "WARC", url: "https://www.warc.com" } ] }
     ]
@@ -204,9 +217,12 @@ const RAW_GROUPS = [
       { n: "1", text: "Platform, data and software revenue exceeds 25% of revenue at one or more surviving majors.", instrument: "Holdco 10-Ks, investor decks", score: "4.3",
         sources: [ { name: "SEC EDGAR", url: "https://www.sec.gov/edgar/search-and-access" } ] },
       { n: "2", text: "At least one major firm formally retires or restructures the \"holding company\" label.", instrument: "Corporate rebranding announcements", score: "4.1",
-        sources: [] },
+        note: "Already happened, four years ahead of schedule: WPP ended its holding-company structure in February 2026 with its Elevate28 restructuring. The clearest sign yet that the industry-adaptation curve can lead the model on corporate structure, even while lagging on execution economics.",
+        validationUrl: "https://www.marketingdive.com/news/wpp-abandons-holding-company-model-with-major-strategic-overhaul/813201/",
+        sources: [ { name: "Marketing Dive", url: "https://www.marketingdive.com/news/wpp-abandons-holding-company-model-with-major-strategic-overhaul/813201/" } ] },
       { n: "3", text: "At least one transformative agency acquisition of an AI-infrastructure company.", instrument: "M&A trade press, deal size disclosure", score: "4.4",
-        sources: [ { name: "Campaign", url: "https://www.campaignlive.com" } ] },
+        sources: [ { name: "Campaign", url: "https://www.campaignlive.com" }, { name: "Adweek — Omnicom/IPG coverage", url: "https://www.adweek.com/agencies/omnicom-closes-13b-ipg-deal-uniting-rivals-in-industry-shaping-merger/" } ],
+        note: "Not a strict match yet, but a related precedent worth watching: Omnicom's $13B acquisition of IPG closed in late 2025 — transformative in scale, though a rival-agency merger for consolidation rather than a distinct AI-infrastructure company. Whether the next wave of deals target AI/data infrastructure specifically, rather than scale, is the thing to track here." },
       { n: "4", text: "Sector execution headcount is down 30% or more versus the 2025 peak.", instrument: "BLS OEWS, LinkedIn Economic Graph", score: "4.6",
         sources: [ { name: "BLS OEWS", url: "https://www.bls.gov/oes/" } ] },
       { n: "5", text: "Consultancies capture a measurable, reported share of former agency budgets.", instrument: "Forrester/Gartner analyst reports", score: "4.0",
@@ -261,12 +277,13 @@ class Component extends DCLogic {
           isOpen,
           chevron: isOpen ? "▴ LESS" : "▾ MORE",
           noSources: !pr.sources || pr.sources.length === 0,
-          contributorScores: [],
-          verbatim: null,
-          verbatimAuthor: null,
-          noVerbatim: true,
-          validationUrl: null,
-          noValidation: true,
+          contributorScores: pr.contributorScores || [],
+          verbatim: pr.verbatim || null,
+          verbatimAuthor: pr.verbatimAuthor || null,
+          noVerbatim: !pr.verbatim,
+          hasNote: !!pr.note,
+          validationUrl: pr.validationUrl || null,
+          noValidation: !pr.validationUrl,
           toggle: () => this.setState((s) => ({ expanded: { ...s.expanded, [key]: !s.expanded[key] } }))
         };
       })
